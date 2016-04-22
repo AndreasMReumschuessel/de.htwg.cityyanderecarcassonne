@@ -22,80 +22,70 @@ public class CardTest {
 	@Test
     public void testGetEdgeNorth() {
 		north = new Edge(2);
-		assertEquals(2,north.getType());
 		card.setEdgeNorth(north);
-		assertEquals(2,card.getEdgeNorth().getType());
+		assertEquals(north,card.getEdgeNorth());
     }
 
 	@Test
     public void testGetEdgeEast() {
 		east = new Edge(2);
-		assertEquals(2,east.getType());
 		card.setEdgeEast(east);
-		assertEquals(2,card.getEdgeEast().getType());
+		assertEquals(east,card.getEdgeEast());
     }
 
 	@Test
     public void testGetEdgeSouth() {
 		south = new Edge(2);
-		assertEquals(2,south.getType());
 		card.setEdgeSouth(south);
-		assertEquals(2,card.getEdgeSouth().getType());
+		assertEquals(south,card.getEdgeSouth());
     }
 
 	@Test
     public void testGetEdgeWest() {
 		west = new Edge(2);
-		assertEquals(2,west.getType());
 		card.setEdgeWest(west);
-		assertEquals(2,card.getEdgeWest().getType());
+		assertEquals(west,card.getEdgeWest());
     }
 
 	@Test
     public void testGetCenter() {
 		center = new Center(2);
-		assertEquals(2,center.getType());
 		card.setCenter(center);
-		assertEquals(2,card.getCenter().getType());
+		assertEquals(center,card.getCenter());
     }
 
 	@Test
     public void testSetEdgeNorth() {
 		north = new Edge(2);
-		assertEquals(2,north.getType());
 		card.setEdgeNorth(north);
-		assertEquals(2,card.getEdgeNorth().getType());
+		assertEquals(north,card.getEdgeNorth());
     }
 
 	@Test
     public void testSetEdgeEast() {
 		east = new Edge(2);
-		assertEquals(2,east.getType());
 		card.setEdgeEast(east);
-		assertEquals(2,card.getEdgeEast().getType());
+		assertEquals(east,card.getEdgeEast());
     }
 
 	@Test
     public void testSetEdgeSouth() {
 		south = new Edge(2);
-		assertEquals(2,south.getType());
 		card.setEdgeSouth(south);
-		assertEquals(2,card.getEdgeSouth().getType());
+		assertEquals(south,card.getEdgeSouth());
     }
 
 	@Test
     public void testSetEdgeWest() {
 		west = new Edge(2);
-		assertEquals(2,west.getType());
 		card.setEdgeWest(west);
-		assertEquals(2,card.getEdgeWest().getType());
+		assertEquals(west,card.getEdgeWest());
     }
 
 	@Test
     public void testSetCenter() {
 		center = new Center(2);
-		assertEquals(2,center.getType());
 		card.setCenter(center);
-		assertEquals(2,card.getCenter().getType());
+		assertEquals(center,card.getCenter());
     }
 }
