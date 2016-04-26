@@ -37,5 +37,4 @@ public class CenterTest {
 		center.setPlayer(player2);
 		assertEquals(player2, center.getPlayer());
 	}
-
 }
