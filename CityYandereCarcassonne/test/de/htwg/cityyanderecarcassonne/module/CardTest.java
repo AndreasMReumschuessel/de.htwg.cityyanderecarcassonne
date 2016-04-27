@@ -8,11 +8,12 @@ import org.junit.Test;
 public class CardTest {
 	
 	private Card card;
-    private Edge north;
-    private Edge east;
-    private Edge south;
-    private Edge west;
-    private Center center;
+    private Region north;
+    private Region east;
+    private Region south;
+    private Region west;
+    private Region center;
+    Type type = new Type("street");
 	
 	@Before
 	public void setUp() throws Exception {
@@ -20,72 +21,72 @@ public class CardTest {
 	}
 
 	@Test
-    public void testGetEdgeNorth() {
-		north = new Edge(2);
-		card.setEdgeNorth(north);
-		assertEquals(north,card.getEdgeNorth());
+    public void testGetRegionNorth() {
+		north = new Region(type);
+		card.setRegionNorth(north);
+		assertEquals(north,card.getRegionNorth());
     }
 
 	@Test
-    public void testGetEdgeEast() {
-		east = new Edge(2);
-		card.setEdgeEast(east);
-		assertEquals(east,card.getEdgeEast());
+    public void testGetRegionEast() {
+		east = new Region(type);
+		card.setRegionEast(east);
+		assertEquals(east,card.getRegionEast());
     }
 
 	@Test
-    public void testGetEdgeSouth() {
-		south = new Edge(2);
-		card.setEdgeSouth(south);
-		assertEquals(south,card.getEdgeSouth());
+    public void testGetRegionSouth() {
+		south = new Region(type);
+		card.setRegionSouth(south);
+		assertEquals(south,card.getRegionSouth());
     }
 
 	@Test
-    public void testGetEdgeWest() {
-		west = new Edge(2);
-		card.setEdgeWest(west);
-		assertEquals(west,card.getEdgeWest());
+    public void testGetRegionWest() {
+		west = new Region(type);
+		card.setRegionWest(west);
+		assertEquals(west,card.getRegionWest());
     }
 
 	@Test
-    public void testGetCenter() {
-		center = new Center(2);
-		card.setCenter(center);
-		assertEquals(center,card.getCenter());
+    public void testGetRegionCenter() {
+		center = new Region(type);
+		card.setRegionCenter(center);
+		assertEquals(center,card.getRegionCenter());
     }
 
 	@Test
-    public void testSetEdgeNorth() {
-		north = new Edge(2);
-		card.setEdgeNorth(north);
-		assertEquals(north,card.getEdgeNorth());
+    public void testSetRegionNorth() {
+		north = new Region(type);
+		card.setRegionNorth(north);
+		assertEquals(north,card.getRegionNorth());
     }
 
 	@Test
-    public void testSetEdgeEast() {
-		east = new Edge(2);
-		card.setEdgeEast(east);
-		assertEquals(east,card.getEdgeEast());
+    public void testSetRegionEast() {
+		east = new Region(type);
+		card.setRegionEast(east);
+		assertEquals(east,card.getRegionEast());
     }
 
 	@Test
-    public void testSetEdgeSouth() {
-		south = new Edge(2);
-		card.setEdgeSouth(south);
-		assertEquals(south,card.getEdgeSouth());
+    public void testSetRegionSouth() {
+		south = new Region(type);
+		card.setRegionSouth(south);
+		assertEquals(south,card.getRegionSouth());
     }
 
 	@Test
-    public void testSetEdgeWest() {
-		west = new Edge(2);
-		card.setEdgeWest(west);
-		assertEquals(west,card.getEdgeWest());
+    public void testSetRegionWest() {
+		west = new Region(type);
+		card.setRegionWest(west);
+		assertEquals(west,card.getRegionWest());
     }
 
 	@Test
-    public void testSetCenter() {
-		center = new Center(2);
-		card.setCenter(center);
-		assertEquals(center,card.getCenter());
-    }
+    public void testSetRegionCenter() {
+		center = new Region(type);
+		card.setRegionCenter(center);
+		assertEquals(center,card.getRegionCenter());
+    }	
 }

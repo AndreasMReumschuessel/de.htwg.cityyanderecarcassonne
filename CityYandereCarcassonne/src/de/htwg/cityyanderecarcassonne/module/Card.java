@@ -2,60 +2,61 @@ package de.htwg.cityyanderecarcassonne.module;
 
 /**
  * Created by anreumsc on 15.04.2016.
+ * Last modified by hekrause on 27.04.2016
  */
 public class Card {
 
-    private Edge north;
-    private Edge east;
-    private Edge south;
-    private Edge west;
-    private Center center;
+    private Region north;
+    private Region east;
+    private Region south;
+    private Region west;
+    private Region center;
 
-    public Card(Edge north, Edge east, Edge south, Edge west, Center center) {
-        setEdgeNorth(north);
-        setEdgeEast(east);
-        setEdgeSouth(south);
-        setEdgeWest(west);
-        setCenter(center);
+    public Card(Region north, Region east, Region south, Region west, Region center) {
+        setRegionNorth(north);
+        setRegionEast(east);
+        setRegionSouth(south);
+        setRegionWest(west);
+        setRegionCenter(center);
     }
 
-    public Edge getEdgeNorth() {
+    public Region getRegionNorth() {
         return north;
     }
 
-    public Edge getEdgeEast() {
+    public Region getRegionEast() {
         return east;
     }
 
-    public Edge getEdgeSouth() {
+    public Region getRegionSouth() {
         return south;
     }
 
-    public Edge getEdgeWest() {
+    public Region getRegionWest() {
         return west;
     }
 
-    public Center getCenter() {
+    public Region getRegionCenter() {
         return center;
     }
 
-    public void setEdgeNorth(Edge north) {
+    public void setRegionNorth(Region north) {
         this.north = north;
     }
 
-    public void setEdgeEast(Edge east) {
+    public void setRegionEast(Region east) {
         this.east = east;
     }
 
-    public void setEdgeSouth(Edge south) {
+    public void setRegionSouth(Region south) {
         this.south = south;
     }
 
-    public void setEdgeWest(Edge west) {
+    public void setRegionWest(Region west) {
         this.west = west;
     }
 
-    public void setCenter(Center center) {
+    public void setRegionCenter(Region center) {
         this.center = center;
     }
 }

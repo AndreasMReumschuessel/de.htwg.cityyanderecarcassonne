@@ -17,6 +17,7 @@ public class PlayerTest {
 	@Test
 	public void testPlayer() {
 		assertEquals("Gustav", player.getName());
+		assertEquals(0,player.getScore());
 	}
 
 	@Test
@@ -26,4 +27,21 @@ public class PlayerTest {
 		player.setName("Manfred");
 		assertEquals("Manfred", player.getName());
 	}
+	
+	@Test
+	public void testGetScore()	{
+		player.setScore(10);
+		assertEquals(10,player.getScore());
+		player.setScore(20);
+		assertEquals(20,player.getScore());
+	}
+	
+	@Test
+	public void testSetScore()	{
+		player.setScore(100);
+		assertEquals(100,player.getScore());
+		player.setScore(200);
+		assertEquals(200,player.getScore());
+	}
+	
 }
