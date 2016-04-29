@@ -1,0 +1,4 @@
+street;lawn;street;building;street;
+street;street;street;building;street; 
+street;building;street;building;building; 
+street;lawn;street;lawn;street;

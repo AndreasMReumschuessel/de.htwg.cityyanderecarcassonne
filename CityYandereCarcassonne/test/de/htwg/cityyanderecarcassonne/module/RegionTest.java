@@ -9,35 +9,35 @@ public class RegionTest {
 	
 	private Region region;
 	private Player player1;
-	private Type type;
+	private String type;
 
 	@Before
 	public void setUp() throws Exception {
-		region = new Region(new Type("lawn"));
+		region = new Region("lawn");
 	}
 
 	@Test
 	public void testRegion() {
-		type = new Type("street");
+		type = "street";
 		region.setType(type);
 		assertEquals(type,region.getType());
-		type = new Type("building");
+		type = "building";
 		region.setType(type);
 		assertEquals(type,region.getType());
-		type = new Type("lawn");
+		type = "lawn";
 		region.setType(type);
 		assertEquals(type,region.getType());
 	}
 	
 	@Test
 	public void testGetType() {
-		type = new Type("street");
+		type = "street";
 		region.setType(type);
 		assertEquals(type,region.getType());
-		type = new Type("building");
+		type = "building";
 		region.setType(type);
 		assertEquals(type,region.getType());
-		type = new Type("lawn");
+		type = "lawn";
 		region.setType(type);
 		assertEquals(type,region.getType());
 	}

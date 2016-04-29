@@ -59,4 +59,27 @@ public class Card {
     public void setRegionCenter(Region center) {
         this.center = center;
     }
+    
+    public void turnCardRight()	{
+    	Region tmpNorth = this.getRegionNorth();
+    	this.setRegionNorth(west);
+    	this.setRegionWest(south);
+    	this.setRegionSouth(east);
+    	this.setRegionEast(tmpNorth);
+    }
+    
+    public void turnCardLeft()	{
+    	Region tmpNorth = this.getRegionNorth();
+    	this.setRegionNorth(east);
+    	this.setRegionEast(south);
+    	this.setRegionSouth(west);
+    	this.setRegionWest(tmpNorth);
+    } 
 }
+
+
+
+
+
+
+

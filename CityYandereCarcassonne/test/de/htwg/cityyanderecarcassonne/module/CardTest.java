@@ -13,7 +13,7 @@ public class CardTest {
     private Region south;
     private Region west;
     private Region center;
-    Type type = new Type("street");
+    private String type = "street";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -88,5 +88,43 @@ public class CardTest {
 		center = new Region(type);
 		card.setRegionCenter(center);
 		assertEquals(center,card.getRegionCenter());
-    }	
+    }
+	
+	@Test
+    public void testTurnCardRight()	{
+		north = new Region("street");
+		east = new Region("building");
+		south = new Region("lawn");
+		west = new Region("building");
+		card.setRegionNorth(north);
+		card.setRegionEast(east);
+		card.setRegionSouth(south);
+		card.setRegionWest(west);
+		card.turnCardRight();
+		assertEquals("building", card.getRegionNorth().getType());
+		assertEquals("street", card.getRegionEast().getType());
+		assertEquals("building", card.getRegionSouth().getType());
+		assertEquals("lawn", card.getRegionWest().getType());
+    }
+	
+	@Test
+    public void testTurnCardLeft()	{
+		north = new Region("street");
+		east = new Region("building");
+		south = new Region("lawn");
+		west = new Region("building");
+		card.setRegionNorth(north);
+		card.setRegionEast(east);
+		card.setRegionSouth(south);
+		card.setRegionWest(west);
+		card.turnCardLeft();
+		assertEquals("building", card.getRegionNorth().getType());
+		assertEquals("lawn", card.getRegionEast().getType());
+		assertEquals("building", card.getRegionSouth().getType());
+		assertEquals("street", card.getRegionWest().getType());
+    }
+	
 }
+
+
+
