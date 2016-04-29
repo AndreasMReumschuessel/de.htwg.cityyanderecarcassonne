@@ -1,8 +1,5 @@
 package de.htwg.cityyanderecarcassonne.module;
 
-/**
- * Created by hekrause on 27.04.2016.
- */
 public class Region {
 
     private String type;

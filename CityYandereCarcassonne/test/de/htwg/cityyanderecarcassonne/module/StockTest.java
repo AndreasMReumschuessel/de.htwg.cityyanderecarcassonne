@@ -21,7 +21,7 @@ public class StockTest {
     public void testImportCards() throws IOException {
 		stock.importCards();
 		assertEquals(4, stock.sizeOfStock());
-    }
+	}
 
 	@Test
 	public void testAnalyseCardData()	{

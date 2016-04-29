@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
+//bla
 
 public class Stock {
 

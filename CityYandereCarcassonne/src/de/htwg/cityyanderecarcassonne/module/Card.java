@@ -1,9 +1,5 @@
 package de.htwg.cityyanderecarcassonne.module;
 
-/**
- * Created by anreumsc on 15.04.2016.
- * Last modified by hekrause on 27.04.2016
- */
 public class Card {
 
     private Region north;
