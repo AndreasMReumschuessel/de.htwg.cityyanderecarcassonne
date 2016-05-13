@@ -28,7 +28,7 @@ public class Townsquare {
 	
 	public void placeCard(Region setRegion)	{
 		if(setRegion != null)	{
-			cardOnHand.setRegion(setRegion);
+			//cardOnHand.setRegion(setRegion);
 		}
 		
 		cardGraph.addVertex(cardOnHand);
