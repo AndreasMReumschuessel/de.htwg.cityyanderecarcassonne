@@ -2,8 +2,8 @@ package de.htwg.cityyanderecarcassonne.model;
 
 public class Region {
 
-    private String type;
     private Player player;
+    private String type;
 
     public Region(String type) {
     	setType(type);
