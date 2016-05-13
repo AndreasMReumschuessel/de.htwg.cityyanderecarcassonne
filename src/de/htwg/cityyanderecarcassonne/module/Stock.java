@@ -5,11 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
-//bla
 
 public class Stock {
 
-	private String filepath = "/home/henning/workspace/de.htwg.cityyanderecarcassonne/CarcassonneCardStock.txt";
+	private String filepath = "./CarcassonneCardStock.txt";
 	private LinkedList<Card> cardStock = new LinkedList<>();
 	
 	public Stock(String filepath)	{

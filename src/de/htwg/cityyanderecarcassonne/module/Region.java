@@ -20,7 +20,12 @@ public class Region {
      	   this.setBuilding();
         } else if(type.equals("lawn"))	{
      	   this.setLawn();
+        } else if(type.equals("crossing"))	{
+      	   this.setCrossing();
+        } else if(type.equals("school"))	{
+      	   this.setSchool(); 
         } else	{
+
         }
     }
 
@@ -42,6 +47,14 @@ public class Region {
 	
 	public void setLawn() {
 		this.type = "lawn";
+	}
+	
+	public void setCrossing() {
+		this.type = "crossing";
+	}
+	
+	public void setSchool() {
+		this.type = "school";
 	}
     
 }

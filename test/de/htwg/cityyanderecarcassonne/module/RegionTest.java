@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-//bla
 
 public class RegionTest {
 	
@@ -28,6 +27,12 @@ public class RegionTest {
 		type = "lawn";
 		region.setType(type);
 		assertEquals(type,region.getType());
+		type = "crossing";
+		region.setType(type);
+		assertEquals(type,region.getType());
+		type = "school";
+		region.setType(type);
+		assertEquals(type,region.getType());
 	}
 	
 	@Test
@@ -41,6 +46,12 @@ public class RegionTest {
 		type = "lawn";
 		region.setType(type);
 		assertEquals(type,region.getType());
+		type = "crossing";
+		region.setType(type);
+		assertEquals(type,region.getType());
+		type = "school";
+		region.setType(type);
+		assertEquals(type,region.getType());
 	}
 	
 	@Test
@@ -52,4 +63,39 @@ public class RegionTest {
 		region.setPlayer(player1);
 		assertEquals(player1, region.getPlayer());
 	}
+	
+	@Test
+	public void testSetBuilding() {
+		type = "building";
+		region.setType(type);
+		assertEquals("building",region.getType());
+	}
+	
+	@Test
+	public void testSetStreet() {
+		type = "street";
+		region.setType(type);
+		assertEquals("street",region.getType());
+	}
+	
+	@Test
+	public void testSetLawn() {
+		type = "lawn";
+		region.setType(type);
+		assertEquals("lawn",region.getType());
+	}
+	
+	@Test
+	public void testSetCrossing() {
+		type = "crossing";
+		region.setType(type);
+		assertEquals("crossing",region.getType());
+	}
+	
+	@Test
+	public void testSetSchool() {
+		type = "school";
+		region.setType(type);
+		assertEquals("school",region.getType());
+	}	
 }

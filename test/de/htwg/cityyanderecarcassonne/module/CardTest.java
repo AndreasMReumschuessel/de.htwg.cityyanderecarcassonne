@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-//bla
 
 public class CardTest {
 	
@@ -126,6 +125,5 @@ public class CardTest {
     }
 	
 }
-
 
 
