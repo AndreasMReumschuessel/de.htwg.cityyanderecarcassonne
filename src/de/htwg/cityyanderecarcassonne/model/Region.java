@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.module;
+package de.htwg.cityyanderecarcassonne.model;
 
 public class Region {
 
@@ -24,6 +24,8 @@ public class Region {
       	   this.setCrossing();
         } else if("school".equals(type))	{
       	   this.setSchool(); 
+        } else	{
+        	
         }
     }
 

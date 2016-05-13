@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.module;
+package de.htwg.cityyanderecarcassonne.model;
 
 public class Card {
 

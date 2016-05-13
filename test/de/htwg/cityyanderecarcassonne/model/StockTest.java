@@ -1,10 +1,13 @@
-package de.htwg.cityyanderecarcassonne.module;
+package de.htwg.cityyanderecarcassonne.model;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.htwg.cityyanderecarcassonne.model.Card;
+import de.htwg.cityyanderecarcassonne.model.Stock;
 
 public class StockTest {
 	
