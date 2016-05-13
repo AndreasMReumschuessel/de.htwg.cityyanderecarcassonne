@@ -14,18 +14,16 @@ public class Region {
     }
 
     public void setType(String type) {
-        if(type.equals("street"))	{
+        if("street".equals(type))	{
      	   this.setStreet();
-        } else if(type.equals("building"))	{
+        } else if("building".equals(type))	{
      	   this.setBuilding();
-        } else if(type.equals("lawn"))	{
+        } else if("lawn".equals(type))	{
      	   this.setLawn();
-        } else if(type.equals("crossing"))	{
+        } else if("crossing".equals(type))	{
       	   this.setCrossing();
-        } else if(type.equals("school"))	{
+        } else if("school".equals(type))	{
       	   this.setSchool(); 
-        } else	{
-
         }
     }
 
