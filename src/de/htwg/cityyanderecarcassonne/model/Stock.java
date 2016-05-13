@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.model;
 
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Stock {
 
 	private String filepath = "./CarcassonneCardStock.txt";
-	private LinkedList<Card> cardStock = new LinkedList<>();
+	private List<Card> cardStock = new LinkedList<>();
 	
 	public Stock(String filepath)	{
 		this.filepath = filepath;

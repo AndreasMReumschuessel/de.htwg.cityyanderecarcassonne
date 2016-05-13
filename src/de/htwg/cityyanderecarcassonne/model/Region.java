@@ -15,17 +15,15 @@ public class Region {
 
     public void setType(String type) {
         if("street".equals(type))	{
-     	   this.setStreet();
+     	   	this.setStreet();
         } else if("building".equals(type))	{
-     	   this.setBuilding();
+     	   	this.setBuilding();
         } else if("lawn".equals(type))	{
-     	   this.setLawn();
-        } else if("crossing".equals(type))	{
-      	   this.setCrossing();
+     	   	this.setLawn();
         } else if("school".equals(type))	{
-      	   this.setSchool(); 
-        } else	{
-        	
+       	   	this.setSchool(); 
+        } else if("crossing".equals(type))	{
+      	   	this.setCrossing();
         }
     }
 
