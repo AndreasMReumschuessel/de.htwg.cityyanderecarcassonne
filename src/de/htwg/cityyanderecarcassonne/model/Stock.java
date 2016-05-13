@@ -38,6 +38,10 @@ public class Stock {
 		cardStock.add(tmpCard);
 	}
 	
+	public Card getCardAtStart()	{
+		return cardStock.get(0);
+	}
+	
 	public Card getRandomCardFromStock()	{		
 		int i = this.getRandomInRange(0, this.sizeOfStock()-1);
 		Card x = cardStock.get(i);

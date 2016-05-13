@@ -9,67 +9,55 @@ public class Card {
     private Region center;
 
     public Card(Region north, Region east, Region south, Region west, Region center) {
-        setRegionNorth(north);
-        setRegionEast(east);
-        setRegionSouth(south);
-        setRegionWest(west);
-        setRegionCenter(center);
+        setRegion(north);
+        setRegion(east);
+        setRegion(south);
+        setRegion(west);
+        setRegion(center);
     }
-
-    public Region getRegionNorth() {
-        return north;
+    
+    public Region getRegion(Region region)	{    	
+    	if("north".equals(region.getType()))	{
+            return this.north;
+    	} else if("east".equals(region.getType()))	{
+            return this.east;
+    	} else if("south".equals(region.getType()))	{
+            return this.south;
+    	} else if("west".equals(region.getType()))	{
+    		return this.west;
+    	} else	{
+            return this.center;
+     	}
     }
-
-    public Region getRegionEast() {
-        return east;
-    }
-
-    public Region getRegionSouth() {
-        return south;
-    }
-
-    public Region getRegionWest() {
-        return west;
-    }
-
-    public Region getRegionCenter() {
-        return center;
-    }
-
-    public void setRegionNorth(Region north) {
-        this.north = north;
-    }
-
-    public void setRegionEast(Region east) {
-        this.east = east;
-    }
-
-    public void setRegionSouth(Region south) {
-        this.south = south;
-    }
-
-    public void setRegionWest(Region west) {
-        this.west = west;
-    }
-
-    public void setRegionCenter(Region center) {
-        this.center = center;
+    
+    public void setRegion(Region region)	{
+    	if("north".equals(region.getType()))	{
+            this.north = region;
+    	} else if("east".equals(region.getType()))	{
+            this.east = region;
+    	} else if("south".equals(region.getType()))	{
+            this.south = region;
+    	} else if("west".equals(region.getType()))	{
+            this.west = region;
+    	} else	{
+            this.center = region;
+    	}
     }
     
     public void turnCardRight()	{
-    	Region tmpNorth = this.getRegionNorth();
-    	this.setRegionNorth(west);
-    	this.setRegionWest(south);
-    	this.setRegionSouth(east);
-    	this.setRegionEast(tmpNorth);
+    	Region tmpNorth = this.getRegion(north);
+    	this.setRegion(west);
+    	this.setRegion(south);
+    	this.setRegion(east);
+    	this.setRegion(tmpNorth);
     }
     
     public void turnCardLeft()	{
-    	Region tmpNorth = this.getRegionNorth();
-    	this.setRegionNorth(east);
-    	this.setRegionEast(south);
-    	this.setRegionSouth(west);
-    	this.setRegionWest(tmpNorth);
+    	Region tmpNorth = this.getRegion(north);
+    	this.setRegion(east);
+    	this.setRegion(south);
+    	this.setRegion(west);
+    	this.setRegion(tmpNorth);
     } 
 }
 
