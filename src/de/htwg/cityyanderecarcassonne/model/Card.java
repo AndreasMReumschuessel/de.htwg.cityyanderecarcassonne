@@ -1,6 +1,6 @@
 package de.htwg.cityyanderecarcassonne.model;
 
-public class Card {
+public class Card implements Space{
 
     private Region north;
     private Region east;

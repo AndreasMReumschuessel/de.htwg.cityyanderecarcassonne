@@ -41,7 +41,7 @@ public interface Graph<V> {
   * nicht im Graph vorhanden ist oder Knoten identisch sind.
   * @return true, falls Kante noch nicht vorhanden war.
   */
- boolean addEdge(V v, V w, double weight);
+ boolean addEdge(V v, V w, String type);
 
  /**
   * Prüft ob Knoten v im Graph vorhanden ist.
@@ -68,7 +68,7 @@ public interface Graph<V> {
   * nicht im Graph vorhanden ist.
   * @return Gewicht, falls Kante existiert, sonst 0.
   */
- double getWeight(V v, V w);
+ String getType(V v, V w);
 
  /**
   * Liefert Anzahl der Knoten im Graph zurück.

@@ -20,7 +20,7 @@ public class Edge<V> {
     /**
      * Gewicht.
      */
-    final protected double weight;
+    final protected String type;
 
     /**
      * Erzeugt neue Kante mit Gewicht 1.
@@ -30,7 +30,7 @@ public class Edge<V> {
     public Edge(V source, V target) {
         this.source = source;
         this.target = target;
-        this.weight = 1.0;
+        this.type = "leer";
     }
 
     /**
@@ -39,10 +39,10 @@ public class Edge<V> {
      * @param target Zielknoten.
      * @param weight Gewicht.
      */
-    public Edge(V source, V target, double weight) {
+    public Edge(V source, V target, String type) {
         this.source = source;
         this.target = target;
-        this.weight = weight;
+        this.type = type;
     }
 
     /**
@@ -65,8 +65,8 @@ public class Edge<V> {
      * Liefert Gewicht der Kante zurück.
      * @return Gewicht.
      */
-    public double getWeight() {
-        return this.weight;
+    public String getType() {
+        return this.type;
     }
 
     /**
@@ -74,9 +74,9 @@ public class Edge<V> {
      * @return String-Darstellung.
      */
     @Override public String toString() {
-        if (weight == 1)
+        if ("leer".equals(type))
             return source + " -- " + target;
         else
-            return source + " -- " + target + " (" + weight + ")";
+            return source + " -- " + target + " (" + type + ")";
     }
 }

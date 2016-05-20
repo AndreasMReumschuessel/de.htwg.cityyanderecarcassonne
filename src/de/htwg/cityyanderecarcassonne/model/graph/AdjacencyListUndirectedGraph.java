@@ -2,16 +2,15 @@ package de.htwg.cityyanderecarcassonne.model.graph;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
-	HashMap<V, HashMap<V,Double>> adjacencyList;
+	HashMap<V, HashMap<V,String>> adjacencyList;
 	List<V> vertexList;
 	List<Edge<V>> edgeList;
 	
 	public AdjacencyListUndirectedGraph()	{		
-		adjacencyList = new HashMap<V, HashMap<V,Double>>();
+		adjacencyList = new HashMap<V, HashMap<V,String>>();
 		vertexList = new LinkedList<>();
 		edgeList = new LinkedList<>();
 	}
@@ -19,7 +18,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	@Override
 	public boolean addVertex(V v) {
 		if(!this.containsVertex(v))	{
-			adjacencyList.put(v, new HashMap<V,Double>());
+			adjacencyList.put(v, new HashMap<V,String>());
 			vertexList.add(v);
 			return true;
 		}
@@ -33,8 +32,8 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		} else if(this.containsEdge(v, w))	{
 			return false;
 		} else	{	
-			adjacencyList.get(v).put(w, 1.0);
-			adjacencyList.get(w).put(v, 1.0);
+			adjacencyList.get(v).put(w, "leer");
+			adjacencyList.get(w).put(v, "leer");
 			Edge<V> e = new Edge<>(v, w);
 			edgeList.add(e);
 			return true;
@@ -42,16 +41,16 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	}
 
 	@Override
-	public boolean addEdge(V v, V w, double weight) {
+	public boolean addEdge(V v, V w, String type) {
 		if(!(this.containsVertex(v) || this.containsVertex(w)))	{
 			throw new IllegalArgumentException("Einer der beiden Knoten ist nicht vorhanden.");
 		} else if(this.containsEdge(v, w))	{
-			adjacencyList.get(v).put(w, weight);
-			adjacencyList.get(w).put(v, weight);
+			adjacencyList.get(v).put(w, type);
+			adjacencyList.get(w).put(v, type);
 			return false;
 		} else	{
-			adjacencyList.get(v).put(w, weight);
-			adjacencyList.get(w).put(v, weight);
+			adjacencyList.get(v).put(w, type);
+			adjacencyList.get(w).put(v, type);
 			Edge<V> e = new Edge<>(v, w);
 			edgeList.add(e);
 			return true;
@@ -80,13 +79,13 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	}
 
 	@Override
-	public double getWeight(V v, V w) {
+	public String getType(V v, V w) {
 		if(!(adjacencyList.containsKey(v) || adjacencyList.containsValue(w)))	{
 			throw new IllegalArgumentException("Einer der beiden Knoten ist nicht vorhanden.");
 		} else if(this.containsEdge(v, w))	{
 			return adjacencyList.get(v).get(w);
 		} else	{
-			return 0;
+			return "leer";
 		}
 	}
 
