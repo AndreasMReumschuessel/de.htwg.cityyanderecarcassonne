@@ -29,12 +29,26 @@ public class Stock {
 
 	public void analyseCardData(String data)	{
 		String[] split = data.split(";");
-		Region north = new Region(split[0]);
-		Region east = new Region(split[1]);
-		Region south = new Region(split[2]);
-		Region west = new Region(split[3]);
-		Region center = new Region(split[4]);
-		Card tmpCard = new Card(north, east, south, west, center);
+		Card tmpCard = new Card();
+		
+		tmpCard.setLeftTopOne(split[0]);	
+		tmpCard.setMiddleTop(split[1]);
+		tmpCard.setRightTopOne(split[2]);
+		
+		tmpCard.setLeftTopTwo(split[3]);
+		tmpCard.setRightTopTwo(split[4]);
+		
+		tmpCard.setLeftCenter(split[5]);
+		tmpCard.setMiddleCenter(split[6]);
+		tmpCard.setRightCenter(split[7]);
+		
+		tmpCard.setLeftBelowTwo(split[8]);
+		tmpCard.setRightBelowTwo(split[9]);
+		
+		tmpCard.setLeftBelowOne(split[10]);
+		tmpCard.setMiddleBelow(split[11]);
+		tmpCard.setRightBelowOne(split[12]);
+		
 		cardStock.add(tmpCard);
 	}
 	
