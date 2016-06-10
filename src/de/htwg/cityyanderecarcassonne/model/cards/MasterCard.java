@@ -1,59 +1,37 @@
 package de.htwg.cityyanderecarcassonne.model.cards;
 
-import de.htwg.cityyanderecarcassonne.model.ICard;
-import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
-import de.htwg.cityyanderecarcassonne.model.regions.*;
+import de.htwg.cityyanderecarcassonne.model.ICard;
 
-public class CardU implements ICard {
+public abstract class MasterCard implements ICard {
+
+	protected IRegion leftTopOne;
+	protected IRegion middleTop;
+	protected IRegion rightTopOne;
 	
-	private final IRegion leftTopOne;
-	private final IRegion middleTop;
-	private final IRegion rightTopOne;
+	protected IRegion leftTopTwo;
+	protected IRegion rightTopTwo;
 	
-	private final IRegion leftTopTwo;
-	private final IRegion rightTopTwo;
+	protected IRegion leftCenter;
+	protected IRegion middleCenter;
+	protected IRegion rightCenter;
 	
-	private final IRegion leftCenter;
-	private final IRegion middleCenter;
-	private final IRegion rightCenter;
+	protected IRegion leftBelowTwo;
+	protected IRegion rightBelowTwo;
 	
-	private final IRegion leftBelowTwo;
-	private final IRegion rightBelowTwo;
-	
-	private final IRegion leftBelowOne;
-	private final IRegion middleBelow;
-	private final IRegion rightBelowOne;
+	protected IRegion leftBelowOne;
+	protected IRegion middleBelow;
+	protected IRegion rightBelowOne;
 	
 	private Graph<IRegion> cardGraph;
 	
-	public CardU() {
+	protected MasterCard() {
 		super();
-		this.leftTopOne = new RegionLawn();
-		this.middleTop = new RegionStreet();
-		this.rightTopOne = new RegionLawn();
-		
-		this.leftTopTwo = new RegionLawn();
-		this.rightTopTwo = new RegionLawn();
-		
-		this.leftCenter = new RegionLawn();
-		this.middleCenter = new RegionStreet();
-		this.rightCenter = new RegionLawn();
-		
-		this.leftBelowTwo = new RegionLawn();
-		this.rightBelowTwo = new RegionLawn();
-		
-		this.leftBelowOne = new RegionLawn();
-		this.middleBelow = new RegionStreet();
-		this.rightBelowOne = new RegionLawn();
-		
-		genCardGraph();
-		setUniqueIDs();
 	}
 	
-	private void genCardGraph() {
+	protected void genCardGraph() {
 		cardGraph = new AdjacencyListUndirectedGraph<>();
 		
 		cardGraph.addVertex(leftTopOne);
@@ -92,29 +70,6 @@ public class CardU implements ICard {
 		cardGraph.addEdge(rightCenter, middleCenter);
 		cardGraph.addEdge(middleBelow, middleCenter);
 		cardGraph.addEdge(leftCenter, middleCenter);
-	}
-	
-	private void setUniqueIDs() {
-		int lawnID1 = IDManager.getLawnID();
-		int streetID1 = IDManager.getStreetID();
-		
-		leftTopOne.setID(lawnID1);
-		middleTop.setID(streetID1);
-		rightTopOne.setID(lawnID1);
-		
-		leftTopTwo.setID(lawnID1);
-		rightTopTwo.setID(lawnID1);
-		
-		leftCenter.setID(lawnID1);
-		middleCenter.setID(streetID1);
-		rightCenter.setID(lawnID1);
-		
-		leftBelowTwo.setID(lawnID1);
-		rightBelowTwo.setID(lawnID1);
-		
-		leftBelowOne.setID(lawnID1);
-		middleBelow.setID(streetID1);
-		rightBelowOne.setID(lawnID1);
 	}
 
 	@Override
@@ -186,6 +141,5 @@ public class CardU implements ICard {
 	public Graph<IRegion> getCardGraph() {
 		return cardGraph;
 	}
-	
 	
 }
