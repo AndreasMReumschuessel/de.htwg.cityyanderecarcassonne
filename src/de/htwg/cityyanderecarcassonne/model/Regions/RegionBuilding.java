@@ -35,6 +35,6 @@ public class RegionBuilding implements RegionInterface {
 	
 	@Override
 	public String toString() {
-		return "Type: " + typename + "Player: " + player + "ID: " + id;
+		return "Type: " + typename + " Player: " + player + " ID: " + id;
 	}
 }
