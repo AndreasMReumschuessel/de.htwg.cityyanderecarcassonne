@@ -6,14 +6,6 @@ import java.util.List;
 
 public class Townsquare {
 	
-	
-	
-	
-	
-	
-	
-	
-	/*
 	private List<List<Card>> ts;
 	
 	private int dimX;
@@ -61,5 +53,4 @@ public class Townsquare {
 	public int getDimY() {
 		return this.dimY;
 	}
-	*/
 }
