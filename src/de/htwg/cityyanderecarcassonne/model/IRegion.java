@@ -1,6 +1,6 @@
 package de.htwg.cityyanderecarcassonne.model;
 
-public interface RegionInterface {
+public interface IRegion {
 	
 	void setPlayer(Player player);
 	

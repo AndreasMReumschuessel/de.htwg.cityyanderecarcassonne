@@ -9,7 +9,7 @@ import de.htwg.cityyanderecarcassonne.model.Regions.RegionLawn;
 
 public class RegionInterfaceTest {
 
-	private RegionInterface region;
+	private IRegion region;
 	
 	@Before
 	public void setUp() throws Exception {

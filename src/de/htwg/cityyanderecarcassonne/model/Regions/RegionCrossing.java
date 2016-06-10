@@ -1,9 +1,9 @@
 package de.htwg.cityyanderecarcassonne.model.Regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.RegionInterface;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public class RegionCrossing implements RegionInterface {
+public class RegionCrossing implements IRegion {
 	
 	private String typename;
 	private Player player;

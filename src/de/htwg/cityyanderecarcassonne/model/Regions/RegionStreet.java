@@ -1,9 +1,9 @@
 package de.htwg.cityyanderecarcassonne.model.Regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.RegionInterface;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public class RegionStreet implements RegionInterface {
+public class RegionStreet implements IRegion {
 	
 	private String typename;
 	private Player player;
