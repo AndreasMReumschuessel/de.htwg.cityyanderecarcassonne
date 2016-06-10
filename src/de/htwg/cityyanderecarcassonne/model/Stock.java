@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Stock {
 
+	/*
 	private String filepath = "./CarcassonneCardStock.txt";
 	private List<Card> cardStock = new LinkedList<>();
 	
@@ -74,5 +75,5 @@ public class Stock {
 	
 	public void setFilePath(String filepath)	{
 		this.filepath = filepath;
-	}
+	}*/
 }
