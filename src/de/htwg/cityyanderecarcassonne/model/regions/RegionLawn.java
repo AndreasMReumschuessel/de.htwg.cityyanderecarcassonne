@@ -1,16 +1,16 @@
-package de.htwg.cityyanderecarcassonne.model.Regions;
+package de.htwg.cityyanderecarcassonne.model.regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.RegionInterface;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public class RegionBuilding implements RegionInterface {
+public class RegionLawn implements IRegion {
 	
-	private String typename;
+	private String typename = "Lawn";
 	private Player player;
 	private int id;
 	
-	public RegionBuilding() {
-		this.typename = "Building";
+	public RegionLawn() {
+		this.typename = "Lawn";
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public class RegionBuilding implements RegionInterface {
 	
 	@Override
 	public String toString() {
-		return "Type: " + typename + " Player: " + player + " ID: " + id;
+		return "Type: " + typename + "Player: " + player + "ID: " + id;
 	}
 }

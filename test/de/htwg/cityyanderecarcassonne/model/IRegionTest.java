@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.Regions.RegionLawn;
 
-public class RegionInterfaceTest {
+public class IRegionTest {
 
-	private RegionInterface region;
+	private IRegion region;
 	
 	@Before
 	public void setUp() throws Exception {
