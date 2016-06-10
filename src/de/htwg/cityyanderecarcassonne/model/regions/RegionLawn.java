@@ -35,6 +35,6 @@ public class RegionLawn implements IRegion {
 	
 	@Override
 	public String toString() {
-		return "Type: " + typename + "Player: " + player + "ID: " + id;
+		return "Type: " + typename + " Player: " + player.getName() + " ID: " + id;
 	}
 }
