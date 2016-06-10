@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.carcassonne;
+package de.htwg.cityyanderecarcassonne;
 
 public class Carcassonne {
 
