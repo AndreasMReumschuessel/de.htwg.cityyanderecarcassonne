@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.cityyanderecarcassonne.model.Regions.RegionLawn;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
 public class IRegionTest {
 
