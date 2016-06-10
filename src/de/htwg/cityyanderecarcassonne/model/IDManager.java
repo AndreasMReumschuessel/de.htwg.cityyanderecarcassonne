@@ -1,23 +1,18 @@
 package de.htwg.cityyanderecarcassonne.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public final class IDManager {
 	
-	private static Set<Integer> idpool;
-	private static int buildingID;
-	private static int crossingID;
-	private static int lawnID;
-	private static int schoolID;
-	private static int streetID;
+	private static Set<Integer> idpool = new HashSet<>();
+	private static int buildingID  = 10000;
+	private static int crossingID = 20000;
+	private static int lawnID = 30000;
+	private static int schoolID = 40000;
+	private static int streetID = 50000;
 	
-	private IDManager() {
-		buildingID = 10000;
-		crossingID = 20000;
-		lawnID = 30000;
-		schoolID = 40000;
-		streetID = 50000;
-	}
+	private IDManager() {}
 	
 	public static int getBuildingID() {
 		int r = buildingID;
