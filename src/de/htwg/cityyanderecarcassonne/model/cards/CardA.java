@@ -25,6 +25,8 @@ public class CardA extends MasterCard {
 		this.middleBelow = new RegionStreet();
 		this.rightBelowOne = new RegionLawn();
 		
+		int i = 16;
+		
 		genCardGraph();
 		setUniqueIDs();
 	}
