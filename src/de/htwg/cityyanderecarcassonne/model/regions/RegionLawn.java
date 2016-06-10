@@ -1,16 +1,16 @@
-package de.htwg.cityyanderecarcassonne.model.Regions;
+package de.htwg.cityyanderecarcassonne.model.regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public class RegionStreet implements IRegion {
+public class RegionLawn implements IRegion {
 	
-	private String typename;
+	private String typename = "Lawn";
 	private Player player;
 	private int id;
 	
-	public RegionStreet() {
-		this.typename = "Street";
+	public RegionLawn() {
+		this.typename = "Lawn";
 	}
 
 	@Override

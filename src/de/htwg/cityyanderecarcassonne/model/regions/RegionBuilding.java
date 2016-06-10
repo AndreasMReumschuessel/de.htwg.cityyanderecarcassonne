@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.model.Regions;
+package de.htwg.cityyanderecarcassonne.model.regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.IRegion;

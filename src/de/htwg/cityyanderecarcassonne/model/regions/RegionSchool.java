@@ -1,16 +1,16 @@
-package de.htwg.cityyanderecarcassonne.model.Regions;
+package de.htwg.cityyanderecarcassonne.model.regions;
 
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public class RegionCrossing implements IRegion {
+public class RegionSchool implements IRegion {
 	
 	private String typename;
 	private Player player;
 	private int id;
 	
-	public RegionCrossing() {
-		this.typename = "Crossing";
+	public RegionSchool() {
+		this.typename = "School";
 	}
 
 	@Override
