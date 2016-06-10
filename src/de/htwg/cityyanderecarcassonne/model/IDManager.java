@@ -52,5 +52,13 @@ public final class IDManager {
 	public static boolean idUsed(int id) {
 		return idpool.contains(id);
 	}
+	
+	public static void resetIDCount()	{
+		buildingID  = 10000;
+		crossingID = 20000;
+		lawnID = 30000;
+		schoolID = 40000;
+		streetID = 50000;
+	}
 
 }

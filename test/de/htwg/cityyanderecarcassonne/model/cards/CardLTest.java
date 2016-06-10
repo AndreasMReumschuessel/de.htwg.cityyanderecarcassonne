@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.htwg.cityyanderecarcassonne.model.IDManager;
+
 public class CardLTest {
 	
 	private static CardL cardL;
 
 	@BeforeClass
 	public static void setUpBeforClass() throws Exception	{
+		IDManager.resetIDCount();
 		cardL = new CardL();
 	}
 	
