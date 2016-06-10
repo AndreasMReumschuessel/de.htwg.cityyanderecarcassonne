@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.model.cards;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
@@ -94,6 +95,28 @@ public class CardK implements ICard {
 	}
 	
 	private void setUniqueIDs() {
+		int lawnID1 = IDManager.getLawnID();
+		int lawnID2 = IDManager.getLawnID();
+		int streetID1 = IDManager.getStreetID();
+		int buildingID1 = IDManager.getBuildingID();
+		
+		leftTopOne.setID(lawnID1);
+		middleTop.setID(streetID1);
+		rightTopOne.setID(lawnID2);
+		
+		leftTopTwo.setID(lawnID1);
+		rightTopTwo.setID(buildingID1);
+		
+		leftCenter.setID(streetID1);
+		middleCenter.setID(streetID1);
+		rightCenter.setID(buildingID1);
+		
+		leftBelowTwo.setID(lawnID2);
+		rightBelowTwo.setID(buildingID1);
+		
+		leftBelowOne.setID(lawnID2);
+		middleBelow.setID(lawnID2);
+		rightBelowOne.setID(lawnID2);
 		
 	}
 
