@@ -12,7 +12,6 @@ public class CardKTest {
 	@BeforeClass
 	public static void setUpBeforClass() throws Exception	{
 		cardK = new CardK();
-		System.out.println();
 	}
 	
 	@Test
