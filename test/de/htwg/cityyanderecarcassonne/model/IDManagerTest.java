@@ -2,14 +2,33 @@ package de.htwg.cityyanderecarcassonne.model;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class IDManagerTest {
 
+	@Rule
+	public ExpectedException uoe = ExpectedException.none();
+	
 	@Before
 	public void setUp() throws Exception {
 		IDManager.resetIDCount();
+	}
+	
+	@Test
+	public void testPrivateConstructor() throws UnsupportedOperationException, Exception {
+		Constructor<IDManager> c = IDManager.class.getDeclaredConstructor();
+		assertTrue(Modifier.isPrivate(c.getModifiers()));
+		
+		c.setAccessible(true);
+		uoe.expect(InvocationTargetException.class);
+		c.newInstance();
 	}
 
 	@Test

@@ -13,7 +13,7 @@ public final class IDManager {
 	private static int streetID = 50000;
 	
 	private IDManager() {
-		
+		throw new UnsupportedOperationException();
 	}
 	
 	public static int getBuildingID() {
