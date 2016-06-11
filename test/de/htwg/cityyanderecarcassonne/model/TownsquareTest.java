@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.cards.CardA;
+import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class TownsquareTest {
 	
