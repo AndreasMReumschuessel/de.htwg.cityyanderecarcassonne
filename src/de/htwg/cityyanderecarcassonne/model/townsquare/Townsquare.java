@@ -31,10 +31,12 @@ public class Townsquare implements ITownsquare {
 		tsg = new TownsquareGraph(); //TODO: Change it to a static class?
 	}
 	
+	@Override
 	public ICard getCard(Position p) {
 		return getCard(p.getX(), p.getY());
 	}
 	
+	@Override
 	public ICard getCard(int x, int y) {
 		if (x < 0 || x > dimX - 1 || y < 0 || y > dimY - 1)
 			return null;
@@ -42,10 +44,12 @@ public class Townsquare implements ITownsquare {
 		return ts.get(y).get(x);
 	}
 	
+	@Override
 	public boolean setCard(ICard c, Position p) {
 		return setCard(c, p.getX(), p.getY());
 	}
 	
+	@Override
 	public boolean setCard(ICard c, int x, int y) {
 		if (setPossible(c, x, y)) {
 			ts.get(y).set(x, c);
@@ -55,6 +59,7 @@ public class Townsquare implements ITownsquare {
 		return false;
 	}
 	
+	@Override
 	public List<Position> getPossibilities(ICard c) {
 		List<Position> result = new LinkedList<>();
 		
@@ -65,22 +70,23 @@ public class Townsquare implements ITownsquare {
 				ICard nT = getCard(cx, cy - 1);
 				ICard nR = getCard(cx + 1, cy);
 				
-				if (nL != null || nB != null || nT != null || nR != null) {
-					if (setPossible(c, cx, cy)) { //TODO: Check rotated possibilities of c
-						Position possibility = new Position(cx, cy);
+				if ((nL != null || nB != null || nT != null || nR != null) && setPossible(c, cx, cy)) {
+					//TODO: Check rotated possibilities of c
+					Position possibility = new Position(cx, cy);
 						
-						result.add(possibility);
-					}
+					result.add(possibility);
 				}
 			}
 		}
 		return result;
 	}
 	
+	@Override
 	public int getDimX() {
 		return this.dimX;
 	}
 	
+	@Override
 	public int getDimY() {
 		return this.dimY;
 	}
@@ -94,26 +100,26 @@ public class Townsquare implements ITownsquare {
 		ICard neighborTop = getCard(x, y - 1);
 		ICard neighborRight = getCard(x + 1, y);
 		
-		boolean nL = (neighborLeft == null ||
-					  c.getLeftTopTwo().getClass().equals(neighborLeft.getRightTopTwo().getClass()) &&
-					  c.getLeftCenter().getClass().equals(neighborLeft.getRightCenter().getClass()) &&
-					  c.getLeftBelowTwo().getClass().equals(neighborLeft.getRightBelowTwo().getClass()));
+		boolean nL = neighborLeft == null ||
+					 c.getLeftTopTwo().getClass().equals(neighborLeft.getRightTopTwo().getClass()) &&
+					 c.getLeftCenter().getClass().equals(neighborLeft.getRightCenter().getClass()) &&
+					 c.getLeftBelowTwo().getClass().equals(neighborLeft.getRightBelowTwo().getClass());
 		
-		boolean nB = (neighborBelow == null ||
-				  	  c.getLeftBelowOne().getClass().equals(neighborBelow.getLeftTopOne().getClass()) &&
-					  c.getMiddleBelow().getClass().equals(neighborBelow.getMiddleTop().getClass()) &&
-					  c.getRightBelowOne().getClass().equals(neighborBelow.getRightTopOne().getClass()));
+		boolean nB = neighborBelow == null ||
+				  	 c.getLeftBelowOne().getClass().equals(neighborBelow.getLeftTopOne().getClass()) &&
+					 c.getMiddleBelow().getClass().equals(neighborBelow.getMiddleTop().getClass()) &&
+					 c.getRightBelowOne().getClass().equals(neighborBelow.getRightTopOne().getClass());
 		
-		boolean nT = (neighborTop == null ||
-					  c.getLeftTopOne().getClass().equals(neighborTop.getLeftBelowOne().getClass()) &&
-					  c.getMiddleTop().getClass().equals(neighborTop.getMiddleBelow().getClass()) &&
-					  c.getRightTopOne().getClass().equals(neighborTop.getRightBelowOne().getClass()));
+		boolean nT = neighborTop == null ||
+					 c.getLeftTopOne().getClass().equals(neighborTop.getLeftBelowOne().getClass()) &&
+					 c.getMiddleTop().getClass().equals(neighborTop.getMiddleBelow().getClass()) &&
+					 c.getRightTopOne().getClass().equals(neighborTop.getRightBelowOne().getClass());
 	
-		boolean nR = (neighborRight == null ||
-					  c.getRightTopTwo().getClass().equals(neighborRight.getLeftTopTwo().getClass()) &&
-					  c.getRightCenter().getClass().equals(neighborRight.getLeftCenter().getClass()) &&
-					  c.getRightBelowTwo().getClass().equals(neighborRight.getLeftBelowTwo().getClass()));
+		boolean nR = neighborRight == null ||
+					 c.getRightTopTwo().getClass().equals(neighborRight.getLeftTopTwo().getClass()) &&
+					 c.getRightCenter().getClass().equals(neighborRight.getLeftCenter().getClass()) &&
+					 c.getRightBelowTwo().getClass().equals(neighborRight.getLeftBelowTwo().getClass());
 		
-		return (nL && nB && nT && nR);
+		return nL && nB && nT && nR;
 	}
 }
