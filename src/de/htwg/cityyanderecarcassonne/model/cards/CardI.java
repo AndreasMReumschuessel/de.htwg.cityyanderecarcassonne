@@ -39,17 +39,17 @@ public class CardI extends MasterCard {
 		rightTopOne.setID(lawnID);
 		
 		leftTopTwo.setID(lawnID);
-		rightTopTwo.setID(buildingID2);
+		rightTopTwo.setID(buildingID1);
 		
 		leftCenter.setID(lawnID);
 		middleCenter.setID(lawnID);
-		rightCenter.setID(buildingID2);
+		rightCenter.setID(buildingID1);
 		
 		leftBelowTwo.setID(lawnID);
-		rightBelowTwo.setID(buildingID2);
+		rightBelowTwo.setID(buildingID1);
 		
-		leftBelowOne.setID(buildingID1);
-		middleBelow.setID(buildingID1);
-		rightBelowOne.setID(buildingID1);
+		leftBelowOne.setID(buildingID2);
+		middleBelow.setID(buildingID2);
+		rightBelowOne.setID(buildingID2);
 	}
 }

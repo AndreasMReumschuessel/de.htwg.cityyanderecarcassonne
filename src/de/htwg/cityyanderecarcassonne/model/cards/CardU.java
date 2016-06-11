@@ -31,24 +31,25 @@ public class CardU extends MasterCard {
 	
 	private void setUniqueIDs() {
 		int lawnID1 = IDManager.getLawnID();
+		int lawnID2 = IDManager.getLawnID();
 		int streetID1 = IDManager.getStreetID();
 		
 		leftTopOne.setID(lawnID1);
 		middleTop.setID(streetID1);
-		rightTopOne.setID(lawnID1);
+		rightTopOne.setID(lawnID2);
 		
 		leftTopTwo.setID(lawnID1);
-		rightTopTwo.setID(lawnID1);
+		rightTopTwo.setID(lawnID2);
 		
 		leftCenter.setID(lawnID1);
 		middleCenter.setID(streetID1);
-		rightCenter.setID(lawnID1);
+		rightCenter.setID(lawnID2);
 		
 		leftBelowTwo.setID(lawnID1);
-		rightBelowTwo.setID(lawnID1);
+		rightBelowTwo.setID(lawnID2);
 		
 		leftBelowOne.setID(lawnID1);
 		middleBelow.setID(streetID1);
-		rightBelowOne.setID(lawnID1);
+		rightBelowOne.setID(lawnID2);
 	}	
 }

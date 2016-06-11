@@ -31,6 +31,8 @@ public class CardW extends MasterCard {
 	
 	private void setUniqueIDs() {
 		int lawnID1 = IDManager.getLawnID();
+		int lawnID2 = IDManager.getLawnID();
+		int lawnID3 = IDManager.getLawnID();
 		int streetID1 = IDManager.getStreetID();
 		int streetID2 = IDManager.getStreetID();
 		int streetID3 = IDManager.getStreetID();
@@ -47,11 +49,11 @@ public class CardW extends MasterCard {
 		middleCenter.setID(crossingID1);
 		rightCenter.setID(streetID2);
 		
-		leftBelowTwo.setID(lawnID1);
-		rightBelowTwo.setID(lawnID1);
+		leftBelowTwo.setID(lawnID2);
+		rightBelowTwo.setID(lawnID3);
 		
-		leftBelowOne.setID(lawnID1);
+		leftBelowOne.setID(lawnID2);
 		middleBelow.setID(streetID3);
-		rightBelowOne.setID(lawnID1);
+		rightBelowOne.setID(lawnID3);
 	}	
 }
