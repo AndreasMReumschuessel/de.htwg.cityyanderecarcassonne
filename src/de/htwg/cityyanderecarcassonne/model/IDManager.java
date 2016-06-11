@@ -12,7 +12,9 @@ public final class IDManager {
 	private static int schoolID = 40000;
 	private static int streetID = 50000;
 	
-	private IDManager() {}
+	private IDManager() {
+		
+	}
 	
 	public static int getBuildingID() {
 		int r = buildingID;
