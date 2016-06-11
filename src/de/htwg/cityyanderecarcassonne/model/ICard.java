@@ -29,6 +29,5 @@ public interface ICard {
 	IRegion getMiddleBelow();
 	
 	IRegion getRightBelowOne();
-	
-	Graph<IRegion> getCardGraph();
+
 }

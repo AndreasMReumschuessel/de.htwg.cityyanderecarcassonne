@@ -4,7 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import de.htwg.cityyanderecarcassonne.model.IDManager;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
+import de.htwg.cityyanderecarcassonne.model.graph.Graph;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
 
 public class CardATest {
 	
@@ -14,16 +19,6 @@ public class CardATest {
 	public static void setUpBeforClass() throws Exception	{
 		IDManager.resetIDCount();
 		cardA = new CardA();
-	}
-	
-	@Test
-	public void setUniqueIDsTest() {
-		
-	}
-	
-	@Test
-	public void genCardGraphTest()	{
-	
 	}
 	
 	@Test
@@ -89,11 +84,6 @@ public class CardATest {
 	@Test
 	public void getRightBelowOneTest() {
 		assertEquals(30000, cardA.getRightBelowOne().getID());		
-	}
-
-	@Test
-	public void getCardGraphTest()	{
-		
 	}
 	
 }

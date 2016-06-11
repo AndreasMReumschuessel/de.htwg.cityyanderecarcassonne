@@ -15,17 +15,7 @@ public class CardCTest {
 		IDManager.resetIDCount();
 		cardC = new CardC();
 	}
-	
-	@Test
-	public void setUniqueIDsTest() {
-		
-	}
-	
-	@Test
-	public void genCardGraphTest()	{
-	
-	}
-	
+
 	@Test
 	public void getLeftTopOneTest() {
 		assertEquals(10000, cardC.getLeftTopOne().getID());
@@ -89,11 +79,6 @@ public class CardCTest {
 	@Test
 	public void getRightBelowOneTest() {
 		assertEquals(10000, cardC.getRightBelowOne().getID());		
-	}
-
-	@Test
-	public void getCardGraphTest()	{
-		
 	}
 	
 }

@@ -136,10 +136,4 @@ public abstract class MasterCard implements ICard {
 	public IRegion getRightBelowOne() {
 		return rightBelowOne;
 	}
-
-	@Override
-	public Graph<IRegion> getCardGraph() {
-		return cardGraph;
-	}
-	
 }

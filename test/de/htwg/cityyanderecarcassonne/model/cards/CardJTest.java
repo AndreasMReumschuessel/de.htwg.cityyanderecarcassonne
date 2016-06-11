@@ -17,16 +17,6 @@ public class CardJTest {
 	}
 	
 	@Test
-	public void setUniqueIDsTest() {
-		
-	}
-	
-	@Test
-	public void genCardGraphTest()	{
-	
-	}
-	
-	@Test
 	public void getLeftTopOneTest() {
 		assertEquals(10000, cardJ.getLeftTopOne().getID());
 	}
@@ -89,11 +79,6 @@ public class CardJTest {
 	@Test
 	public void getRightBelowOneTest() {
 		assertEquals(30001, cardJ.getRightBelowOne().getID());		
-	}
-
-	@Test
-	public void getCardGraphTest()	{
-		
 	}
 	
 }
