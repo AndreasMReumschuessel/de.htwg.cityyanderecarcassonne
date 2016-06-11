@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.cityyanderecarcassonne.model.cards.CardA;
+
 public class TownsquareTest {
-	/*
+	
 	private Townsquare map;
 	
 	@Before
@@ -22,8 +24,7 @@ public class TownsquareTest {
 	
 	@Test
 	public void getCardTest() {
-		IRegion north = null, east = null, south = null, west = null, center = null;
-		Card card = new Card(north, east, south, west, center);
+		ICard card = new CardA();
 		
 		map.setCard(card, 30, 45);
 		assertEquals(card, map.getCard(30, 45));
@@ -37,5 +38,5 @@ public class TownsquareTest {
 	@Test
 	public void getChoicesTest() {
 		assertTrue(true);
-	}*/
+	}
 }

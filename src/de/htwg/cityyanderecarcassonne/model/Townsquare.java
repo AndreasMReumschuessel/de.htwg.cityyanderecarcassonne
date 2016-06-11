@@ -1,12 +1,11 @@
 package de.htwg.cityyanderecarcassonne.model;
-//update
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Townsquare {
-	/*
-	private List<List<Card>> ts;
+	
+	private List<List<ICard>> ts;
 	
 	private int dimX;
 	private int dimY;
@@ -24,24 +23,24 @@ public class Townsquare {
 		}
 	}
 	
-	public Card getCard(Position p) {
+	public ICard getCard(Position p) {
 		return getCard(p.getX(), p.getY());
 	}
 	
-	public Card getCard(int x, int y) {
+	public ICard getCard(int x, int y) {
 		return ts.get(y).get(x);
 	}
 	
-	public boolean setCard(Card c, Position p) {
+	public boolean setCard(ICard c, Position p) {
 		return setCard(c, p.getX(), p.getY());
 	}
 	
-	public boolean setCard(Card c, int x, int y) {
+	public boolean setCard(ICard c, int x, int y) {
 		ts.get(y).set(x, c);
 		return true;
 	}
 	
-	public List<Position> getChoices(Card c) {
+	public List<Position> getChoices(ICard c) {
 		return null;
 		// TODO: Check which choices are available for the give Card
 	}
@@ -52,5 +51,5 @@ public class Townsquare {
 	
 	public int getDimY() {
 		return this.dimY;
-	}*/
+	}
 }
