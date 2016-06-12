@@ -88,8 +88,11 @@ public interface Graph<V> {
   */
  List<V> getVertexList();
  
- /**
+	/**
   * Liefert Liste aller Kanten im Graph zurück.
+	 * Eine Kante wird nur einmal in der Liste aufgeführt.
+	 * Genauer: kommt (u,v) in der Liste vor, dann darf (v,u) nicht in der Liste
+	 * vorkommen.
   * @return Kantenliste.
   */
  List<Edge<V>> getEdgeList();

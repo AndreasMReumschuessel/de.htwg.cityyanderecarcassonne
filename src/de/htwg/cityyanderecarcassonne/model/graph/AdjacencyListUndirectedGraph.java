@@ -2,10 +2,11 @@ package de.htwg.cityyanderecarcassonne.model.graph;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
-	HashMap<V, HashMap<V,Double>> adjacencyList;
+	Map<V, HashMap<V, Double>> adjacencyList;
 	List<V> vertexList;
 	List<Edge<V>> edgeList;
 	
@@ -145,10 +146,12 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		return edgeList;
 	}
 	
+	@Override	
 	public int getVertexIndex(Object v)	{
 		return vertexList.indexOf(v);
 	}
 	
+	@Override	
 	public V getVertex(int i){
 		return vertexList.get(i);
 	}

@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.graph;
+package de.htwg.cityyanderecarcassonne.model.graph;
 
 import static org.junit.Assert.*;
 

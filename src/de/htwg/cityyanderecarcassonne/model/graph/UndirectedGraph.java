@@ -1,7 +1,5 @@
 package de.htwg.cityyanderecarcassonne.model.graph;
 
-import java.util.List;
-
 /**
  * Graph mit ungerichteten Kanten.
  * Es ist zu beachten, dass nach erfolgreichem Einfügen der Kante (v,w)
@@ -22,15 +20,6 @@ public interface UndirectedGraph<V> extends Graph<V> {
      * @return Knotengrad
      */
     int getDegree(V v);
-
-	/**
-     * Liefert Liste aller Kanten im Graph zurück.
-	 * Eine Kante wird nur einmal in der Liste aufgeführt.
-	 * Genauer: kommt (u,v) in der Liste vor, dann darf (v,u) nicht in der Liste
-	 * vorkommen.
-     * @return Kantenliste.
-     */
-    List<Edge<V>> getEdgeList();
 
 }
 
