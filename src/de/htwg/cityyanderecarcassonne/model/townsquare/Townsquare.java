@@ -69,8 +69,12 @@ public class Townsquare implements ITownsquare {
 				
 				boolean hasNeigbhor = nL != null || nB != null || nT != null || nR != null;
 				
-				if (hasNeigbhor && setPossible(c, cx, cy)) {
-					//TODO: Check rotated possibilities of c
+				boolean setPossible = setPossible(c, cx, cy) ||
+									  setPossible(c.rotateRight(), cx, cy) ||
+									  setPossible(c.rotateRight(), cx, cy) ||
+									  setPossible(c.rotateRight(), cx, cy);
+				
+				if (hasNeigbhor && setPossible) {
 					Position possibility = new Position(cx, cy);
 						
 					result.add(possibility);
