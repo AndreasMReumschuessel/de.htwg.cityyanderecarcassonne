@@ -32,7 +32,7 @@ public interface ICard {
 	
 	Graph<IRegion> getCardGraph();
 	
-	void rotateLeft();
+	ICard rotateLeft();
 	
-	void rotateRight();
+	ICard rotateRight();
 }

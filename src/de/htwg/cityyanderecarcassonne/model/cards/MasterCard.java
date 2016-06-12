@@ -145,13 +145,15 @@ public abstract class MasterCard implements ICard {
 	}
 	
 	@Override
-	public void rotateLeft() {
+	public ICard rotateLeft() {
 		rotate("left");
+		return this;
 	}
 	
 	@Override
-	public void rotateRight() {
+	public ICard rotateRight() {
 		rotate("right");
+		return this;
 	}
 	
 	private void rotate(String direction) {
