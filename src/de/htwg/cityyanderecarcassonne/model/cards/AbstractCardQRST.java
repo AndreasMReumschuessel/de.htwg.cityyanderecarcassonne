@@ -2,9 +2,9 @@ package de.htwg.cityyanderecarcassonne.model.cards;
 
 import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
-public class Abstract2CardQR extends AbstractCardQR {
+public class AbstractCardQRST extends AbstractCardCQRST {
 
-	public Abstract2CardQR() {
+	public AbstractCardQRST() {
 		super();		
 		this.belowLeft = new RegionLawn();
 		this.belowRight = new RegionLawn();

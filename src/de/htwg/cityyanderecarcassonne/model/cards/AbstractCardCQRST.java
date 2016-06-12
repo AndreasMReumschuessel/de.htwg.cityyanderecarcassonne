@@ -3,9 +3,9 @@ package de.htwg.cityyanderecarcassonne.model.cards;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.regions.*;
 
-public abstract class AbstractCardQR extends MasterCard {
+public abstract class AbstractCardCQRST extends MasterCard {
 	
-	public AbstractCardQR() {
+	public AbstractCardCQRST() {
 		super();
 		this.topLeft = new RegionBuilding();
 		this.topMiddle = new RegionBuilding();
