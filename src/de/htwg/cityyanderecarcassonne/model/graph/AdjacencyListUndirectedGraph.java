@@ -21,8 +21,9 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 			adjacencyList.put(v, new HashMap<V,Double>());
 			vertexList.add(v);
 			return true;
-		}
-		return false;
+		} else	{
+			return false;
+		}	
 	}
 
 	@Override
@@ -106,7 +107,6 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
 	@Override
 	public List<V> getAdjacentVertexList(V v) {
-		//List<V> adjacentVertexList = new LinkedList<>();
 		
 		if(!this.containsVertex(v))	{
 			throw new IllegalArgumentException("Knoten ist nicht vorhanden.");
@@ -148,4 +148,9 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	public int getVertexIndex(Object v)	{
 		return vertexList.indexOf(v);
 	}
+	
+	public V getVertex(int i){
+		return vertexList.get(i);
+	}
+	
 }

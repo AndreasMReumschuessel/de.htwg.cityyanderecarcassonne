@@ -117,5 +117,7 @@ public interface Graph<V> {
  List<Edge<V>> getIncidentEdgeList(V v);
  
  int getVertexIndex(Object v);
+ 
+ V getVertex(int i);
 
 }
