@@ -18,67 +18,67 @@ public class CardCTest {
 
 	@Test
 	public void getLeftTopOneTest() {
-		assertEquals(10000, cardC.getLeftTopOne().getID());
+		assertEquals(10000, cardC.getTopLeft().getID());
 	}
 
 	@Test
 	public void getMiddleTopTest() {
-		assertEquals(10000, cardC.getMiddleTop().getID());
+		assertEquals(10000, cardC.getTopMiddle().getID());
 	}
 
 	@Test
 	public void getRightTopOneTest() {
-		assertEquals(10000, cardC.getRightTopOne().getID());
+		assertEquals(10000, cardC.getTopRight().getID());
 	}
 
 	@Test
 	public void getLeftTopTwoTest() {
-		assertEquals(10000, cardC.getLeftTopTwo().getID());
+		assertEquals(10000, cardC.getLeftTop().getID());
 	}
 
 	@Test
 	public void getRightTopTwoTest() {
-		assertEquals(10000, cardC.getRightTopTwo().getID());
+		assertEquals(10000, cardC.getRightTop().getID());
 	}
 
 	@Test
 	public void getLeftCenterTest() {
-		assertEquals(10000, cardC.getLeftCenter().getID());
+		assertEquals(10000, cardC.getLeftMiddle().getID());
 	}
 
 	@Test
 	public void getMiddleCenterTest() {
-		assertEquals(10000, cardC.getMiddleCenter().getID());
+		assertEquals(10000, cardC.getCenterMiddle().getID());
 	}
 
 	@Test
 	public void getRightCenterTest() {
-		assertEquals(10000, cardC.getRightCenter().getID());
+		assertEquals(10000, cardC.getRightMiddle().getID());
 	}
 
 	@Test
 	public void getLeftBelowTwoTest() {
-		assertEquals(10000, cardC.getLeftBelowTwo().getID());
+		assertEquals(10000, cardC.getLeftBelow().getID());
 	}
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(10000, cardC.getRightBelowTwo().getID());
+		assertEquals(10000, cardC.getRightBelow().getID());
 	}
 
 	@Test
 	public void getLeftBelowOneTest() {
-		assertEquals(10000, cardC.getLeftBelowOne().getID());		
+		assertEquals(10000, cardC.getBelowLeft().getID());		
 	}
 
 	@Test
 	public void getMiddleBelowTest() {
-		assertEquals(10000, cardC.getMiddleBelow().getID());		
+		assertEquals(10000, cardC.getBelowMiddle().getID());		
 	}
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(10000, cardC.getRightBelowOne().getID());		
+		assertEquals(10000, cardC.getBelowRight().getID());		
 	}
 	
 }

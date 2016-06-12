@@ -18,67 +18,67 @@ public class CardVTest {
 
 	@Test
 	public void getLeftTopOneTest() {
-		assertEquals(30000, cardV.getLeftTopOne().getID());
+		assertEquals(30000, cardV.getTopLeft().getID());
 	}
 
 	@Test
 	public void getMiddleTopTest() {
-		assertEquals(30000, cardV.getMiddleTop().getID());
+		assertEquals(30000, cardV.getTopMiddle().getID());
 	}
 
 	@Test
 	public void getRightTopOneTest() {
-		assertEquals(30000, cardV.getRightTopOne().getID());
+		assertEquals(30000, cardV.getTopRight().getID());
 	}
 
 	@Test
 	public void getLeftTopTwoTest() {
-		assertEquals(30000, cardV.getLeftTopTwo().getID());
+		assertEquals(30000, cardV.getLeftTop().getID());
 	}
 
 	@Test
 	public void getRightTopTwoTest() {
-		assertEquals(30000, cardV.getRightTopTwo().getID());
+		assertEquals(30000, cardV.getRightTop().getID());
 	}
 
 	@Test
 	public void getLeftCenterTest() {
-		assertEquals(50000, cardV.getLeftCenter().getID());
+		assertEquals(50000, cardV.getLeftMiddle().getID());
 	}
 
 	@Test
 	public void getMiddleCenterTest() {
-		assertEquals(50000, cardV.getMiddleCenter().getID());
+		assertEquals(50000, cardV.getCenterMiddle().getID());
 	}
 
 	@Test
 	public void getRightCenterTest() {
-		assertEquals(30000, cardV.getRightCenter().getID());
+		assertEquals(30000, cardV.getRightMiddle().getID());
 	}
 
 	@Test
 	public void getLeftBelowTwoTest() {
-		assertEquals(30001, cardV.getLeftBelowTwo().getID());
+		assertEquals(30001, cardV.getLeftBelow().getID());
 	}
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardV.getRightBelowTwo().getID());
+		assertEquals(30000, cardV.getRightBelow().getID());
 	}
 
 	@Test
 	public void getLeftBelowOneTest() {
-		assertEquals(30001, cardV.getLeftBelowOne().getID());		
+		assertEquals(30001, cardV.getBelowLeft().getID());		
 	}
 
 	@Test
 	public void getMiddleBelowTest() {
-		assertEquals(50000, cardV.getMiddleBelow().getID());		
+		assertEquals(50000, cardV.getBelowMiddle().getID());		
 	}
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(30000, cardV.getRightBelowOne().getID());		
+		assertEquals(30000, cardV.getBelowRight().getID());		
 	}
 	
 }

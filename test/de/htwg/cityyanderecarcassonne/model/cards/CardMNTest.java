@@ -18,67 +18,67 @@ public class CardMNTest {
 	
 	@Test
 	public void getLeftTopOneTest() {
-		assertEquals(10000, cardMN.getLeftTopOne().getID());
+		assertEquals(10000, cardMN.getTopLeft().getID());
 	}
 
 	@Test
 	public void getMiddleTopTest() {
-		assertEquals(10000, cardMN.getMiddleTop().getID());
+		assertEquals(10000, cardMN.getTopMiddle().getID());
 	}
 
 	@Test
 	public void getRightTopOneTest() {
-		assertEquals(10000, cardMN.getRightTopOne().getID());
+		assertEquals(10000, cardMN.getTopRight().getID());
 	}
 
 	@Test
 	public void getLeftTopTwoTest() {
-		assertEquals(10000, cardMN.getLeftTopTwo().getID());
+		assertEquals(10000, cardMN.getLeftTop().getID());
 	}
 
 	@Test
 	public void getRightTopTwoTest() {
-		assertEquals(30000, cardMN.getRightTopTwo().getID());
+		assertEquals(30000, cardMN.getRightTop().getID());
 	}
 
 	@Test
 	public void getLeftCenterTest() {
-		assertEquals(10000, cardMN.getLeftCenter().getID());
+		assertEquals(10000, cardMN.getLeftMiddle().getID());
 	}
 
 	@Test
 	public void getMiddleCenterTest() {
-		assertEquals(30000, cardMN.getMiddleCenter().getID());
+		assertEquals(30000, cardMN.getCenterMiddle().getID());
 	}
 
 	@Test
 	public void getRightCenterTest() {
-		assertEquals(30000, cardMN.getRightCenter().getID());
+		assertEquals(30000, cardMN.getRightMiddle().getID());
 	}
 
 	@Test
 	public void getLeftBelowTwoTest() {
-		assertEquals(10000, cardMN.getLeftBelowTwo().getID());
+		assertEquals(10000, cardMN.getLeftBelow().getID());
 	}
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardMN.getRightBelowTwo().getID());
+		assertEquals(30000, cardMN.getRightBelow().getID());
 	}
 
 	@Test
 	public void getLeftBelowOneTest() {
-		assertEquals(30000, cardMN.getLeftBelowOne().getID());		
+		assertEquals(30000, cardMN.getBelowLeft().getID());		
 	}
 
 	@Test
 	public void getMiddleBelowTest() {
-		assertEquals(30000, cardMN.getMiddleBelow().getID());		
+		assertEquals(30000, cardMN.getBelowMiddle().getID());		
 	}
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(30000, cardMN.getRightBelowOne().getID());		
+		assertEquals(30000, cardMN.getBelowRight().getID());		
 	}
 	
 }

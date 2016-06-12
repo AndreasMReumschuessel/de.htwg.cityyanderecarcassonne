@@ -4,31 +4,31 @@ import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 
 public interface ICard {
 	
-	IRegion getLeftTopOne();
+	IRegion getTopLeft();
 	
-	IRegion getMiddleTop();
+	IRegion getTopMiddle();
 	
-	IRegion getRightTopOne();
+	IRegion getTopRight();
 	
-	IRegion getLeftTopTwo();
+	IRegion getLeftTop();
 	
-	IRegion getRightTopTwo();
+	IRegion getRightTop();
 	
-	IRegion getLeftCenter();
+	IRegion getLeftMiddle();
 	
-	IRegion getMiddleCenter();
+	IRegion getCenterMiddle();
 	
-	IRegion getRightCenter();
+	IRegion getRightMiddle();
 	
-	IRegion getLeftBelowTwo();
+	IRegion getLeftBelow();
 	
-	IRegion getRightBelowTwo();
+	IRegion getRightBelow();
 	
-	IRegion getLeftBelowOne();
+	IRegion getBelowLeft();
 	
-	IRegion getMiddleBelow();
+	IRegion getBelowMiddle();
 	
-	IRegion getRightBelowOne();
+	IRegion getBelowRight();
 	
 	Graph<IRegion> getCardGraph();
 }

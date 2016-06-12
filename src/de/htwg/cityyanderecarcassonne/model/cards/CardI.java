@@ -7,23 +7,23 @@ public class CardI extends MasterCard {
 	
 	public CardI() {
 		super();
-		this.leftTopOne = new RegionLawn();
-		this.middleTop = new RegionLawn();
-		this.rightTopOne = new RegionLawn();
+		this.topLeft = new RegionLawn();
+		this.topMiddle = new RegionLawn();
+		this.topRight = new RegionLawn();
 		
-		this.leftTopTwo = new RegionLawn();
-		this.rightTopTwo = new RegionBuilding();
+		this.leftTop = new RegionLawn();
+		this.rightTop = new RegionBuilding();
 		
-		this.leftCenter = new RegionLawn();
-		this.middleCenter = new RegionLawn();
-		this.rightCenter = new RegionBuilding();
+		this.leftMiddle = new RegionLawn();
+		this.centerMiddle = new RegionLawn();
+		this.rightMiddle = new RegionBuilding();
 		
-		this.leftBelowTwo = new RegionLawn();
-		this.rightBelowTwo = new RegionBuilding();
+		this.leftBelow = new RegionLawn();
+		this.rightBelow = new RegionBuilding();
 		
-		this.leftBelowOne = new RegionBuilding();
-		this.middleBelow = new RegionBuilding();
-		this.rightBelowOne = new RegionBuilding();
+		this.belowLeft = new RegionBuilding();
+		this.belowMiddle = new RegionBuilding();
+		this.belowRight = new RegionBuilding();
 		
 		genCardGraph();
 		setUniqueIDs();
@@ -34,22 +34,22 @@ public class CardI extends MasterCard {
 		int buildingID1 = IDManager.getBuildingID();
 		int buildingID2 = IDManager.getBuildingID();
 		
-		leftTopOne.setID(lawnID);
-		middleTop.setID(lawnID);
-		rightTopOne.setID(lawnID);
+		topLeft.setID(lawnID);
+		topMiddle.setID(lawnID);
+		topRight.setID(lawnID);
 		
-		leftTopTwo.setID(lawnID);
-		rightTopTwo.setID(buildingID1);
+		leftTop.setID(lawnID);
+		rightTop.setID(buildingID1);
 		
-		leftCenter.setID(lawnID);
-		middleCenter.setID(lawnID);
-		rightCenter.setID(buildingID1);
+		leftMiddle.setID(lawnID);
+		centerMiddle.setID(lawnID);
+		rightMiddle.setID(buildingID1);
 		
-		leftBelowTwo.setID(lawnID);
-		rightBelowTwo.setID(buildingID1);
+		leftBelow.setID(lawnID);
+		rightBelow.setID(buildingID1);
 		
-		leftBelowOne.setID(buildingID2);
-		middleBelow.setID(buildingID2);
-		rightBelowOne.setID(buildingID2);
+		belowLeft.setID(buildingID2);
+		belowMiddle.setID(buildingID2);
+		belowRight.setID(buildingID2);
 	}
 }

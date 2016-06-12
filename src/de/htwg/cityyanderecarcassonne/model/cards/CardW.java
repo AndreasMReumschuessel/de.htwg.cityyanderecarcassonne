@@ -7,23 +7,23 @@ public class CardW extends MasterCard {
 	
 	public CardW() {
 		super();
-		this.leftTopOne = new RegionLawn();
-		this.middleTop = new RegionLawn();
-		this.rightTopOne = new RegionLawn();
+		this.topLeft = new RegionLawn();
+		this.topMiddle = new RegionLawn();
+		this.topRight = new RegionLawn();
 		
-		this.leftTopTwo = new RegionLawn();
-		this.rightTopTwo = new RegionLawn();
+		this.leftTop = new RegionLawn();
+		this.rightTop = new RegionLawn();
 		
-		this.leftCenter = new RegionStreet();
-		this.middleCenter = new RegionCrossing();
-		this.rightCenter = new RegionStreet();
+		this.leftMiddle = new RegionStreet();
+		this.centerMiddle = new RegionCrossing();
+		this.rightMiddle = new RegionStreet();
 		
-		this.leftBelowTwo = new RegionLawn();
-		this.rightBelowTwo = new RegionLawn();
+		this.leftBelow = new RegionLawn();
+		this.rightBelow = new RegionLawn();
 		
-		this.leftBelowOne = new RegionLawn();
-		this.middleBelow = new RegionStreet();
-		this.rightBelowOne = new RegionLawn();
+		this.belowLeft = new RegionLawn();
+		this.belowMiddle = new RegionStreet();
+		this.belowRight = new RegionLawn();
 		
 		genCardGraph();
 		setUniqueIDs();
@@ -38,22 +38,22 @@ public class CardW extends MasterCard {
 		int streetID3 = IDManager.getStreetID();
 		int crossingID1 = IDManager.getCrossingID();
 		
-		leftTopOne.setID(lawnID1);
-		middleTop.setID(lawnID1);
-		rightTopOne.setID(lawnID1);
+		topLeft.setID(lawnID1);
+		topMiddle.setID(lawnID1);
+		topRight.setID(lawnID1);
 		
-		leftTopTwo.setID(lawnID1);
-		rightTopTwo.setID(lawnID1);
+		leftTop.setID(lawnID1);
+		rightTop.setID(lawnID1);
 		
-		leftCenter.setID(streetID1);
-		middleCenter.setID(crossingID1);
-		rightCenter.setID(streetID2);
+		leftMiddle.setID(streetID1);
+		centerMiddle.setID(crossingID1);
+		rightMiddle.setID(streetID2);
 		
-		leftBelowTwo.setID(lawnID2);
-		rightBelowTwo.setID(lawnID3);
+		leftBelow.setID(lawnID2);
+		rightBelow.setID(lawnID3);
 		
-		leftBelowOne.setID(lawnID2);
-		middleBelow.setID(streetID3);
-		rightBelowOne.setID(lawnID3);
+		belowLeft.setID(lawnID2);
+		belowMiddle.setID(streetID3);
+		belowRight.setID(lawnID3);
 	}	
 }

@@ -18,67 +18,67 @@ public class CardOPTest {
 
 	@Test
 	public void getLeftTopOneTest() {
-		assertEquals(10000, cardOP.getLeftTopOne().getID());
+		assertEquals(10000, cardOP.getTopLeft().getID());
 	}
 
 	@Test
 	public void getMiddleTopTest() {
-		assertEquals(10000, cardOP.getMiddleTop().getID());
+		assertEquals(10000, cardOP.getTopMiddle().getID());
 	}
 
 	@Test
 	public void getRightTopOneTest() {
-		assertEquals(10000, cardOP.getRightTopOne().getID());
+		assertEquals(10000, cardOP.getTopRight().getID());
 	}
 
 	@Test
 	public void getLeftTopTwoTest() {
-		assertEquals(10000, cardOP.getLeftTopTwo().getID());
+		assertEquals(10000, cardOP.getLeftTop().getID());
 	}
 
 	@Test
 	public void getRightTopTwoTest() {
-		assertEquals(30000, cardOP.getRightTopTwo().getID());
+		assertEquals(30000, cardOP.getRightTop().getID());
 	}
 
 	@Test
 	public void getLeftCenterTest() {
-		assertEquals(10000, cardOP.getLeftCenter().getID());
+		assertEquals(10000, cardOP.getLeftMiddle().getID());
 	}
 
 	@Test
 	public void getMiddleCenterTest() {
-		assertEquals(50000, cardOP.getMiddleCenter().getID());
+		assertEquals(50000, cardOP.getCenterMiddle().getID());
 	}
 
 	@Test
 	public void getRightCenterTest() {
-		assertEquals(50000, cardOP.getRightCenter().getID());
+		assertEquals(50000, cardOP.getRightMiddle().getID());
 	}
 
 	@Test
 	public void getLeftBelowTwoTest() {
-		assertEquals(10000, cardOP.getLeftBelowTwo().getID());
+		assertEquals(10000, cardOP.getLeftBelow().getID());
 	}
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardOP.getRightBelowTwo().getID());
+		assertEquals(30000, cardOP.getRightBelow().getID());
 	}
 
 	@Test
 	public void getLeftBelowOneTest() {
-		assertEquals(30000, cardOP.getLeftBelowOne().getID());		
+		assertEquals(30000, cardOP.getBelowLeft().getID());		
 	}
 
 	@Test
 	public void getMiddleBelowTest() {
-		assertEquals(50000, cardOP.getMiddleBelow().getID());		
+		assertEquals(50000, cardOP.getBelowMiddle().getID());		
 	}
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(30000, cardOP.getRightBelowOne().getID());		
+		assertEquals(30000, cardOP.getBelowRight().getID());		
 	}
 	
 }

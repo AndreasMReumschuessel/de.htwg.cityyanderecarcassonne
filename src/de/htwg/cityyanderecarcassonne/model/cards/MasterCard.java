@@ -7,23 +7,23 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 
 public abstract class MasterCard implements ICard {
 
-	protected IRegion leftTopOne;
-	protected IRegion middleTop;
-	protected IRegion rightTopOne;
+	protected IRegion topLeft;
+	protected IRegion topMiddle;
+	protected IRegion topRight;
 	
-	protected IRegion leftTopTwo;
-	protected IRegion rightTopTwo;
+	protected IRegion leftTop;
+	protected IRegion rightTop;
 	
-	protected IRegion leftCenter;
-	protected IRegion middleCenter;
-	protected IRegion rightCenter;
+	protected IRegion leftMiddle;
+	protected IRegion centerMiddle;
+	protected IRegion rightMiddle;
 	
-	protected IRegion leftBelowTwo;
-	protected IRegion rightBelowTwo;
+	protected IRegion leftBelow;
+	protected IRegion rightBelow;
 	
-	protected IRegion leftBelowOne;
-	protected IRegion middleBelow;
-	protected IRegion rightBelowOne;
+	protected IRegion belowLeft;
+	protected IRegion belowMiddle;
+	protected IRegion belowRight;
 	
 	private Graph<IRegion> cardGraph;
 	
@@ -34,109 +34,109 @@ public abstract class MasterCard implements ICard {
 	protected void genCardGraph() {
 		cardGraph = new AdjacencyListUndirectedGraph<>();
 		
-		cardGraph.addVertex(leftTopOne);
-		cardGraph.addVertex(middleTop);
-		cardGraph.addVertex(rightTopOne);
-		cardGraph.addVertex(leftTopTwo);
-		cardGraph.addVertex(rightTopTwo);
-		cardGraph.addVertex(leftCenter);
-		cardGraph.addVertex(middleCenter);
-		cardGraph.addVertex(rightCenter);
-		cardGraph.addVertex(leftBelowTwo);
-		cardGraph.addVertex(rightBelowTwo);
-		cardGraph.addVertex(leftBelowOne);
-		cardGraph.addVertex(middleBelow);
-		cardGraph.addVertex(rightBelowOne);
+		cardGraph.addVertex(topLeft);
+		cardGraph.addVertex(topMiddle);
+		cardGraph.addVertex(topRight);
+		cardGraph.addVertex(leftTop);
+		cardGraph.addVertex(rightTop);
+		cardGraph.addVertex(leftMiddle);
+		cardGraph.addVertex(centerMiddle);
+		cardGraph.addVertex(rightMiddle);
+		cardGraph.addVertex(leftBelow);
+		cardGraph.addVertex(rightBelow);
+		cardGraph.addVertex(belowLeft);
+		cardGraph.addVertex(belowMiddle);
+		cardGraph.addVertex(belowRight);
 		
-		cardGraph.addEdge(leftTopOne, middleTop);
-		cardGraph.addEdge(middleTop, rightTopOne);
-		cardGraph.addEdge(rightTopOne, rightTopTwo);
-		cardGraph.addEdge(rightTopTwo, rightCenter);
-		cardGraph.addEdge(rightCenter, rightBelowTwo);
-		cardGraph.addEdge(rightBelowTwo, rightBelowOne);
-		cardGraph.addEdge(rightBelowOne, middleBelow);
-		cardGraph.addEdge(middleBelow, leftBelowOne);
-		cardGraph.addEdge(leftBelowOne, leftBelowTwo);
-		cardGraph.addEdge(leftBelowTwo, leftCenter);
-		cardGraph.addEdge(leftCenter, leftTopTwo);
-		cardGraph.addEdge(leftTopTwo, leftTopOne);
+		cardGraph.addEdge(topLeft, topMiddle);
+		cardGraph.addEdge(topMiddle, topRight);
+		cardGraph.addEdge(topRight, rightTop);
+		cardGraph.addEdge(rightTop, rightMiddle);
+		cardGraph.addEdge(rightMiddle, rightBelow);
+		cardGraph.addEdge(rightBelow, belowRight);
+		cardGraph.addEdge(belowRight, belowMiddle);
+		cardGraph.addEdge(belowMiddle, belowLeft);
+		cardGraph.addEdge(belowLeft, leftBelow);
+		cardGraph.addEdge(leftBelow, leftMiddle);
+		cardGraph.addEdge(leftMiddle, leftTop);
+		cardGraph.addEdge(leftTop, topLeft);
 		
-		cardGraph.addEdge(leftTopOne, leftBelowOne);
-		cardGraph.addEdge(rightTopOne, rightBelowOne);
-		cardGraph.addEdge(leftTopTwo, rightTopTwo);
-		cardGraph.addEdge(leftBelowTwo, rightBelowTwo);
+		cardGraph.addEdge(topLeft, belowLeft);
+		cardGraph.addEdge(topRight, belowRight);
+		cardGraph.addEdge(leftTop, rightTop);
+		cardGraph.addEdge(leftBelow, rightBelow);
 		
-		cardGraph.addEdge(middleTop, middleCenter);
-		cardGraph.addEdge(rightCenter, middleCenter);
-		cardGraph.addEdge(middleBelow, middleCenter);
-		cardGraph.addEdge(leftCenter, middleCenter);
+		cardGraph.addEdge(topMiddle, centerMiddle);
+		cardGraph.addEdge(rightMiddle, centerMiddle);
+		cardGraph.addEdge(belowMiddle, centerMiddle);
+		cardGraph.addEdge(leftMiddle, centerMiddle);
 		
-		cardGraph.addEdge(rightTopTwo, leftBelowOne); /* Necessary for CardOP */
+		cardGraph.addEdge(rightTop, belowLeft); /* Necessary for CardOP */
 	}
 
 	@Override
-	public IRegion getLeftTopOne() {
-		return leftTopOne;
+	public IRegion getTopLeft() {
+		return topLeft;
 	}
 
 	@Override
-	public IRegion getMiddleTop() {
-		return middleTop;
+	public IRegion getTopMiddle() {
+		return topMiddle;
 	}
 
 	@Override
-	public IRegion getRightTopOne() {
-		return rightTopOne;
+	public IRegion getTopRight() {
+		return topRight;
 	}
 
 	@Override
-	public IRegion getLeftTopTwo() {
-		return leftTopTwo;
+	public IRegion getLeftTop() {
+		return leftTop;
 	}
 
 	@Override
-	public IRegion getRightTopTwo() {
-		return rightTopTwo;
+	public IRegion getRightTop() {
+		return rightTop;
 	}
 
 	@Override
-	public IRegion getLeftCenter() {
-		return leftCenter;
+	public IRegion getLeftMiddle() {
+		return leftMiddle;
 	}
 
 	@Override
-	public IRegion getMiddleCenter() {
-		return middleCenter;
+	public IRegion getCenterMiddle() {
+		return centerMiddle;
 	}
 
 	@Override
-	public IRegion getRightCenter() {
-		return rightCenter;
+	public IRegion getRightMiddle() {
+		return rightMiddle;
 	}
 
 	@Override
-	public IRegion getLeftBelowTwo() {
-		return leftBelowTwo;
+	public IRegion getLeftBelow() {
+		return leftBelow;
 	}
 
 	@Override
-	public IRegion getRightBelowTwo() {
-		return rightBelowTwo;
+	public IRegion getRightBelow() {
+		return rightBelow;
 	}
 
 	@Override
-	public IRegion getLeftBelowOne() {
-		return leftBelowOne;
+	public IRegion getBelowLeft() {
+		return belowLeft;
 	}
 
 	@Override
-	public IRegion getMiddleBelow() {
-		return middleBelow;
+	public IRegion getBelowMiddle() {
+		return belowMiddle;
 	}
 
 	@Override
-	public IRegion getRightBelowOne() {
-		return rightBelowOne;
+	public IRegion getBelowRight() {
+		return belowRight;
 	}
 	
 	@Override

@@ -101,24 +101,24 @@ public class Townsquare implements ITownsquare {
 		ICard neighborRight = getCard(x + 1, y);
 		
 		boolean nL = neighborLeft == null ||
-					 c.getLeftTopTwo().getClass().equals(neighborLeft.getRightTopTwo().getClass()) &&
-					 c.getLeftCenter().getClass().equals(neighborLeft.getRightCenter().getClass()) &&
-					 c.getLeftBelowTwo().getClass().equals(neighborLeft.getRightBelowTwo().getClass());
+					 c.getLeftTop().getClass().equals(neighborLeft.getRightTop().getClass()) &&
+					 c.getLeftMiddle().getClass().equals(neighborLeft.getRightMiddle().getClass()) &&
+					 c.getLeftBelow().getClass().equals(neighborLeft.getRightBelow().getClass());
 		
 		boolean nB = neighborBelow == null ||
-				  	 c.getLeftBelowOne().getClass().equals(neighborBelow.getLeftTopOne().getClass()) &&
-					 c.getMiddleBelow().getClass().equals(neighborBelow.getMiddleTop().getClass()) &&
-					 c.getRightBelowOne().getClass().equals(neighborBelow.getRightTopOne().getClass());
+				  	 c.getBelowLeft().getClass().equals(neighborBelow.getTopLeft().getClass()) &&
+					 c.getBelowMiddle().getClass().equals(neighborBelow.getTopMiddle().getClass()) &&
+					 c.getBelowRight().getClass().equals(neighborBelow.getTopRight().getClass());
 		
 		boolean nT = neighborTop == null ||
-					 c.getLeftTopOne().getClass().equals(neighborTop.getLeftBelowOne().getClass()) &&
-					 c.getMiddleTop().getClass().equals(neighborTop.getMiddleBelow().getClass()) &&
-					 c.getRightTopOne().getClass().equals(neighborTop.getRightBelowOne().getClass());
+					 c.getTopLeft().getClass().equals(neighborTop.getBelowLeft().getClass()) &&
+					 c.getTopMiddle().getClass().equals(neighborTop.getBelowMiddle().getClass()) &&
+					 c.getTopRight().getClass().equals(neighborTop.getBelowRight().getClass());
 	
 		boolean nR = neighborRight == null ||
-					 c.getRightTopTwo().getClass().equals(neighborRight.getLeftTopTwo().getClass()) &&
-					 c.getRightCenter().getClass().equals(neighborRight.getLeftCenter().getClass()) &&
-					 c.getRightBelowTwo().getClass().equals(neighborRight.getLeftBelowTwo().getClass());
+					 c.getRightTop().getClass().equals(neighborRight.getLeftTop().getClass()) &&
+					 c.getRightMiddle().getClass().equals(neighborRight.getLeftMiddle().getClass()) &&
+					 c.getRightBelow().getClass().equals(neighborRight.getLeftBelow().getClass());
 		
 		return nL && nB && nT && nR;
 	}

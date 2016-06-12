@@ -52,47 +52,47 @@ public class TownsquareGraph {
 	}
 
 	private void addLeft(ICard center, ICard left) {
-		mergeIDs(center.getLeftTopTwo(), left.getRightTopTwo());
-		skynet.addEdge(center.getLeftTopTwo(), left.getRightTopTwo());
+		mergeIDs(center.getLeftTop(), left.getRightTop());
+		skynet.addEdge(center.getLeftTop(), left.getRightTop());
 		
-		mergeIDs(center.getLeftCenter(), left.getRightCenter());
-		skynet.addEdge(center.getLeftCenter(), left.getRightCenter());
+		mergeIDs(center.getLeftMiddle(), left.getRightMiddle());
+		skynet.addEdge(center.getLeftMiddle(), left.getRightMiddle());
 		
-		mergeIDs(center.getLeftBelowTwo(), left.getRightBelowTwo());
-		skynet.addEdge(center.getLeftBelowTwo(), left.getRightBelowTwo());
+		mergeIDs(center.getLeftBelow(), left.getRightBelow());
+		skynet.addEdge(center.getLeftBelow(), left.getRightBelow());
 	}
 
 	private void addBelow(ICard center, ICard below) {
-		mergeIDs(center.getLeftBelowOne(), below.getLeftTopOne());
-		skynet.addEdge(center.getLeftBelowOne(), below.getLeftTopOne());
+		mergeIDs(center.getBelowLeft(), below.getTopLeft());
+		skynet.addEdge(center.getBelowLeft(), below.getTopLeft());
 		
-		mergeIDs(center.getMiddleBelow(), below.getMiddleTop());
-		skynet.addEdge(center.getMiddleBelow(), below.getMiddleTop());
+		mergeIDs(center.getBelowMiddle(), below.getTopMiddle());
+		skynet.addEdge(center.getBelowMiddle(), below.getTopMiddle());
 		
-		mergeIDs(center.getRightBelowOne(), below.getRightTopOne());
-		skynet.addEdge(center.getRightBelowOne(), below.getRightTopOne());
+		mergeIDs(center.getBelowRight(), below.getTopRight());
+		skynet.addEdge(center.getBelowRight(), below.getTopRight());
 	}
 
 	private void addTop(ICard center, ICard top) {
-		mergeIDs(center.getLeftTopOne(), top.getLeftBelowOne());
-		skynet.addEdge(center.getLeftTopOne(), top.getLeftBelowOne());
+		mergeIDs(center.getTopLeft(), top.getBelowLeft());
+		skynet.addEdge(center.getTopLeft(), top.getBelowLeft());
 		
-		mergeIDs(center.getMiddleTop(), top.getMiddleBelow());
-		skynet.addEdge(center.getMiddleTop(), top.getMiddleBelow());
+		mergeIDs(center.getTopMiddle(), top.getBelowMiddle());
+		skynet.addEdge(center.getTopMiddle(), top.getBelowMiddle());
 		
-		mergeIDs(center.getRightTopOne(), top.getRightBelowOne());
-		skynet.addEdge(center.getRightTopOne(), top.getRightBelowOne());
+		mergeIDs(center.getTopRight(), top.getBelowRight());
+		skynet.addEdge(center.getTopRight(), top.getBelowRight());
 	}
 	
 	private void addRight(ICard center, ICard right) {
-		mergeIDs(center.getRightTopTwo(), right.getLeftTopTwo());
-		skynet.addEdge(center.getRightTopTwo(), right.getLeftTopTwo());
+		mergeIDs(center.getRightTop(), right.getLeftTop());
+		skynet.addEdge(center.getRightTop(), right.getLeftTop());
 		
-		mergeIDs(center.getRightCenter(), right.getLeftCenter());
-		skynet.addEdge(center.getRightCenter(), right.getLeftCenter());
+		mergeIDs(center.getRightMiddle(), right.getLeftMiddle());
+		skynet.addEdge(center.getRightMiddle(), right.getLeftMiddle());
 		
-		mergeIDs(center.getRightBelowTwo(), right.getLeftBelowTwo());
-		skynet.addEdge(center.getRightBelowTwo(), right.getLeftBelowTwo());
+		mergeIDs(center.getRightBelow(), right.getLeftBelow());
+		skynet.addEdge(center.getRightBelow(), right.getLeftBelow());
 	}
 
 	private void mergeIDs(IRegion r1, IRegion r2) {
