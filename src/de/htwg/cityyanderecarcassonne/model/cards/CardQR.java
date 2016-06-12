@@ -3,7 +3,7 @@ package de.htwg.cityyanderecarcassonne.model.cards;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
-public class CardQR extends Abstract2CardQR {
+public class CardQR extends AbstractCardQRST {
 	
 	public CardQR() {
 		super();		

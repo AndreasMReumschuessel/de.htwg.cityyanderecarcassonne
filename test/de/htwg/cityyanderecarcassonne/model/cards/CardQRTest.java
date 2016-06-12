@@ -8,7 +8,7 @@ import de.htwg.cityyanderecarcassonne.model.IDManager;;
 
 public class CardQRTest {
 	
-	private static AbstractCardQR cardQR;
+	private static AbstractCardCQRST cardQR;
 
 	@BeforeClass
 	public static void setUpBeforClass() throws Exception	{
