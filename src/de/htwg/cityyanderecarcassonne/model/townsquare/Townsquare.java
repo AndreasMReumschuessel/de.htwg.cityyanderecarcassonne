@@ -67,7 +67,9 @@ public class Townsquare implements ITownsquare {
 				ICard nT = getCard(cx, cy - 1);
 				ICard nR = getCard(cx + 1, cy);
 				
-				if ((nL != null || nB != null || nT != null || nR != null) && setPossible(c, cx, cy)) {
+				boolean hasNeigbhor = nL != null || nB != null || nT != null || nR != null;
+				
+				if (hasNeigbhor && setPossible(c, cx, cy)) {
 					//TODO: Check rotated possibilities of c
 					Position possibility = new Position(cx, cy);
 						

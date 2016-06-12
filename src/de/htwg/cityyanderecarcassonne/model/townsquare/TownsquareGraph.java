@@ -18,7 +18,6 @@ public final class TownsquareGraph {
 	
 	private TownsquareGraph() {
 		throw new UnsupportedOperationException();
-		//TODO: Change it to a static class?
 	}
 	
 	public static Graph<IRegion> getFullGraph() {
