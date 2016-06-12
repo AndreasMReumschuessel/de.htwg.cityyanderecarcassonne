@@ -130,9 +130,8 @@ public class AdjacencyListUndirectedGraphTest {
 		assertEquals(1, graph.getDegree(a));
 		
 		exception.expect(IllegalArgumentException.class);
-		exception.expectMessage("Knoten nicht Vorhanden");
-		
-		//assertEquals(exception, graph.getDegree(c));
+		exception.expectMessage("Knoten nicht Vorhanden");	
+		assertEquals(exception, graph.getDegree(c));
 	}
 
 	@Test
