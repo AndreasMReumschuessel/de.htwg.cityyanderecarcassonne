@@ -2,8 +2,6 @@ package de.htwg.cityyanderecarcassonne.model;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 

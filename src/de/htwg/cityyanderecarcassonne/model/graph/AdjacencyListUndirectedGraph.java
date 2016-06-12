@@ -2,7 +2,6 @@ package de.htwg.cityyanderecarcassonne.model.graph;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
@@ -107,7 +106,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
 	@Override
 	public List<V> getAdjacentVertexList(V v) {
-		List<V> adjacentVertexList = new LinkedList<>();
+		//List<V> adjacentVertexList = new LinkedList<>();
 		
 		if(!this.containsVertex(v))	{
 			throw new IllegalArgumentException("Knoten ist nicht vorhanden.");
