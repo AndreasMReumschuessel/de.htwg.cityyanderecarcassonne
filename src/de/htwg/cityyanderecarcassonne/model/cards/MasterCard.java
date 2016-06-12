@@ -143,4 +143,66 @@ public abstract class MasterCard implements ICard {
 	public Graph<IRegion> getCardGraph() {
 		return cardGraph;
 	}
+	
+	@Override
+	public void rotateLeft() {
+		rotate("left");
+	}
+	
+	@Override
+	public void rotateRight() {
+		rotate("right");
+	}
+	
+	private void rotate(String direction) {
+		IRegion lT = getLeftTop();
+		IRegion lM = getLeftMiddle();
+		IRegion lB = getLeftBelow();
+		
+		IRegion bL = getBelowLeft();
+		IRegion bM = getBelowMiddle();
+		IRegion bR = getBelowRight();
+		
+		IRegion tL = getTopLeft();
+		IRegion tM = getTopMiddle();
+		IRegion tR = getTopRight();
+		
+		IRegion rT = getRightTop();
+		IRegion rM = getRightMiddle();
+		IRegion rB = getRightBelow();
+		
+		if (direction.equals("left")) {
+			leftTop = tR;
+			leftMiddle = tM;
+			leftBelow = tL;
+			
+			belowLeft = lT;
+			belowMiddle = lM;
+			belowRight = lB;
+			
+			topLeft = rT;
+			topMiddle = rM;
+			topRight = rB;
+			
+			rightTop = bR;
+			rightMiddle = bM;
+			rightBelow = bL;
+		} else {
+			leftTop = bL;
+			leftMiddle = bM;
+			leftBelow = bR;
+			
+			belowLeft = rB;
+			belowMiddle = rM;
+			belowRight = rT;
+			
+			topLeft = lB;
+			topMiddle = lM;
+			topRight = lT;
+			
+			rightTop = tL;
+			rightMiddle = tM;
+			rightBelow = tR;
+		}
+	}
 }

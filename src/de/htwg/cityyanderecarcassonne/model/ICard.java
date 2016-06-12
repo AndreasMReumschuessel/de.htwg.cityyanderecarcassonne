@@ -31,4 +31,8 @@ public interface ICard {
 	IRegion getBelowRight();
 	
 	Graph<IRegion> getCardGraph();
+	
+	void rotateLeft();
+	
+	void rotateRight();
 }

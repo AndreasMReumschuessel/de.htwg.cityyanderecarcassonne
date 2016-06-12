@@ -6,10 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.IDManager;
-import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
-import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
 
 public class CardATest {
 	
@@ -85,5 +81,4 @@ public class CardATest {
 	public void getRightBelowOneTest() {
 		assertEquals(30000, cardA.getBelowRight().getID());		
 	}
-	
 }
