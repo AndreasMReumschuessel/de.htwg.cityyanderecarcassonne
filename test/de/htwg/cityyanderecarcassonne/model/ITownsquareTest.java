@@ -67,6 +67,6 @@ public class ITownsquareTest {
 		assertFalse(map.setCard(new CardI(), 49, 50));
 		assertFalse(map.setCard(new CardD(), 50, 50));
 		
-		assertEquals("[(51|48), (52|49), (52|50), (48|51), (51|52)]", map.getPossibilities(new CardH()).toString());		
+		assertEquals("[(49|48), (51|48), (52|49), (47|50), (52|50), (48|51), (52|51), (51|52)]", map.getPossibilities(new CardH()).toString());		
 	}
 }
