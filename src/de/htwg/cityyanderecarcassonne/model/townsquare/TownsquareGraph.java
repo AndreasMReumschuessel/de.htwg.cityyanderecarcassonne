@@ -36,33 +36,86 @@ public class TownsquareGraph {
 		for (Edge<IRegion> e : cardGraph.getEdgeList())
 			skynet.addEdge(e.getSource(), e.getTarget());
 		
-		if (left != null) {
-			skynet.addEdge(center.getLeftTopTwo(), left.getRightTopTwo());
-			skynet.addEdge(center.getLeftCenter(), left.getRightCenter());
-			skynet.addEdge(center.getLeftBelowTwo(), left.getRightBelowTwo());
-		}
+		if (left != null)
+			addLeft(center, left);
 		
-		if (below != null) {
-			skynet.addEdge(center.getLeftBelowOne(), below.getLeftTopOne());
-			skynet.addEdge(center.getMiddleBelow(), below.getMiddleTop());
-			skynet.addEdge(center.getRightBelowOne(), below.getRightTopOne());
-		}
+		if (below != null)
+			addBelow(center, below);
 		
-		if (top != null) {
-			skynet.addEdge(center.getLeftTopOne(), top.getLeftBelowOne());
-			skynet.addEdge(center.getMiddleTop(), top.getMiddleBelow());
-			skynet.addEdge(center.getRightTopOne(), top.getRightBelowOne());
-			//TODO: Merge IDs
-			System.out.println(breadthFirstSearch(top.getLeftBelowOne()));
-		}
+		if (top != null)
+			addTop(center, top);
 		
-		if (right != null) {
-			skynet.addEdge(center.getRightTopTwo(), right.getLeftTopTwo());
-			skynet.addEdge(center.getRightCenter(), right.getLeftCenter());
-			skynet.addEdge(center.getRightBelowTwo(), right.getLeftBelowTwo());
-		}
+		if (right != null)
+			addRight(center, right);
 		
 		return false;
+	}
+
+	private void addLeft(ICard center, ICard left) {
+		mergeIDs(center.getLeftTopTwo(), left.getRightTopTwo());
+		skynet.addEdge(center.getLeftTopTwo(), left.getRightTopTwo());
+		
+		mergeIDs(center.getLeftCenter(), left.getRightCenter());
+		skynet.addEdge(center.getLeftCenter(), left.getRightCenter());
+		
+		mergeIDs(center.getLeftBelowTwo(), left.getRightBelowTwo());
+		skynet.addEdge(center.getLeftBelowTwo(), left.getRightBelowTwo());
+	}
+
+	private void addBelow(ICard center, ICard below) {
+		mergeIDs(center.getLeftBelowOne(), below.getLeftTopOne());
+		skynet.addEdge(center.getLeftBelowOne(), below.getLeftTopOne());
+		
+		mergeIDs(center.getMiddleBelow(), below.getMiddleTop());
+		skynet.addEdge(center.getMiddleBelow(), below.getMiddleTop());
+		
+		mergeIDs(center.getRightBelowOne(), below.getRightTopOne());
+		skynet.addEdge(center.getRightBelowOne(), below.getRightTopOne());
+	}
+
+	private void addTop(ICard center, ICard top) {
+		mergeIDs(center.getLeftTopOne(), top.getLeftBelowOne());
+		skynet.addEdge(center.getLeftTopOne(), top.getLeftBelowOne());
+		
+		mergeIDs(center.getMiddleTop(), top.getMiddleBelow());
+		skynet.addEdge(center.getMiddleTop(), top.getMiddleBelow());
+		
+		mergeIDs(center.getRightTopOne(), top.getRightBelowOne());
+		skynet.addEdge(center.getRightTopOne(), top.getRightBelowOne());
+	}
+	
+	private void addRight(ICard center, ICard right) {
+		mergeIDs(center.getRightTopTwo(), right.getLeftTopTwo());
+		skynet.addEdge(center.getRightTopTwo(), right.getLeftTopTwo());
+		
+		mergeIDs(center.getRightCenter(), right.getLeftCenter());
+		skynet.addEdge(center.getRightCenter(), right.getLeftCenter());
+		
+		mergeIDs(center.getRightBelowTwo(), right.getLeftBelowTwo());
+		skynet.addEdge(center.getRightBelowTwo(), right.getLeftBelowTwo());
+	}
+
+	private void mergeIDs(IRegion r1, IRegion r2) {
+		if (r1.getID() == r2.getID())
+			return;
+		
+		List<IRegion> tmp = new LinkedList<>();
+		int maxID = 0;
+		
+		tmp.addAll(breadthFirstSearch(r1));
+		for (IRegion r : breadthFirstSearch(r2))
+			if (!tmp.contains(r))
+				tmp.add(r);
+		
+		for (IRegion r : tmp) {
+			maxID = Math.max(maxID, r.getID());
+		}
+		
+		for (IRegion r : tmp) {
+			r.setID(maxID);
+		}
+		
+		System.out.println("Size: " + tmp.size() + " Content: " + tmp);
 	}
 	
 	private List<IRegion> breadthFirstSearch(IRegion s) {
@@ -72,13 +125,16 @@ public class TownsquareGraph {
 		for (IRegion v : skynet.getVertexList())
 			visited.put(v, false);
 		
-		breadthVisit(s, s.getClass(), visited, results);
+		breadthVisit(s, visited, results);
 		
 		return results;
 	}
 
-	private void breadthVisit(IRegion s, Class<?> type, Map<IRegion, Boolean> visited, List<IRegion> results) {
+	private void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, List<IRegion> results) {
 		Queue<IRegion> q = new LinkedList<>();
+		Class<?> type = s.getClass();
+		int id = s.getID();
+		
 		q.add(s);
 		
 		while (!q.isEmpty()) {
@@ -92,7 +148,7 @@ public class TownsquareGraph {
 			results.add(s);
 			
 			for (IRegion w : skynet.getAdjacentVertexList(s)) {
-				if (w.getClass().equals(type) && !visited.get(w))
+				if (w.getClass().equals(type) && (w.getID() == id) && !visited.get(w))
 					q.add(w);
 			}
 		}
