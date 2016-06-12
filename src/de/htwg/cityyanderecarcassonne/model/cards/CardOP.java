@@ -26,6 +26,7 @@ public class CardOP extends MasterCard {
 		this.rightBelowOne = new RegionLawn();
 		
 		genCardGraph();
+		//TODO: Edge from rightTopTwo to leftBelowOne
 		setUniqueIDs();
 	}
 	
