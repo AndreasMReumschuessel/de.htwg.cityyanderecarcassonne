@@ -9,6 +9,7 @@ public class CardST extends Abstract2CardQR {
 		super();		
 		this.belowMiddle = new RegionStreet();
 		
+		genCardGraph();
 		setUniqueIDs();
 	}
 	

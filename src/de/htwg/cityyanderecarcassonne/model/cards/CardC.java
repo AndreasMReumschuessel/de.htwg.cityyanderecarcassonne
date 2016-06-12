@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.model.cards;
 
-import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.regions.*;
 
 public class CardC extends AbstractCardQR {
@@ -16,7 +15,7 @@ public class CardC extends AbstractCardQR {
 	}
 	
 	private void setUniqueIDs() {
-		int buildingID = IDManager.getBuildingID();
+		int buildingID = rightBelow.getID();
 		
 		belowLeft.setID(buildingID);
 		belowMiddle.setID(buildingID);

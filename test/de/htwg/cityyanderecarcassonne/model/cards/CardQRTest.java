@@ -63,7 +63,7 @@ public class CardQRTest {
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardQR.getRightBelow().getID());
+		assertEquals(10000, cardQR.getRightBelow().getID());
 	}
 
 	@Test

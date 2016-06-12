@@ -63,7 +63,7 @@ public class CardSTTest {
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardST.getRightBelow().getID());
+		assertEquals(10000, cardST.getRightBelow().getID());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class CardSTTest {
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(30000, cardST.getBelowRight().getID());		
+		assertEquals(30001, cardST.getBelowRight().getID());		
 	}
 	
 }

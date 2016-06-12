@@ -25,7 +25,6 @@ public abstract class AbstractCardQR extends MasterCard {
 	}
 	
 	private void setUniqueIDs() {
-		int lawnID1 = IDManager.getLawnID();
 		int buildingID1 = IDManager.getBuildingID();
 		
 		topLeft.setID(buildingID1);
@@ -40,6 +39,6 @@ public abstract class AbstractCardQR extends MasterCard {
 		rightMiddle.setID(buildingID1);
 		
 		leftBelow.setID(buildingID1);
-		rightBelow.setID(lawnID1);
+		rightBelow.setID(buildingID1);
 	}	
 }

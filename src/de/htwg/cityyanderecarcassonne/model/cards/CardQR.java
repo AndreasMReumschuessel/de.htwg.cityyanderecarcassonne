@@ -9,6 +9,7 @@ public class CardQR extends Abstract2CardQR {
 		super();		
 		this.belowMiddle = new RegionLawn();
 		
+		genCardGraph();
 		setUniqueIDs();
 	}
 	
