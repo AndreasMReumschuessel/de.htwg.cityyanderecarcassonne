@@ -63,7 +63,7 @@ public class CardOPTest {
 
 	@Test
 	public void getRightBelowTwoTest() {
-		assertEquals(30000, cardOP.getRightBelow().getID());
+		assertEquals(30001, cardOP.getRightBelow().getID());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class CardOPTest {
 
 	@Test
 	public void getRightBelowOneTest() {
-		assertEquals(30000, cardOP.getBelowRight().getID());		
+		assertEquals(30001, cardOP.getBelowRight().getID());		
 	}
 	
 }

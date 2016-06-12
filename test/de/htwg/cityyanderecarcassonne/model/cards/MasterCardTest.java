@@ -18,7 +18,7 @@ public class MasterCardTest {
 
 	@Test
 	public void testGetCardGraph() {
-		assertEquals(20, card.getCardGraph().getNumberOfEdges());
+		assertEquals(21, card.getCardGraph().getNumberOfEdges());
 		
 		assertEquals(13, card.getCardGraph().getNumberOfVertexes());
 	}

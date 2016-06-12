@@ -56,6 +56,7 @@ public final class IDManager {
 	}
 	
 	public static void resetIDCount()	{
+		idpool.clear();
 		buildingID  = 10000;
 		crossingID = 20000;
 		lawnID = 30000;

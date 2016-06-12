@@ -63,6 +63,9 @@ public class IDManagerTest {
 
 	@Test
 	public void testIdUsed() {
+		IDManager.getBuildingID();
+		IDManager.getLawnID();
+		IDManager.getLawnID();
 		assertTrue(IDManager.idUsed(10000));
 		assertTrue(IDManager.idUsed(30001));
 	}
