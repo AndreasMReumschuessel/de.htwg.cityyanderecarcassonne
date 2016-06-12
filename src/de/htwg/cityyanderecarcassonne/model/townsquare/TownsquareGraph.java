@@ -3,8 +3,6 @@ package de.htwg.cityyanderecarcassonne.model.townsquare;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
-
 import java.util.Map;
 import java.util.Queue;
 
@@ -14,20 +12,20 @@ import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Edge;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 
-public class TownsquareGraph {
+public final class TownsquareGraph {
 	
-	private Graph<IRegion> skynet;
+	private static Graph<IRegion> skynet = new AdjacencyListUndirectedGraph<>();
 	
-	public TownsquareGraph() {
-		this.skynet = new AdjacencyListUndirectedGraph<>();
+	private TownsquareGraph() {
+		throw new UnsupportedOperationException();
 		//TODO: Change it to a static class?
 	}
 	
-	public Graph<IRegion> getFullGraph() {
-		return this.skynet;
+	public static Graph<IRegion> getFullGraph() {
+		return skynet;
 	}
 	
-	public boolean addCard(ICard center, ICard left, ICard below, ICard top, ICard right) {
+	public static boolean addCard(ICard center, ICard left, ICard below, ICard top, ICard right) {
 		Graph<IRegion> cardGraph = center.getCardGraph();
 		
 		for (IRegion v : cardGraph.getVertexList())
@@ -51,7 +49,7 @@ public class TownsquareGraph {
 		return false;
 	}
 
-	private void addLeft(ICard center, ICard left) {
+	private static void addLeft(ICard center, ICard left) {
 		mergeIDs(center.getLeftTop(), left.getRightTop());
 		skynet.addEdge(center.getLeftTop(), left.getRightTop());
 		
@@ -62,7 +60,7 @@ public class TownsquareGraph {
 		skynet.addEdge(center.getLeftBelow(), left.getRightBelow());
 	}
 
-	private void addBelow(ICard center, ICard below) {
+	private static void addBelow(ICard center, ICard below) {
 		mergeIDs(center.getBelowLeft(), below.getTopLeft());
 		skynet.addEdge(center.getBelowLeft(), below.getTopLeft());
 		
@@ -73,7 +71,7 @@ public class TownsquareGraph {
 		skynet.addEdge(center.getBelowRight(), below.getTopRight());
 	}
 
-	private void addTop(ICard center, ICard top) {
+	private static void addTop(ICard center, ICard top) {
 		mergeIDs(center.getTopLeft(), top.getBelowLeft());
 		skynet.addEdge(center.getTopLeft(), top.getBelowLeft());
 		
@@ -84,7 +82,7 @@ public class TownsquareGraph {
 		skynet.addEdge(center.getTopRight(), top.getBelowRight());
 	}
 	
-	private void addRight(ICard center, ICard right) {
+	private static void addRight(ICard center, ICard right) {
 		mergeIDs(center.getRightTop(), right.getLeftTop());
 		skynet.addEdge(center.getRightTop(), right.getLeftTop());
 		
@@ -95,7 +93,7 @@ public class TownsquareGraph {
 		skynet.addEdge(center.getRightBelow(), right.getLeftBelow());
 	}
 
-	private void mergeIDs(IRegion r1, IRegion r2) {
+	private static void mergeIDs(IRegion r1, IRegion r2) {
 		if (r1.getID() == r2.getID())
 			return;
 		
@@ -115,10 +113,10 @@ public class TownsquareGraph {
 			r.setID(maxID);
 		}
 		
-		/* System.out.println("Size: " + tmp.size() + " Content: " + tmp); */
+		System.out.println("Size: " + tmp.size() + " Content: " + tmp);
 	}
 	
-	private List<IRegion> breadthFirstSearch(IRegion s) {
+	private static List<IRegion> breadthFirstSearch(IRegion s) {
 		Map<IRegion, Boolean> visited = new HashMap<>();
 		List<IRegion> results = new LinkedList<>();
 		
@@ -130,24 +128,25 @@ public class TownsquareGraph {
 		return results;
 	}
 
-	private void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, List<IRegion> results) {
+	private static void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, List<IRegion> results) {
 		Queue<IRegion> q = new LinkedList<>();
 		Class<?> type = s.getClass();
 		int id = s.getID();
+		IRegion n = s;
 		
-		q.add(s);
+		q.add(n);
 		
 		while (!q.isEmpty()) {
-			s = q.remove();
+			n = q.remove();
 			
-			if (visited.get(s))
+			if (visited.get(n))
 				continue;
 			
-			visited.replace(s, true);
+			visited.replace(n, true);
 			
-			results.add(s);
+			results.add(n);
 			
-			for (IRegion w : skynet.getAdjacentVertexList(s)) {
+			for (IRegion w : skynet.getAdjacentVertexList(n)) {
 				if (w.getClass().equals(type) && (w.getID() == id) && !visited.get(w))
 					q.add(w);
 			}

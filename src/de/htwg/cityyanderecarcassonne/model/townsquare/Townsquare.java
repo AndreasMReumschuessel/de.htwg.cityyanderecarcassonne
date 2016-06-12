@@ -11,7 +11,6 @@ import de.htwg.cityyanderecarcassonne.model.Position;
 public class Townsquare implements ITownsquare {
 	
 	private List<List<ICard>> ts;
-	private TownsquareGraph tsg;
 	
 	private int dimX;
 	private int dimY;
@@ -27,8 +26,6 @@ public class Townsquare implements ITownsquare {
 				ts.get(i).add(null);
 			}
 		}
-		
-		tsg = new TownsquareGraph(); //TODO: Change it to a static class?
 	}
 	
 	@Override
@@ -53,7 +50,7 @@ public class Townsquare implements ITownsquare {
 	public boolean setCard(ICard c, int x, int y) {
 		if (setPossible(c, x, y)) {
 			ts.get(y).set(x, c);
-			tsg.addCard(c, getCard(x - 1, y), getCard(x, y + 1), getCard(x, y - 1), getCard(x + 1, y));
+			TownsquareGraph.addCard(c, getCard(x - 1, y), getCard(x, y + 1), getCard(x, y - 1), getCard(x + 1, y));
 			return true;
 		}
 		return false;
