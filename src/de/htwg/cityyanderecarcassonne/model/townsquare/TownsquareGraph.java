@@ -112,8 +112,6 @@ public final class TownsquareGraph {
 		for (IRegion r : tmp) {
 			r.setID(maxID);
 		}
-		
-		System.out.println("Size: " + tmp.size() + " Content: " + tmp);
 	}
 	
 	private static List<IRegion> breadthFirstSearch(IRegion s) {
