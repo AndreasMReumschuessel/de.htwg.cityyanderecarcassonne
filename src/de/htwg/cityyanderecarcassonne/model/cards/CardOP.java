@@ -31,6 +31,7 @@ public class CardOP extends MasterCard {
 	
 	private void setUniqueIDs() {
 		int lawnID1 = IDManager.getLawnID();
+		int lawnID2 = IDManager.getLawnID();
 		int streetID1 = IDManager.getStreetID();
 		int buildingID1 = IDManager.getBuildingID();
 		
@@ -46,10 +47,10 @@ public class CardOP extends MasterCard {
 		rightCenter.setID(streetID1);
 		
 		leftBelowTwo.setID(buildingID1);
-		rightBelowTwo.setID(lawnID1);
+		rightBelowTwo.setID(lawnID2);
 		
 		leftBelowOne.setID(lawnID1);
 		middleBelow.setID(streetID1);
-		rightBelowOne.setID(lawnID1);
+		rightBelowOne.setID(lawnID2);
 	}
 }
