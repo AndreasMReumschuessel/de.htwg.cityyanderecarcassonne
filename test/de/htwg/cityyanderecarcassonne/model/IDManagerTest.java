@@ -76,5 +76,52 @@ public class IDManagerTest {
 		assertEquals(50000, IDManager.getStreetID());
 		assertFalse(IDManager.idUsed(30001));
 	}
+	
+	@Test
+	public void setPlayerTest() {
+		int id = IDManager.getBuildingID();
+		Player player1 = new Player("Hans");
+		Player player2 = new Player("Gundula");
+		
+		assertTrue(IDManager.setPlayer(id, player1));
+		assertFalse(IDManager.setPlayer(id, player1));
+		assertTrue(IDManager.setPlayer(id, player2));
+		
+		assertFalse(IDManager.setPlayer(12, player1));
+	}
+	
+	@Test
+	public void isOwnedTest() {
+		int id1 = IDManager.getBuildingID();
+		int id2 = IDManager.getBuildingID();
+		Player player1 = new Player("Yuuki Asuna");
+		Player player2 = new Player("Kirigaya Kazuto");
+		// Write a PM if you know these two ;D
+		
+		IDManager.setPlayer(id1, player1);
+		IDManager.setPlayer(id1, player2);
+		
+		assertTrue(IDManager.isOwned(id1));
+		assertFalse(IDManager.isOwned(id2));
+		
+		assertFalse(IDManager.isOwned(10));
+	}
+	
+	@Test
+	public void getPlayerListTest() {
+		int id1 = IDManager.getBuildingID();
+		int id2 = IDManager.getLawnID();
+		Player player1 = new Player("Max");
+		Player player2 = new Player("Bärbel");
+		
+		IDManager.setPlayer(id1, player1);
+		IDManager.setPlayer(id1, player2);
+		IDManager.setPlayer(id2, player1);
+		
+		assertEquals("[Max, Bärbel]", IDManager.getPlayerList(id1).toString());
+		assertEquals("[Max]", IDManager.getPlayerList(id2).toString());
+		
+		assertEquals(null, IDManager.getPlayerList(32));
+	}
 
 }
