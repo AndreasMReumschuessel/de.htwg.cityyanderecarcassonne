@@ -55,6 +55,10 @@ public class AdjacencyListUndirectedGraphTest {
 		graph.addEdge(a, b, 7);
 		assertTrue(graph.containsEdge(a, b));
 		assertFalse(graph.addEdge(a, b));
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Einer der beiden Knoten ist nicht vorhanden oder die Knoten sind identisch.");
+		graph.addEdge(c, c);
+		
 	}
 	
 	@Test
@@ -62,6 +66,9 @@ public class AdjacencyListUndirectedGraphTest {
 		graph.addEdge(a, b, 5);
 		assertTrue(graph.containsEdge(a, b));
 		assertEquals(5, graph.getWeight(a, b), 0);
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Einer der beiden Knoten ist nicht vorhanden.");
+		graph.addEdge(c, c, 5);
 	}
 
 	@Test
@@ -75,6 +82,9 @@ public class AdjacencyListUndirectedGraphTest {
 	public void containsEdgeTest()	{
 		graph.addEdge(a, b);
 		assertTrue(graph.containsEdge(a, b));
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Einer der beiden Knoten ist nicht vorhanden.");
+		graph.containsEdge(c, c);
 	}
 
 	@Test
@@ -82,6 +92,9 @@ public class AdjacencyListUndirectedGraphTest {
 		graph.addEdge(a, b, 10);
 		assertEquals(10, graph.getWeight(a, b), 0);
 		assertEquals(0, graph.getWeight(a, c), 0);
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Einer der beiden Knoten ist nicht vorhanden.");
+		graph.getWeight(c, c);
 	}
 
 	@Test
@@ -111,7 +124,9 @@ public class AdjacencyListUndirectedGraphTest {
 		adjacentVertexList.add(a);
 		graph.addEdge(a, b);
 		assertEquals(adjacentVertexList, graph.getAdjacentVertexList(b));
-		//graph.getAdjacentVertexList(c);
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Knoten ist nicht vorhanden.");
+		graph.getAdjacentVertexList(c);
 	}
 
 	@Test
@@ -122,6 +137,9 @@ public class AdjacencyListUndirectedGraphTest {
 		graph.addEdge(d, e);
 		incidentEdgeList.add(edge);
 		//assertEquals(incidentEdgeList, graph.getIncidentEdgeList(a));
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Knoten ist nicht vorhanden.");
+		graph.getIncidentEdgeList(c);
 	}
 
 	@Test

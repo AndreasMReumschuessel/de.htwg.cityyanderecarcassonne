@@ -138,7 +138,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		if(adjacencyList.get(v) != null)	{
 			return adjacencyList.get(v).size();
 		}
-		throw new IllegalArgumentException("Knoten nicht Vorhanden");
+		throw new IllegalArgumentException("Knoten ist nicht Vorhanden");
 	}
 
 	@Override

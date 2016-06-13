@@ -1,5 +1,5 @@
 package de.htwg.cityyanderecarcassonne.controller;
 
-public interface ICarcassonneObserver {
+public interface ICarcassonneController {
 
 }

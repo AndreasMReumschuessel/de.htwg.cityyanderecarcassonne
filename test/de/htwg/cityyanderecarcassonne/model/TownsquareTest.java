@@ -18,7 +18,7 @@ import de.htwg.cityyanderecarcassonne.model.cards.CardOP;
 import de.htwg.cityyanderecarcassonne.model.cards.CardU;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
-public class ITownsquareTest {
+public class TownsquareTest {
 	
 	private ITownsquare map;
 	
