@@ -22,6 +22,7 @@ public class AdjacencyListUndirectedGraphTest {
 	private IRegion c;
 	private IRegion d;
 	private IRegion e;
+	private IRegion f;
 	
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -33,6 +34,7 @@ public class AdjacencyListUndirectedGraphTest {
 		c = new RegionBuilding();
 		d = new RegionBuilding();
 		e = new RegionBuilding();
+		f = new RegionBuilding();
 		graph = new AdjacencyListUndirectedGraph<>();
 		graph.addVertex(a);
 		graph.addVertex(b);
@@ -58,7 +60,6 @@ public class AdjacencyListUndirectedGraphTest {
 		exception.expect(IllegalArgumentException.class);
 		exception.expectMessage("Einer der beiden Knoten ist nicht vorhanden oder die Knoten sind identisch.");
 		graph.addEdge(c, c);
-		
 	}
 	
 	@Test
@@ -132,11 +133,11 @@ public class AdjacencyListUndirectedGraphTest {
 	@Test
 	public void getIncidentEdgeListTest() {
 		List<Edge<IRegion>> incidentEdgeList = new LinkedList<>();
-		Edge<IRegion> edge = new Edge<>(a, b);
+		Edge<IRegion> edgeA = new Edge<>(a, b);
 		graph.addEdge(a, b);
-		graph.addEdge(d, e);
-		incidentEdgeList.add(edge);
+		incidentEdgeList.add(edgeA);
 		//assertEquals(incidentEdgeList, graph.getIncidentEdgeList(a));
+		
 		exception.expect(IllegalArgumentException.class);
 		exception.expectMessage("Knoten ist nicht vorhanden.");
 		graph.getIncidentEdgeList(c);
@@ -149,7 +150,7 @@ public class AdjacencyListUndirectedGraphTest {
 		
 		exception.expect(IllegalArgumentException.class);
 		exception.expectMessage("Knoten nicht Vorhanden");	
-		assertEquals(exception, graph.getDegree(c));
+		graph.getDegree(c);
 	}
 
 	@Test
@@ -158,7 +159,7 @@ public class AdjacencyListUndirectedGraphTest {
 		Edge<IRegion> edge = new Edge<>(a, b);
 		graph.addEdge(a, b);
 		edgeList.add(edge);
-		//assertEquals(edgeList, graph.getEdgeList());
+		graph.getEdgeList();
 	}
 	
 	@Test
