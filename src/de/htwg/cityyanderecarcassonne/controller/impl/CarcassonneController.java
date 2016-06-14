@@ -1,11 +1,15 @@
 package de.htwg.cityyanderecarcassonne.controller.impl;
 
+import java.util.List;
+
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.util.observer.Observable;
 
-public class CarcassonneController extends Observable {
+public class CarcassonneController extends Observable implements ICarcassonneController  {
 	
 	private GameStatus status = GameStatus.WELCOME;
 	private String statusMessage = "";
@@ -52,4 +56,40 @@ public class CarcassonneController extends Observable {
     public String getTownsquareString() {
     	return townsquare.toString();
     }
+
+	@Override
+	public void takeCard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void placeCard(ICard c, Position pos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void placeCard(ICard c, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Position> getPossibilities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean placeMeeple() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean score() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
