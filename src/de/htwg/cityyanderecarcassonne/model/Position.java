@@ -1,5 +1,4 @@
 package de.htwg.cityyanderecarcassonne.model;
-//update
 
 public class Position {
 	
