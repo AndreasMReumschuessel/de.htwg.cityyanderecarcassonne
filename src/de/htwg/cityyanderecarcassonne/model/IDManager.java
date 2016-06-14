@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class IDManager {
+public class IDManager {
 	
 	private static Set<Integer> idpool = new HashSet<>();
 	private static int buildingID  = 10000;
@@ -18,8 +18,17 @@ public final class IDManager {
 	
 	private static Map<Integer, List<Player>> idPlayer = new HashMap<>();
 	
-	private IDManager() {
-		throw new UnsupportedOperationException();
+	private static IDManager instance = null;
+	
+	protected IDManager() {
+		//throw new UnsupportedOperationException();
+	}
+	
+	public static IDManager getInstance()	{
+		if(instance == null)	{
+			instance = new IDManager();
+		}
+		return instance;
 	}
 	
 	public static int getBuildingID() {

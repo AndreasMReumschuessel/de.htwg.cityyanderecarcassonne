@@ -28,7 +28,9 @@ public class Stock {
 	int cardCountW;
 	int cardCountX;
 	
-	public Stock()	{
+	private static Stock instance = null;
+	
+	protected Stock()	{
 		cardStock = new LinkedList<>();
 		cardCountA = 2;
 		cardCountB = 4;
@@ -51,6 +53,13 @@ public class Stock {
 		cardCountW = 4;
 		cardCountX = 1;
 		this.importCards();
+	}
+	
+	public static Stock getInstance()	{
+		if(instance == null)	{
+			instance = new Stock();
+		}
+		return instance;
 	}
 
 	/**
