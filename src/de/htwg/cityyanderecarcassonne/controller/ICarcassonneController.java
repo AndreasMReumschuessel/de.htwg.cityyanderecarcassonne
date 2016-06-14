@@ -3,6 +3,8 @@ package de.htwg.cityyanderecarcassonne.controller;
 import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 
 public interface ICarcassonneController {
@@ -13,13 +15,13 @@ public interface ICarcassonneController {
 	
 	public int getDimensionY();
 	
-	public void takeCard();
+	public ICard takeCard();
 	
 	public void placeCard(ICard c, Position pos);
 	
 	public void placeCard(ICard c, int x, int y);
 	
-	public List<Position> getPossibilities();
+	public List<Position> getPossibilities(ICard card);
 	
     public GameStatus getStatus();
     
@@ -27,8 +29,8 @@ public interface ICarcassonneController {
     
     public String getTownsquareString();
     
-    public boolean placeMeeple();
+    public void placeMeeple(Player player,ICard card, IRegion region);
     
-    public boolean score();
+    public void score();
 	
 }

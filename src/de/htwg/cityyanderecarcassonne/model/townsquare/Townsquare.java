@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
+import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 
 public class Townsquare implements ITownsquare {
@@ -197,5 +199,14 @@ public class Townsquare implements ITownsquare {
 			}
 		}
 		return max + 1;
+	}
+
+	@Override
+	public boolean placeMeepleOnRegion(Player player, IRegion region) {
+		if(region.getPlayer() == null)	{
+			region.setPlayer(player);
+			return true;
+		} 
+		return false;
 	}
 }

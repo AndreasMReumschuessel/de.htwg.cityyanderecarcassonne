@@ -1,10 +1,13 @@
-package de.htwg.cityyanderecarcassonne.model;
+package de.htwg.cityyanderecarcassonne.model.townsquare;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.ITownsquare;
+import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.CardA;
 import de.htwg.cityyanderecarcassonne.model.cards.CardB;
 import de.htwg.cityyanderecarcassonne.model.cards.CardC;
@@ -67,6 +70,6 @@ public class TownsquareTest {
 		
 		assertEquals("[(49|48), (51|48), (52|49), (47|50), (52|50), (48|51), (52|51), (51|52)]", map.getPossibilities(new CardH()).toString());
 		assertEquals("[(49|48), (51|48), (48|49), (52|49), (47|50), (52|50), (48|51), (52|51), (51|52)]", map.getPossibilities(new CardI()).toString());
-		map.toString();
+		System.out.println(map.toString());
 	}
 }

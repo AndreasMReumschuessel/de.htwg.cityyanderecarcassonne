@@ -17,4 +17,6 @@ public interface ITownsquare {
 	public int getDimX();
 	
 	public int getDimY();
+	
+	public boolean placeMeepleOnRegion(Player player, IRegion region);
 }
