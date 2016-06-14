@@ -125,4 +125,77 @@ public class Townsquare implements ITownsquare {
 		
 		return nL && nB && nT && nR;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		int xMin = getXMin();
+		int xMax = getXMax();
+		int yMin = getYMin();
+		int yMax = getYMax();
+		
+		for (int y = yMin; y < yMax + 1; y++) {
+			List<ICard> cy = ts.get(y);
+			for (int l = 0; l < 7; l++) {
+				for (int i = xMin; i < xMax + 1; i++) {
+					ICard cx = cy.get(i);
+					if (cx != null)
+						sb.append(mlToSl(l, cx.toString()));
+					else
+						sb.append("              ");
+				}
+				sb.append('\n');
+			}
+		}
+		return sb.toString();
+	}
+	
+	private String mlToSl(int ln, String multi) {
+		String[] sl = multi.split("\n");
+		return sl[ln];
+	}
+	
+	private int getXMin() {
+		int min = dimX;
+		for (int i = 0; i < dimY; i++) {
+			for (int j = 0; j < dimX; j++) {
+				if (ts.get(i).get(j) != null)
+					min = Math.min(min, j);
+			}
+		}
+		return min - 1;
+	}
+	
+	private int getXMax() {
+		int max = 0;
+		for (int i = 0; i < dimY; i++) {
+			for (int j = 0; j < dimX; j++) {
+				if (ts.get(i).get(j) != null)
+					max = Math.max(max, j);
+			}
+		}
+		return max + 1;
+	}
+	
+	private int getYMin() {
+		for (int i = 0; i < dimY; i++) {
+			for (int j = 0; j < dimX; j++) {
+				if (ts.get(i).get(j) != null)
+					return i - 1;
+			}
+		}
+		return 0;
+	}
+	
+	private int getYMax() {
+		int max = 0;
+		for (int i = 0; i < dimY; i++) {
+			for (int j = 0; j < dimX; j++) {
+				if (ts.get(i).get(j) != null)
+					max = Math.max(max, i);
+			}
+		}
+		return max + 1;
+	}
 }

@@ -207,4 +207,42 @@ public abstract class MasterCard implements ICard {
 			rightBelow = tR;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		String tbBorder = " ------------ ";
+		String lrBorder = "|";
+		sb.append(tbBorder).append('\n');
+		sb.append(lrBorder).append("  " + regionToChar(topLeft) + " " + regionToChar(topMiddle) + " " + regionToChar(topRight) + "  ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(leftTop) + "        " + regionToChar(rightTop)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(leftMiddle) + "   " + regionToChar(centerMiddle) + "   " + regionToChar(rightMiddle)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(leftBelow) + "        " + regionToChar(rightBelow)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append("  " + regionToChar(belowLeft) + " " + regionToChar(belowMiddle) + " " + regionToChar(belowRight) + "  ").append(lrBorder).append('\n');		
+		sb.append(tbBorder).append('\n');
+		
+		return sb.toString();
+	}
+	
+	private String regionToChar(IRegion r) {
+		String className = r.getClass().getSimpleName();
+		String result = " ";
+		if (className.equals("RegionBuilding")) {
+			result = "B";
+		} else if (className.equals("RegionLawn")) {
+			result = "L";
+		} else if (className.equals("RegionStreet")) {
+			result = "S";
+		} else if (className.equals("RegionCrossing")) {
+			result = "C";
+		} else if (className.equals("RegionSchool")) {
+			result = "K";
+		}
+		
+		if (r.getPlayer() != null)
+			result = result + "P";
+		else
+			result = result + " ";
+		return result;
+	}
 }
