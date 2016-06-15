@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
@@ -203,8 +204,10 @@ public class Townsquare implements ITownsquare {
 
 	@Override
 	public boolean placeMeepleOnRegion(Player player, IRegion region) {
-		if(region.getPlayer() == null)	{
+		int rID = region.getID();
+		if (!IDManager.isOwned(rID)) {
 			region.setPlayer(player);
+			IDManager.setPlayer(rID, player);
 			return true;
 		} 
 		return false;

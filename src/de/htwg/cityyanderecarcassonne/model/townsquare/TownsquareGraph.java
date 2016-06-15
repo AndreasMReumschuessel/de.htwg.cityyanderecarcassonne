@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Edge;
@@ -110,6 +111,7 @@ public final class TownsquareGraph {
 		
 		for (IRegion r : tmp) {
 			r.setID(maxID);
+			IDManager.setPlayer(maxID, r.getPlayer()); //TODO: Validate
 		}
 	}
 	
