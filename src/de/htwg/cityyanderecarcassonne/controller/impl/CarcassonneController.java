@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.controller.impl;
 import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
@@ -18,10 +19,12 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private String statusMessage = "";
 	private Townsquare townsquare;
 	private Stock stock;
+	private IDManager manager;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		setTownsquare(sizeX, sizeY);
-		stock = new Stock();
+		stock = Stock.getInstance();
+		manager = IDManager.getInstance();
 	}
 	
 	public void setTownsquare(int sizeX, int sizeY) {
