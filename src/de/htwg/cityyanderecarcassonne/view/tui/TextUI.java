@@ -15,7 +15,13 @@ public class TextUI implements IObserver {
 
 	@Override
 	public void update(Event e) {
-		//printTUI();
+		printTUI();
+	}
+	
+	public void printTUI() {
+		System.out.println(controller.getTownsquareString());
+		System.out.println();
+		System.out.println("Status: " + controller.getStatusMessage());
 	}
 
 }
