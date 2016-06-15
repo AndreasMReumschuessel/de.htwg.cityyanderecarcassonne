@@ -15,7 +15,7 @@ import de.htwg.util.observer.Observable;
 public class CarcassonneController extends Observable implements ICarcassonneController  {
 	
 	private GameStatus status = GameStatus.WELCOME;
-	private String statusMessage = "";
+	private String statusMessage;
 	private Townsquare townsquare;
 	private Stock stock;
 	public Player currentPlayer;
@@ -80,15 +80,18 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
 	public ICard takeCard() {
 		this.setStatus(GameStatus.TAKE_CARD);
+		notifyObservers();
 		return stock.getRandomCardFromStock();
 	}
 
 	public List<Position> getPossibilities(ICard card) {
+		notifyObservers();
 		return townsquare.getPossibilities(card);
 	}
 	
 	public List<IRegion> getRegionPossibilities(ICard card) {
 		//return townsquare.getRegionPossibilities(card);
+		notifyObservers();
 		return null;
 	}
 
@@ -109,6 +112,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
+		notifyObservers();
 	}
 	
 }
