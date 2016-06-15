@@ -3,7 +3,6 @@ package de.htwg.cityyanderecarcassonne.controller.impl;
 import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
-import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
@@ -19,17 +18,16 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private String statusMessage = "";
 	private Townsquare townsquare;
 	private Stock stock;
-	private IDManager manager;
+	public Player currentPlayer;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		setTownsquare(sizeX, sizeY);
 		stock = Stock.getInstance();
-		manager = IDManager.getInstance();
 	}
 	
 	public void setTownsquare(int sizeX, int sizeY) {
 		this.townsquare = new Townsquare(sizeX, sizeY);
-		status = GameStatus.CREATED;
+		status = GameStatus.CREATE;
 		statusMessage = "";
 		notifyObservers();
 	}
@@ -42,6 +40,22 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return townsquare.getDimY();
 	}
 	
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
+    
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+    
+    public String getTownsquareString() {
+    	return townsquare.toString();
+    }
+    
+    public GameStatus getStatus() {
+        return status;
+    }
+	
 	public void placeCard(ICard c, int x, int y) {
 		if (townsquare.setCard(c, x, y)) {
 			status = GameStatus.CARD_SET_SUCCESS;
@@ -53,53 +67,48 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		notifyObservers();
 	}
 	
-	@Override
 	public void placeCard(ICard c, Position pos) {
 		if (townsquare.setCard(c, pos)) {
-			status = GameStatus.CARD_SET_SUCCESS;
+			this.setStatus(GameStatus.CARD_SET_SUCCESS);
 			statusMessage = c.toString();
 		} else {
-			status = GameStatus.CARD_SET_FAIL;
+			this.setStatus(GameStatus.CARD_SET_FAIL);
 			statusMessage = c.toString();
 		}
 		notifyObservers();
 	}
-	
-    public GameStatus getStatus() {
-        return status;
-    }
-    
-    public String getStatusMessage() {
-        return statusMessage;
-    }
-    
-    public String getTownsquareString() {
-    	return townsquare.toString();
-    }
 
-	@Override
 	public ICard takeCard() {
+		this.setStatus(GameStatus.TAKE_CARD);
 		return stock.getRandomCardFromStock();
 	}
 
-	@Override
 	public List<Position> getPossibilities(ICard card) {
 		return townsquare.getPossibilities(card);
 	}
+	
+	public List<IRegion> getRegionPossibilities(ICard card) {
+		//return townsquare.getRegionPossibilities(card);
+		return null;
+	}
 
-	@Override
 	public void placeMeeple(Player player,ICard card, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
-			status = GameStatus.MEEPLE_SET_SUCCESS;
+			this.setStatus(GameStatus.MEEPLE_SET_SUCCESS);
 			statusMessage = card.toString();
 		} else	{
-			status = GameStatus.MEEPLE_SET_FAIL;
+			this.setStatus(GameStatus.MEEPLE_SET_FAIL);
 		}
 		notifyObservers();
 	}
 
-	@Override
-	public void score() {
-
+	public void changePlayer(Player player) {
+		currentPlayer = player;
+		notifyObservers();
 	}
+	
+	public void finishRound()	{
+		this.setStatus(GameStatus.ROUND_END);
+	}
+	
 }

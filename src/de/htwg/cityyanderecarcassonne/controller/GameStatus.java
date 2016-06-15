@@ -1,14 +1,15 @@
 package de.htwg.cityyanderecarcassonne.controller;
 
 public enum GameStatus {
-    WELCOME,
-    ILLEGAL_ARGUMENT,
-    TAKE_CARD,
+	WELCOME,
+    CREATE,
     CARD_SET_SUCCESS,
     CARD_SET_FAIL,
     MEEPLE_SET_SUCCESS,
     MEEPLE_SET_FAIL,
-    CREATED,
-    RESET,
-    SHOW_CANDIDATES
+    ILLEGAL_ARGUMENT,
+    SHOW_CANDIDATES,
+    ROUND_START,
+    TAKE_CARD,
+    ROUND_END
 }

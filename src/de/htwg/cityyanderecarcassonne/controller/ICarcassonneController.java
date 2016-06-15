@@ -23,6 +23,8 @@ public interface ICarcassonneController {
 	
 	public List<Position> getPossibilities(ICard card);
 	
+	List<IRegion> getRegionPossibilities(ICard card);
+	
     public GameStatus getStatus();
     
     public String getStatusMessage();
@@ -30,7 +32,7 @@ public interface ICarcassonneController {
     public String getTownsquareString();
     
     public void placeMeeple(Player player,ICard card, IRegion region);
-    
-    public void score();
+     
+    public void changePlayer(Player player);
 	
 }
