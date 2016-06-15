@@ -16,7 +16,6 @@ public class TextUI implements IObserver {
 	@Override
 	public void update(Event e) {
 		printTUI();
-		
 	}
 	
 	public void printTUI() {
