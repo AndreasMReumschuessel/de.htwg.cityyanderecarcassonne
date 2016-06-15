@@ -12,7 +12,7 @@ public class CardQRTest {
 
 	@BeforeClass
 	public static void setUpBeforClass() throws Exception	{
-		IDManager.resetIDCount();
+		IDManager.resetIDManager();
 		cardQR = new CardQR();
 	}
 

@@ -12,7 +12,7 @@ public class CardUTest {
 
 	@BeforeClass
 	public static void setUpBeforClass() throws Exception	{
-		IDManager.resetIDCount();
+		IDManager.resetIDManager();
 		cardU = new CardU();
 	}
 	

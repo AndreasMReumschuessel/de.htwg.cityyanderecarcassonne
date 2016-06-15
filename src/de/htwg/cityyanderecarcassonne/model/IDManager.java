@@ -75,7 +75,7 @@ public class IDManager {
 		return idpool.contains(id);
 	}
 	
-	public static void resetIDCount()	{
+	public static void resetIDManager()	{
 		idpool.clear();
 		buildingID  = 10000;
 		crossingID = 20000;
@@ -83,7 +83,7 @@ public class IDManager {
 		schoolID = 40000;
 		streetID = 50000;
 		
-		//TODO: Also idPlayer reset? Rename method to reset?
+		idPlayer = new HashMap<>();
 	}
 	
 	public static boolean setPlayer(int id, Player player) {
