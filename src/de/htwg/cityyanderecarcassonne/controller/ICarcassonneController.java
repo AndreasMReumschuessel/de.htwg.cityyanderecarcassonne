@@ -8,14 +8,14 @@ import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 
 public interface ICarcassonneController {
-
-	public void setTownsquare(int sizeX, int sizeY);
 	
 	public int getDimensionX();
 	
 	public int getDimensionY();
 	
-	public ICard takeCard();
+	//public ICard takeCard();
+	
+	public ICard cardOnHand();
 	
 	public void placeCard(ICard c, Position pos);
 	
@@ -35,6 +35,16 @@ public interface ICarcassonneController {
      
     public void changePlayer(Player player);
     
-    public void rotateCard(String direction);
+    public void rotateCardLeft();
+    
+    public void rotateCardRight();
+
+	void create();
+
+	void startRound();
+
+	void finishRound();
+
+	void setStatus(GameStatus status);
 	
 }
