@@ -51,18 +51,7 @@ public final class Carcassonne {
 		
 		controller = new CarcassonneController(10, 10);
 		tui = new TextUI(controller);
-		//controller.notifyObservers();
-		controller.placeCard(new CardD(), 5, 5);
-		/*controller.placeCard(new CardC(), 6, 5);
-		controller.placeCard(new CardC(), 7, 5);
-		controller.placeCard(new CardC(), 8, 5);
-		controller.placeCard(new CardC(), 9, 5);
-		controller.placeCard(new CardC(), 10, 5);
-		controller.placeCard(new CardU(), 5, 6);
-		controller.placeCard(new CardU(), 5, 7);
-		controller.placeCard(new CardU(), 5, 8);
-		controller.placeCard(new CardU(), 5, 9);
-		controller.placeCard(new CardU(), 5, 10);*/
+		tui.printTUI();
 		
 		boolean continu = true;
         in = new Scanner(System.in);
