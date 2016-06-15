@@ -9,7 +9,7 @@ public class StatusMessage {
     static Hashtable<GameStatus,String> text = new Hashtable<GameStatus, String>();
 
     public StatusMessage() {
-        text.put(GameStatus.WELCOME,"Welcome to City Yandere Carcassonne!");
+        text.put(GameStatus.WELCOME,"Welcome to City Yandere Carcassonne, senpai! I'am Yandere-chan and help you with the game.");
         text.put(GameStatus.CREATED,"Welcome to City Yandere Carcassonne!");
         text.put(GameStatus.CARD_SET_SUCCESS,"The card was placed successfully ");
         text.put(GameStatus.CARD_SET_FAIL, "You can't place this card there. ");
