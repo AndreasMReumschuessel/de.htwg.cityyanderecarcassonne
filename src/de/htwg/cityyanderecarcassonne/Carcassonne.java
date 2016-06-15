@@ -53,8 +53,8 @@ public final class Carcassonne {
 		tui = new TextUI(controller);
 		//controller.notifyObservers();
 		controller.placeCard(new CardD(), 5, 5);
-		controller.placeCard(new CardC(), 6, 5);
-		/*controller.placeCard(new CardC(), 7, 5);
+		/*controller.placeCard(new CardC(), 6, 5);
+		controller.placeCard(new CardC(), 7, 5);
 		controller.placeCard(new CardC(), 8, 5);
 		controller.placeCard(new CardC(), 9, 5);
 		controller.placeCard(new CardC(), 10, 5);

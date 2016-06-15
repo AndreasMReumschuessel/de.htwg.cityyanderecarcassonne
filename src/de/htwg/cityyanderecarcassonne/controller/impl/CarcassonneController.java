@@ -81,7 +81,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
 	public ICard takeCard() {
 		this.setStatus(GameStatus.TAKE_CARD);
-		notifyObservers();
+		//notifyObservers();
 		currentCard = stock.getRandomCardFromStock();
 		return currentCard;
 	}
