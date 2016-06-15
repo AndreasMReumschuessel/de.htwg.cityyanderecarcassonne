@@ -13,7 +13,7 @@ import de.htwg.cityyanderecarcassonne.model.Player;
 
 
 public class CarcassonneControllerTest {
-	
+	/*
 	private CarcassonneController cController;
 	
 	@Before
@@ -95,4 +95,5 @@ public class CarcassonneControllerTest {
 	public void rotateCardTest(String direction) {
 
 	}
+	*/
 }
