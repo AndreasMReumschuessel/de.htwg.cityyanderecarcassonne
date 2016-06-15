@@ -7,10 +7,12 @@ import de.htwg.util.observer.IObserver;
 public class TextUI implements IObserver {
 	
 	private CarcassonneController controller;
+	private StatusMessage sm;
 	
 	public TextUI (CarcassonneController controller) {
 		this.controller = controller;
 		controller.addObserver(this);
+		sm = new StatusMessage();
 	}
 
 	@Override
@@ -21,7 +23,7 @@ public class TextUI implements IObserver {
 	public void printTUI() {
 		System.out.println(controller.getTownsquareString());
 		System.out.println();
-		System.out.println("Status: " + controller.getStatusMessage());
+		System.out.println("Status: " + sm.getStatusMessage(controller.getStatus()));
 	}
 
 }

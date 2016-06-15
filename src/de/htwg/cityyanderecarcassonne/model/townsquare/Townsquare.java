@@ -38,7 +38,7 @@ public class Townsquare implements ITownsquare {
 	
 	@Override
 	public ICard getCard(int x, int y) {
-		if (x < 0 || x > dimX - 1 || y < 0 || y > dimY - 1)
+		if (outOfBounds(x, y))
 			return null;
 		
 		return ts.get(y).get(x);
@@ -97,8 +97,12 @@ public class Townsquare implements ITownsquare {
 		return this.dimY;
 	}
 	
+	private boolean outOfBounds(int x, int y) {
+		return x < 0 || x > dimX - 1 || y < 0 || y > dimY - 1;
+	}
+	
 	private boolean setPossible(ICard c, int x, int y) {
-		if (getCard(x, y) != null)
+		if (getCard(x, y) != null || outOfBounds(x, y))
 			return false;
 
 		ICard neighborLeft = getCard(x - 1, y);
@@ -178,6 +182,8 @@ public class Townsquare implements ITownsquare {
 					max = Math.max(max, j);
 			}
 		}
+		if (max + 1 >= dimX)
+			return max;
 		return max + 1;
 	}
 	
@@ -199,6 +205,8 @@ public class Townsquare implements ITownsquare {
 					max = Math.max(max, i);
 			}
 		}
+		if (max + 1 >= dimX)
+			return max;
 		return max + 1;
 	}
 
