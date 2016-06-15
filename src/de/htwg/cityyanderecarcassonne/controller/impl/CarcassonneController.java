@@ -18,6 +18,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private String statusMessage;
 	private Townsquare townsquare;
 	private Stock stock;
+	public ICard currentCard;
 	public Player currentPlayer;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
@@ -81,7 +82,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public ICard takeCard() {
 		this.setStatus(GameStatus.TAKE_CARD);
 		notifyObservers();
-		return stock.getRandomCardFromStock();
+		currentCard = stock.getRandomCardFromStock();
+		return currentCard;
 	}
 
 	public List<Position> getPossibilities(ICard card) {
@@ -112,6 +114,15 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
+		notifyObservers();
+	}
+
+	public void rotateCard(String direction) {
+		if(direction == "links")	{
+			currentCard.rotateLeft();
+		} else	{
+			currentCard.rotateRight();
+		}
 		notifyObservers();
 	}
 	

@@ -34,5 +34,7 @@ public interface ICarcassonneController {
     public void placeMeeple(Player player,ICard card, IRegion region);
      
     public void changePlayer(Player player);
+    
+    public void rotateCard(String direction);
 	
 }
