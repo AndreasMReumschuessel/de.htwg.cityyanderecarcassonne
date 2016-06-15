@@ -1,8 +1,10 @@
 package de.htwg.cityyanderecarcassonne.model.townsquare;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
@@ -10,6 +12,7 @@ import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.cards.CardD;
 
 public class Townsquare implements ITownsquare {
 	
@@ -145,12 +148,49 @@ public class Townsquare implements ITownsquare {
 		for (int y = yMin; y < yMax + 1; y++) {
 			List<ICard> cy = ts.get(y);
 			for (int l = 0; l < 7; l++) {
-				for (int i = xMin; i < xMax + 1; i++) {
-					ICard cx = cy.get(i);
+				for (int x = xMin; x < xMax + 1; x++) {
+					ICard cx = cy.get(x);
 					if (cx != null)
 						sb.append(mlToSl(l, cx.toString()));
 					else
 						sb.append("              ");
+				}
+				sb.append('\n');
+			}
+		}
+		return sb.toString();
+	}
+	
+	private String toStringPossibilities() {
+		StringBuilder sb = new StringBuilder();
+		
+		List<Position> pC = getPossibilities(new CardD());
+		Map<Integer, List<Integer>> mp = new HashMap<>();
+		
+		for (Position p : pC) {
+			if (mp.get(p.getX()) == null)
+				mp.put(p.getX(), new LinkedList<>());
+			mp.get(p.getX()).add(p.getY());
+		}
+				
+		
+		int xMin = getXMin();
+		int xMax = getXMax();
+		int yMin = getYMin();
+		int yMax = getYMax();
+		
+		for (int y = yMin; y < yMax + 1; y++) {
+			List<ICard> cy = ts.get(y);
+			for (int l = 0; l < 7; l++) {
+				for (int x = xMin; x < xMax + 1; x++) {
+					ICard cx = cy.get(x);
+					if (mp.containsKey(x) && mp.get(x).contains(y)) {
+						sb.append(mlToSl(l, pseudoCard("BA")));
+					} else if (cx != null) {
+						sb.append(mlToSl(l, cx.toString()));
+					} else {
+						sb.append("              ");
+					}
 				}
 				sb.append('\n');
 			}
@@ -163,6 +203,26 @@ public class Townsquare implements ITownsquare {
 		return sl[ln];
 	}
 	
+	private String pseudoCard(String identifier) {
+		StringBuilder sb = new StringBuilder();
+		String tbBorder = " ############ ";
+		String lrBorder = "#";
+		sb.append(tbBorder).append('\n');
+		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append("     ");
+		if(identifier.length() < 2)
+			sb.append(identifier + " ");
+		else
+			sb.append(identifier);
+		sb.append("     ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(tbBorder).append('\n');
+		
+		return sb.toString();
+	}
+	
 	private int getXMin() {
 		int min = dimX;
 		for (int i = 0; i < dimY; i++) {
@@ -171,7 +231,10 @@ public class Townsquare implements ITownsquare {
 					min = Math.min(min, j);
 			}
 		}
-		return min - 1;
+		if (min - 1 < 0)
+			return 0;
+		else
+			return min - 1;
 	}
 	
 	private int getXMax() {
@@ -190,8 +253,10 @@ public class Townsquare implements ITownsquare {
 	private int getYMin() {
 		for (int i = 0; i < dimY; i++) {
 			for (int j = 0; j < dimX; j++) {
-				if (ts.get(i).get(j) != null)
+				if (ts.get(i).get(j) != null && i - 1 >= 0)
 					return i - 1;
+				else if (ts.get(i).get(j) != null && i - 1 < 0)
+					return 0;
 			}
 		}
 		return 0;
