@@ -107,19 +107,23 @@ public final class TownsquarePrinter {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
 					Position tmppos = new Position(x, y);
-					if (possibilities.containsKey(tmppos)) {
-						String ident = possibilities.get(tmppos);
-						sb.append(mlToSl(l, pseudoCard(ident)));
-					} else if (cx != null) {
-						sb.append(mlToSl(l, printCard(cx, false)));
-					} else {
-						sb.append("              ");
-					}
+					performPossPrint(possibilities, tmppos, l, cx, sb);
 				}
 				sb.append('\n');
 			}
 		}
 		return sb.toString();
+	}
+	
+	private void performPossPrint(Map<Position, String> possibilities, Position tmppos, int l, ICard cx, StringBuilder sb) {
+		if (possibilities.containsKey(tmppos)) {
+			String ident = possibilities.get(tmppos);
+			sb.append(mlToSl(l, pseudoCard(ident)));
+		} else if (cx != null) {
+			sb.append(mlToSl(l, printCard(cx, false)));
+		} else {
+			sb.append("              ");
+		}
 	}
 	
 	private String mlToSl(int ln, String multi) {

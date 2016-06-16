@@ -98,7 +98,7 @@ public class TextUI implements IObserver {
 	}
 	
 	private void printPrompt() {
-		System.out.print("> ");
+		printOut("> ");
 	}
 	
 	private void printCommandUnknown() {
