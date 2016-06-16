@@ -6,14 +6,13 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public interface ICarcassonneController {
 	
 	public int getDimensionX();
 	
 	public int getDimensionY();
-	
-	//public ICard takeCard();
 	
 	public ICard cardOnHand();
 	
@@ -46,5 +45,7 @@ public interface ICarcassonneController {
 	void finishRound();
 
 	void setStatus(GameStatus status);
+
+	Townsquare getTownsquare();
 	
 }

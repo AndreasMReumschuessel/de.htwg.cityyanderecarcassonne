@@ -24,11 +24,15 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
-		this.currentCard = takeCard();
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		
 		status = GameStatus.WELCOME;
+	}
+	
+	@Override
+	public Townsquare getTownsquare() {
+		return this.townsquare;
 	}
 	
 	@Override
@@ -118,6 +122,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void create() {
 		this.townsquare = new Townsquare(sizeX, sizeY);
+		// currentCard = stock.getStartCard();
+		// townsquare.setCard(currentCard, sizeX / 2, sizeY / 2);
 		status = GameStatus.CREATE;
 		statusMessage = "";
 		notifyObservers();
