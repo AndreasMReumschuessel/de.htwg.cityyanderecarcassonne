@@ -107,33 +107,48 @@ public class Townsquare implements ITownsquare {
 	private boolean setPossible(ICard c, int x, int y) {
 		if (getCard(x, y) != null || outOfBounds(x, y))
 			return false;
+		
+		boolean nL = neigborLeftCheck(c, x, y);
+		
+		boolean nB = neigborBelowCheck(c, x, y);
+		
+		boolean nT = neigborTopCheck(c, x, y);
 
-		ICard neighborLeft = getCard(x - 1, y);
-		ICard neighborBelow = getCard(x, y + 1);
-		ICard neighborTop = getCard(x, y - 1);
-		ICard neighborRight = getCard(x + 1, y);
-		
-		boolean nL = neighborLeft == null ||
-					 c.getLeftTop().getClass().equals(neighborLeft.getRightTop().getClass()) &&
-					 c.getLeftMiddle().getClass().equals(neighborLeft.getRightMiddle().getClass()) &&
-					 c.getLeftBelow().getClass().equals(neighborLeft.getRightBelow().getClass());
-		
-		boolean nB = neighborBelow == null ||
-				  	 c.getBelowLeft().getClass().equals(neighborBelow.getTopLeft().getClass()) &&
-					 c.getBelowMiddle().getClass().equals(neighborBelow.getTopMiddle().getClass()) &&
-					 c.getBelowRight().getClass().equals(neighborBelow.getTopRight().getClass());
-		
-		boolean nT = neighborTop == null ||
-					 c.getTopLeft().getClass().equals(neighborTop.getBelowLeft().getClass()) &&
-					 c.getTopMiddle().getClass().equals(neighborTop.getBelowMiddle().getClass()) &&
-					 c.getTopRight().getClass().equals(neighborTop.getBelowRight().getClass());
-	
-		boolean nR = neighborRight == null ||
-					 c.getRightTop().getClass().equals(neighborRight.getLeftTop().getClass()) &&
-					 c.getRightMiddle().getClass().equals(neighborRight.getLeftMiddle().getClass()) &&
-					 c.getRightBelow().getClass().equals(neighborRight.getLeftBelow().getClass());
+		boolean nR = neigborRightCheck(c, x, y);
 		
 		return nL && nB && nT && nR;
+	}
+	
+	private boolean neigborLeftCheck(ICard c, int x, int y) {
+		ICard neighborLeft = getCard(x - 1, y);
+		return neighborLeft == null ||
+			   c.getLeftTop().getClass().equals(neighborLeft.getRightTop().getClass()) &&
+			   c.getLeftMiddle().getClass().equals(neighborLeft.getRightMiddle().getClass()) &&
+			   c.getLeftBelow().getClass().equals(neighborLeft.getRightBelow().getClass());
+	}
+	
+	private boolean neigborBelowCheck(ICard c, int x, int y) {
+		ICard neighborBelow = getCard(x, y + 1);
+		return neighborBelow == null ||
+			   c.getBelowLeft().getClass().equals(neighborBelow.getTopLeft().getClass()) &&
+			   c.getBelowMiddle().getClass().equals(neighborBelow.getTopMiddle().getClass()) &&
+			   c.getBelowRight().getClass().equals(neighborBelow.getTopRight().getClass());
+	}
+	
+	private boolean neigborTopCheck(ICard c, int x, int y) {
+		ICard neighborTop = getCard(x, y - 1);
+		return neighborTop == null ||
+			   c.getTopLeft().getClass().equals(neighborTop.getBelowLeft().getClass()) &&
+			   c.getTopMiddle().getClass().equals(neighborTop.getBelowMiddle().getClass()) &&
+			   c.getTopRight().getClass().equals(neighborTop.getBelowRight().getClass());
+	}
+	
+	private boolean neigborRightCheck(ICard c, int x, int y) {
+		ICard neighborRight = getCard(x + 1, y);
+		return neighborRight == null ||
+			   c.getRightTop().getClass().equals(neighborRight.getLeftTop().getClass()) &&
+			   c.getRightMiddle().getClass().equals(neighborRight.getLeftMiddle().getClass()) &&
+			   c.getRightBelow().getClass().equals(neighborRight.getLeftBelow().getClass());
 	}
 	
 	@Override

@@ -12,15 +12,15 @@ public class Edge<V> {
     /**
      * Startknoten.
      */
-    final protected V source;
+    protected final V source;
     /**
      * Zielknoten
      */
-    final protected V target;
+    protected final V target;
     /**
      * Gewicht.
      */
-    final protected double weight;
+    protected final double weight;
 
     /**
      * Erzeugt neue Kante mit Gewicht 1.
@@ -74,7 +74,7 @@ public class Edge<V> {
      * @return String-Darstellung.
      */
     @Override public String toString() {
-        if (weight == 1)
+        if (Float.floatToRawIntBits((float) weight) == 1)
             return source + " -- " + target;
         else
             return source + " -- " + target + " (" + weight + ")";
