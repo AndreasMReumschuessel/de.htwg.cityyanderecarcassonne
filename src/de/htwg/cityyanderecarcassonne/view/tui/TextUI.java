@@ -10,6 +10,7 @@ public class TextUI implements IObserver {
 	
 	private CarcassonneController controller;
 	private StatusMessage sm;
+	private TownsquarePrinter printer;
 	private ICard card;
 	
 	public TextUI (CarcassonneController controller) {
@@ -55,7 +56,11 @@ public class TextUI implements IObserver {
 		GameStatus status = controller.getStatus();
 		
 		if (status != GameStatus.WELCOME) {
-			System.out.println(controller.getTownsquareString());
+			if (printer == null)
+				printer = new TownsquarePrinter(controller.getTownsquare());
+			
+			//System.out.println(printer.printNormalTownsquare());
+			System.out.println(printer.printCardPossibilitiesTownsquare(null));
 			System.out.println();
 		}
 		System.out.println("Status: " + sm.getStatusMessage(status));
