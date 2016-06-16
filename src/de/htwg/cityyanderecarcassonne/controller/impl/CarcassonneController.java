@@ -1,6 +1,8 @@
 package de.htwg.cityyanderecarcassonne.controller.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -26,8 +28,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.stock = Stock.getInstance();
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		
 		status = GameStatus.WELCOME;
+		create();
 	}
 	
 	@Override
@@ -165,6 +167,34 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	private ICard takeCard() {
 		return stock.getRandomCardFromStock();
+	}
+
+	@Override
+	public Map<Position, String> getPossibilitiesMap(ICard card) {
+		 List<Position> lpos = townsquare.getPossibilities(card);
+		 Map<Position, String>  em = new HashMap<>();
+		 int ascii = 65;
+		 
+		 for (Position p : lpos) {
+			 String input = this.generateLetter(ascii);
+			 em.put(p, input);
+			 ascii++;
+		 }
+		 return em;
+	}
+
+	@Override
+	public String generateLetter(int ascii) {
+		
+		char input = 65;
+		
+		if(ascii <= 90 && ascii >= 65){
+			input = (char) ascii;
+		} else if(ascii > 90)	{
+			// StringBuilder für AZ etc.?!
+		}
+		
+		return Character.toString(input);
 	}
 	
 }

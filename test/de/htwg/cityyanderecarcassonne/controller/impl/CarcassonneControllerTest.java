@@ -2,8 +2,6 @@ package de.htwg.cityyanderecarcassonne.controller.impl;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,9 +9,8 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 
-
 public class CarcassonneControllerTest {
-	/*
+	
 	private CarcassonneController cController;
 	
 	@Before
@@ -22,8 +19,8 @@ public class CarcassonneControllerTest {
 	}
 	
 	@Test
-	public void setTownsquareTest() {
-
+	public void getTownsquareTest() {
+		cController.getTownsquare();
 	}
 	
 	@Test
@@ -95,5 +92,5 @@ public class CarcassonneControllerTest {
 	public void rotateCardTest(String direction) {
 
 	}
-	*/
+	
 }

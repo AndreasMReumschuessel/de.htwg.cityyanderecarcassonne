@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -22,7 +23,7 @@ public interface ICarcassonneController {
 	
 	public List<Position> getPossibilities(ICard card);
 	
-	List<IRegion> getRegionPossibilities(ICard card);
+	public List<IRegion> getRegionPossibilities(ICard card);
 	
     public GameStatus getStatus();
     
@@ -38,14 +39,17 @@ public interface ICarcassonneController {
     
     public void rotateCardRight();
 
-	void create();
+    public void create();
 
-	void startRound();
+    public void startRound();
 
-	void finishRound();
+    public void finishRound();
 
-	void setStatus(GameStatus status);
+    public void setStatus(GameStatus status);
 
-	Townsquare getTownsquare();
+    public Townsquare getTownsquare();
 	
+    public Map<Position, String> getPossibilitiesMap(ICard card);
+	
+    public String generateLetter(int ascii);
 }
