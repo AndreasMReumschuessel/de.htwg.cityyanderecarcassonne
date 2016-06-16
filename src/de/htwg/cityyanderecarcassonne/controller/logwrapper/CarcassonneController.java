@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.controller.logwrapper;
 
+/*
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,10 @@ import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.util.observer.Observable;
+*/
 
-public class CarcassonneController extends Observable implements ICarcassonneController {
-
+public class CarcassonneController {/*extends Observable implements ICarcassonneController {
+	
 	private static final Log4JLogger LOGGER = new Log4JLogger(CarcassonneController.class.getName());
 	private ICarcassonneController realController;
 	private long startTime;
@@ -164,5 +166,5 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public String generateLetter(int ascii) {
 		return realController.generateLetter(ascii);
 	}
-
+	*/
 }
