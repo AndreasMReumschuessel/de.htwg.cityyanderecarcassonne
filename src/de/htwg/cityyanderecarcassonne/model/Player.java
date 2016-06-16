@@ -4,11 +4,14 @@ package de.htwg.cityyanderecarcassonne.model;
 public class Player {
 
     private String name;
+    private int sumMeeples;
     private int score;
+    private final int maxMeeple = 8; 
 
     public Player(String name) {
         setName(name);
         setScore(0);
+        sumMeeples = 8;
     }
 
     public void setScore(int score) {
@@ -31,4 +34,20 @@ public class Player {
     public String toString() {
     	return getName();
     }
+
+	public int getSumMeeples() {
+		return sumMeeples;
+	}
+	
+	public void addMeeple()	{
+		if(sumMeeples < maxMeeple)	{
+			sumMeeples++;
+		}
+	}
+	
+	public void removeMeeple()	{
+		if(sumMeeples > 0)	{
+			sumMeeples--;
+		}
+	}
 }

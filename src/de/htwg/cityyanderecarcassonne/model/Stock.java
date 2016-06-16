@@ -157,7 +157,10 @@ public class Stock {
 	 * Should be the "take a card" move.
 	 * @return random card in range of card left from cardStock
 	 */
-	public ICard getRandomCardFromStock()	{		
+	public ICard getRandomCardFromStock()	{
+		if(this.getSizeOfStock() == 0)	{
+			return null;
+		}
 		int i = this.getRandomInRange(0, this.getSizeOfStock()-1);
 		ICard x = cardStock.get(i);
 		cardStock.remove(x);
@@ -172,5 +175,11 @@ public class Stock {
 	 */
 	public int getRandomInRange(int start, int end)	{
 		return ThreadLocalRandom.current().nextInt(start, end + 1);
+	}
+
+	public ICard getStartCard() {
+		ICard startCard = cardStock.get(8);
+		cardStock.remove(8);
+		return startCard;
 	}
 }

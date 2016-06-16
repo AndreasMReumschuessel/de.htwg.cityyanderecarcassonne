@@ -122,8 +122,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void create() {
 		this.townsquare = new Townsquare(sizeX, sizeY);
-		// currentCard = stock.getStartCard();
-		// townsquare.setCard(currentCard, sizeX / 2, sizeY / 2);
+		currentCard = stock.getStartCard();
+		townsquare.setCard(currentCard, sizeX / 2, sizeY / 2);
 		status = GameStatus.CREATE;
 		statusMessage = "";
 		notifyObservers();
@@ -139,6 +139,9 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public void startRound()	{
 		this.setStatus(GameStatus.ROUND_START);
 		currentCard = takeCard();
+		if(currentCard == null)	{
+			// Finish Game : Check points
+		}
 		notifyObservers();
 	}
 	
@@ -161,9 +164,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 	
 	private ICard takeCard() {
-		currentCard = stock.getRandomCardFromStock();
-		// Check if Stock is empty in Stock-Class!
-		return currentCard;
+		return stock.getRandomCardFromStock();
 	}
 	
 }

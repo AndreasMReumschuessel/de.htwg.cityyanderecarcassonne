@@ -46,4 +46,40 @@ public class PlayerTest {
 		assertEquals(200,player.getScore());
 	}
 	
+	@Test
+    public void toStringTest() {
+    	assertEquals("Gustav", player.toString());
+    }
+	
+	@Test
+	public void getSumMeeplesTest()	{
+		assertEquals(8, player.getSumMeeples());
+	}
+	
+	@Test
+	public void addMeepleTest()	{
+		player.removeMeeple();
+		player.removeMeeple();
+		player.addMeeple();
+		assertEquals(7, player.getSumMeeples());
+		
+		player.addMeeple();
+		player.addMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		player.removeMeeple();
+		
+	}
+	
+	@Test
+	public void removeMeepleTest()	{
+		player.removeMeeple();
+		assertEquals(7, player.getSumMeeples());
+	}
 }
