@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 import java.util.HashMap;
 import java.util.Map;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
@@ -18,6 +19,51 @@ public final class TownsquarePrinter {
 		this.dimY = ts.getDimY();
 	}
 	
+	public String printCard(ICard card, boolean selected) {
+		StringBuilder sb = new StringBuilder();
+		String tbBorder;
+		String lrBorder;
+		
+		if (selected) {
+			tbBorder = " ############ ";
+			lrBorder = "#";
+		} else {
+			tbBorder = " ------------ ";
+			lrBorder = "|";
+		}
+		sb.append(tbBorder).append('\n');
+		sb.append(lrBorder).append("  " + regionToChar(card.getTopLeft()) + " " + regionToChar(card.getTopMiddle()) + " " + regionToChar(card.getTopRight()) + "  ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(card.getLeftTop()) + "        " + regionToChar(card.getRightTop())).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(card.getLeftMiddle()) + "   " + regionToChar(card.getCenterMiddle()) + "   " + regionToChar(card.getRightMiddle())).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToChar(card.getLeftBelow()) + "        " + regionToChar(card.getRightBelow())).append(lrBorder).append('\n');
+		sb.append(lrBorder).append("  " + regionToChar(card.getBelowLeft()) + " " + regionToChar(card.getBelowMiddle()) + " " + regionToChar(card.getBelowLeft()) + "  ").append(lrBorder).append('\n');		
+		sb.append(tbBorder).append('\n');
+		
+		return sb.toString();
+	}
+	
+	private String regionToChar(IRegion r) {
+		String className = r.getClass().getSimpleName();
+		String result = " ";
+		if (className.equals("RegionBuilding")) {
+			result = "B";
+		} else if (className.equals("RegionLawn")) {
+			result = "L";
+		} else if (className.equals("RegionStreet")) {
+			result = "S";
+		} else if (className.equals("RegionCrossing")) {
+			result = "C";
+		} else if (className.equals("RegionSchool")) {
+			result = "K";
+		}
+		
+		if (r.getPlayer() != null)
+			result = result + "P";
+		else
+			result = result + " ";
+		return result;
+	}
+	
 	public String printNormalTownsquare() {
 		StringBuilder sb = new StringBuilder();
 		
@@ -31,7 +77,7 @@ public final class TownsquarePrinter {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
 					if (cx != null)
-						sb.append(mlToSl(l, cx.toString()));
+						sb.append(mlToSl(l, printCard(cx, false)));
 					else
 						sb.append("              ");
 				}
@@ -61,7 +107,7 @@ public final class TownsquarePrinter {
 						String ident = possibilities.get(tmppos);
 						sb.append(mlToSl(l, pseudoCard(ident)));
 					} else if (cx != null) {
-						sb.append(mlToSl(l, cx.toString()));
+						sb.append(mlToSl(l, printCard(cx, false)));
 					} else {
 						sb.append("              ");
 					}
@@ -133,17 +179,20 @@ public final class TownsquarePrinter {
 		StringBuilder sb = new StringBuilder();
 		String tbBorder = " ############ ";
 		String lrBorder = "#";
+		
+		String emptyLine = lrBorder + "            " + lrBorder + "\n";
+		
 		sb.append(tbBorder).append('\n');
-		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
-		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(emptyLine);
+		sb.append(emptyLine);
 		sb.append(lrBorder).append("     ");
 		if(identifier.length() < 2)
 			sb.append(identifier + " ");
 		else
 			sb.append(identifier);
 		sb.append("     ").append(lrBorder).append('\n');
-		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
-		sb.append(lrBorder).append("            ").append(lrBorder).append('\n');
+		sb.append(emptyLine);
+		sb.append(emptyLine);
 		sb.append(tbBorder).append('\n');
 		
 		return sb.toString();

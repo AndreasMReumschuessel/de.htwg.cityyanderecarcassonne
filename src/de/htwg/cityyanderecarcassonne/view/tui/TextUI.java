@@ -29,6 +29,7 @@ public class TextUI implements IObserver {
 		
 		if (line.equals("q")) {
 			cont = false;
+			printBye();
 			return cont;
 		} else if (line.equals("h")) {
 			printCommands();
@@ -59,16 +60,22 @@ public class TextUI implements IObserver {
 			if (printer == null)
 				printer = new TownsquarePrinter(controller.getTownsquare());
 			
-			//System.out.println(printer.printNormalTownsquare());
+			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
+				// System.out.println(printer.printCardPossibilitiesTownsquare(controller.getPossibilities(card));
+			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
+				// System.out.println(printer.printMeeplePossibilitiesTownsquare(controller.getPossibilities(card));
+			} else {
+				// System.out.println(printer.printNormalTownsquare());
+			}
 			System.out.println(printer.printCardPossibilitiesTownsquare(null));
 			System.out.println();
 		}
 		System.out.println("Status: " + sm.getStatusMessage(status));
 		System.out.println();
-		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL || status == GameStatus.MEEPLE_SET_FAIL) {
+		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
 			System.out.println("Actual card to place:");
-			System.out.println(card.toString());
+			System.out.println(printer.printCard(card, false));
 			System.out.println();
 		}
 		System.out.println("For commands enter \'h\'.");
@@ -96,6 +103,10 @@ public class TextUI implements IObserver {
 	
 	private void printCommandUnknown() {
 		System.out.println("Yandere-chan doesn't know that command. Enter \'h\'");
+	}
+	
+	private void printBye() {
+		System.out.println("Thanks for playing! See you later.");
 	}
 
 }

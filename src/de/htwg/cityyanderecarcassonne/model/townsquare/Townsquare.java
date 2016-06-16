@@ -17,10 +17,12 @@ public class Townsquare implements ITownsquare {
 	
 	private int dimX;
 	private int dimY;
+	private int size;
 	
 	public Townsquare(int dimX, int dimY) {
 		this.dimX = dimX;
 		this.dimY = dimY;
+		this.size = 0;
 		
 		ts = new ArrayList<>();		
 		for (int i = 0; i < dimY; i++) {
@@ -54,6 +56,7 @@ public class Townsquare implements ITownsquare {
 		if (setPossible(c, x, y)) {
 			ts.get(y).set(x, c);
 			TownsquareGraph.addCard(c, getCard(x - 1, y), getCard(x, y + 1), getCard(x, y - 1), getCard(x + 1, y));
+			size++;
 			return true;
 		}
 		return false;
@@ -135,8 +138,7 @@ public class Townsquare implements ITownsquare {
 	
 	@Override
 	public String toString() {
-		//TODO
-		return "";
+		return "Townsquare, Dim(X|Y): (" + dimX + "|" + dimY + "), Size: " + size;
 	}
 
 	@Override
