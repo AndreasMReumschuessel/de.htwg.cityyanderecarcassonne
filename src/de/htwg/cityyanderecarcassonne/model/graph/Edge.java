@@ -74,7 +74,7 @@ public class Edge<V> {
      * @return String-Darstellung.
      */
     @Override public String toString() {
-        if (Float.floatToRawIntBits((float) weight) == 1)
+        if (weight == 1.0)
             return source + " -- " + target;
         else
             return source + " -- " + target + " (" + weight + ")";
