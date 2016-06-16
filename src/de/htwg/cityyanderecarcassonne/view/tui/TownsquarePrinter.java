@@ -45,15 +45,15 @@ public final class TownsquarePrinter {
 	private String regionToChar(IRegion r) {
 		String className = r.getClass().getSimpleName();
 		String result = " ";
-		if (className.equals("RegionBuilding")) {
+		if ("RegionBuilding".equals(className)) {
 			result = "B";
-		} else if (className.equals("RegionLawn")) {
+		} else if ("RegionLawn".equals(className)) {
 			result = "L";
-		} else if (className.equals("RegionStreet")) {
+		} else if ("RegionStreet".equals(className)) {
 			result = "S";
-		} else if (className.equals("RegionCrossing")) {
+		} else if ("RegionCrossing".equals(className)) {
 			result = "C";
-		} else if (className.equals("RegionSchool")) {
+		} else if ("RegionSchool".equals(className)) {
 			result = "K";
 		}
 		
@@ -76,15 +76,19 @@ public final class TownsquarePrinter {
 			for (int l = 0; l < 7; l++) {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
-					if (cx != null)
-						sb.append(mlToSl(l, printCard(cx, false)));
-					else
-						sb.append("              ");
+					performNormalPrint(l, cx, sb);
 				}
 				sb.append('\n');
 			}
 		}
 		return sb.toString();
+	}
+	
+	private void performNormalPrint(int l, ICard cx, StringBuilder sb) {
+		if (cx != null)
+			sb.append(mlToSl(l, printCard(cx, false)));
+		else
+			sb.append("              ");
 	}
 	
 	public String printCardPossibilitiesTownsquare(Map<Position, String> possibilities) {

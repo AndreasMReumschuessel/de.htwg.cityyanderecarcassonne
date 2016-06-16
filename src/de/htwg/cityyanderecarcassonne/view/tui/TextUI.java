@@ -27,21 +27,21 @@ public class TextUI implements IObserver {
 	public boolean processInput(String line) {
 		boolean cont = true;
 		
-		if (line.equals("q")) {
+		if ("q".equals(line)) {
 			cont = false;
 			printBye();
 			return cont;
-		} else if (line.equals("h")) {
+		} else if ("h".equals(line)) {
 			printCommands();
-		} else if (line.equals("c")) {
+		} else if ("c".equals(line)) {
 			controller.create();
-		} else if (line.equals("sr")) {
+		} else if ("sr".equals(line)) {
 			controller.startRound();
-		} else if (line.equals("fr")) {
+		} else if ("fr".equals(line)) {
 			controller.finishRound();
-		} else if (line.equals("rl")) {
+		} else if ("rl".equals(line)) {
 			controller.rotateCardLeft();
-		} else if (line.equals("rr")) {
+		} else if ("rr".equals(line)) {
 			controller.rotateCardRight();
 		} else if (line.matches("s[0-9]+")) {
 			controller.placeCard(card, Character.getNumericValue(line.charAt(1)), Character.getNumericValue(line.charAt(2)));
@@ -61,24 +61,24 @@ public class TextUI implements IObserver {
 				printer = new TownsquarePrinter(controller.getTownsquare());
 			
 			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
-				// System.out.println(printer.printCardPossibilitiesTownsquare(controller.getPossibilities(card));
+				// printOut(printer.printCardPossibilitiesTownsquare(controller.getPossibilities(card));
 			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
-				// System.out.println(printer.printMeeplePossibilitiesTownsquare(controller.getPossibilities(card));
+				// printOut(printer.printMeeplePossibilitiesTownsquare(controller.getPossibilities(card));
 			} else {
-				// System.out.println(printer.printNormalTownsquare());
+				// printOut(printer.printNormalTownsquare());
 			}
-			System.out.println(printer.printCardPossibilitiesTownsquare(null));
-			System.out.println();
+			printOutln(printer.printCardPossibilitiesTownsquare(null));
+			printOutln();
 		}
-		System.out.println("Status: " + sm.getStatusMessage(status));
-		System.out.println();
+		printOutln("Status: " + sm.getStatusMessage(status));
+		printOutln();
 		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
-			System.out.println("Actual card to place:");
-			System.out.println(printer.printCard(card, false));
-			System.out.println();
+			printOutln("Actual card to place:");
+			printOutln(printer.printCard(card, false));
+			printOutln();
 		}
-		System.out.println("For commands enter \'h\'.");
+		printOutln("For commands enter \'h\'.");
 		
 		if (status == GameStatus.WELCOME) {
 			printPrompt();
@@ -86,15 +86,15 @@ public class TextUI implements IObserver {
 	}
 	
 	private void printCommands() {
-		System.out.println("Commands:");
-		System.out.println("c:           Create a new Game.");
-		System.out.println("sr:          Start a new Round.");
-		System.out.println("fr:          Finish current Round.");
-		System.out.println("rl:          Rotate Card counterclockwise.");
-		System.out.println("rr:          Rotate Card clockwise.");
-		System.out.println("h:           Show Yandere-chan\'s command list.");
-		System.out.println("q:           Quit City Yandere Carcassonne.");
-		System.out.println("s[Position]: Let Yandere-chan place that card for you on [Position]. E.g. sB places the card on possibility B.");
+		printOutln("Commands:");
+		printOutln("c:           Create a new Game.");
+		printOutln("sr:          Start a new Round.");
+		printOutln("fr:          Finish current Round.");
+		printOutln("rl:          Rotate Card counterclockwise.");
+		printOutln("rr:          Rotate Card clockwise.");
+		printOutln("h:           Show Yandere-chan\'s command list.");
+		printOutln("q:           Quit City Yandere Carcassonne.");
+		printOutln("s[Position]: Let Yandere-chan place that card for you on [Position]. E.g. sB places the card on possibility B.");
 	}
 	
 	private void printPrompt() {
@@ -102,11 +102,22 @@ public class TextUI implements IObserver {
 	}
 	
 	private void printCommandUnknown() {
-		System.out.println("Yandere-chan doesn't know that command. Enter \'h\'");
+		printOutln("Yandere-chan doesn't know that command. Enter \'h\'");
 	}
 	
 	private void printBye() {
-		System.out.println("Thanks for playing! See you later.");
+		printOutln("Thanks for playing! See you later.");
 	}
-
+	
+	private void printOutln() {
+		printOutln("");
+	}
+	
+	private void printOutln(String x) {
+		printOut(x + '\n');
+	}
+	
+	private void printOut(String x) {
+		System.out.print(x);
+	}
 }

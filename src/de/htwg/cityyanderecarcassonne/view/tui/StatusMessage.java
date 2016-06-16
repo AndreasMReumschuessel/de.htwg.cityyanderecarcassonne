@@ -1,12 +1,13 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 
 public class StatusMessage {
 	
-    static Hashtable<GameStatus,String> text = new Hashtable<GameStatus, String>();
+    static Map<GameStatus,String> text = new HashMap<GameStatus, String>();
 
     public StatusMessage() {
         text.put(GameStatus.WELCOME,"Welcome to City Yandere Carcassonne, senpai! I'am Yandere-chan and help you with the game.");
