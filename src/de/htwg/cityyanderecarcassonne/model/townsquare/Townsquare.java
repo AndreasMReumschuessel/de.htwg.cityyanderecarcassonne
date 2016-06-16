@@ -1,10 +1,8 @@
 package de.htwg.cityyanderecarcassonne.model.townsquare;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
@@ -12,7 +10,6 @@ import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
-import de.htwg.cityyanderecarcassonne.model.cards.CardD;
 
 public class Townsquare implements ITownsquare {
 	
@@ -137,13 +134,9 @@ public class Townsquare implements ITownsquare {
 	}
 	
 	@Override
-	public String toString() { // Additional Class for string generators (normal/set possibilities/region possibilities)
+	public String toString() {
+		//TODO
 		return "";
-	}
-	
-	private String mlToSl(int ln, String multi) {
-		String[] sl = multi.split("\n");
-		return sl[ln];
 	}
 
 	@Override
