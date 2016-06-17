@@ -74,7 +74,7 @@ public class Edge<V> {
      * @return String-Darstellung.
      */
     @Override public String toString() {
-        if (weight == 1.0)
+        if (Double.compare(weight, 1.0) == 0)
             return source + " -- " + target;
         else
             return source + " -- " + target + " (" + weight + ")";

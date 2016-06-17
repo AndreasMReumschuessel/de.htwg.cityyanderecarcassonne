@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.controller.impl;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -106,7 +107,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public List<IRegion> getRegionPossibilities(ICard card) {
 		// TODO: As descibed in Backlog Item #1489
-		return null;
+		return new LinkedList<IRegion>();
 	}
 
 	@Override

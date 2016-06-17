@@ -72,15 +72,11 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	}
 
 	@Override
-	public boolean containsEdge(V v, V w) throws IllegalArgumentException {
+	public boolean containsEdge(V v, V w) {
 		if(!(adjacencyList.containsKey(v) || adjacencyList.containsValue(w)))	{
 			throw new IllegalArgumentException(vNotExist);
-		} else	{
-			if(adjacencyList.get(v).containsKey(w) && adjacencyList.get(w).containsKey(v))	{
-				return true;
-			} else	{
-				return false;
-			}
+		} else {
+			return adjacencyList.get(v).containsKey(w) && adjacencyList.get(w).containsKey(v);
 		}	
 	}
 
