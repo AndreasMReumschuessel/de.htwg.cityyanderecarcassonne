@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import java.util.List;
 import java.util.Map;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -78,7 +77,7 @@ public final class TownsquarePrinter {
 		}
 	}
 	
-	public String printMeeplePossibilitiesTownsquare(ICard card, List<IRegion> possList) {
+	public String printMeeplePossibilitiesTownsquare(ICard card, Map<IRegion, String> possList) {
 		StringBuilder sb = new StringBuilder();
 		
 		int xMin = getXMin();
@@ -98,7 +97,7 @@ public final class TownsquarePrinter {
 		return sb.toString();
 	}
 	
-	private void performMeeplePrint(int l, ICard card, ICard cx, List<IRegion> possList, StringBuilder sb) {
+	private void performMeeplePrint(int l, ICard card, ICard cx, Map<IRegion, String> possList, StringBuilder sb) {
 		if (cx != null)
 			if (card.equals(cx))
 				sb.append(mlToSl(l, CardPrinter.printCardPoss(cx, possList)));

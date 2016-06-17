@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
 import java.util.List;
+import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -48,7 +49,7 @@ public abstract class CardPrinter {
 		return result;
 	}
 	
-	public static String printCardPoss(ICard card, List<IRegion> possList) {
+	public static String printCardPoss(ICard card, Map<IRegion, String> possList) {
 		StringBuilder sb = new StringBuilder();
 		String tbBorder;
 		String lrBorder;
@@ -57,19 +58,21 @@ public abstract class CardPrinter {
 		lrBorder = "#";
 		
 		sb.append(tbBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToChar(card.getTopLeft()) + " " + regionToChar(card.getTopMiddle()) + " " + regionToChar(card.getTopRight()) + "  ").append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftTop()) + "        " + regionToChar(card.getRightTop())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftMiddle()) + "   " + regionToChar(card.getCenterMiddle()) + "   " + regionToChar(card.getRightMiddle())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftBelow()) + "        " + regionToChar(card.getRightBelow())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToChar(card.getBelowLeft()) + " " + regionToChar(card.getBelowMiddle()) + " " + regionToChar(card.getBelowLeft()) + "  ").append(lrBorder).append('\n');		
+		sb.append(lrBorder).append("  " + regionToCharPoss(card.getTopLeft(), possList) + " " + regionToCharPoss(card.getTopMiddle(), possList) + " " + regionToCharPoss(card.getTopRight(), possList) + "  ").append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToCharPoss(card.getLeftTop(), possList) + "        " + regionToCharPoss(card.getRightTop(), possList)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToCharPoss(card.getLeftMiddle(), possList) + "   " + regionToCharPoss(card.getCenterMiddle(), possList) + "   " + regionToCharPoss(card.getRightMiddle(), possList)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append(regionToCharPoss(card.getLeftBelow(), possList) + "        " + regionToCharPoss(card.getRightBelow(), possList)).append(lrBorder).append('\n');
+		sb.append(lrBorder).append("  " + regionToCharPoss(card.getBelowLeft(), possList) + " " + regionToCharPoss(card.getBelowMiddle(), possList) + " " + regionToCharPoss(card.getBelowLeft(), possList) + "  ").append(lrBorder).append('\n');		
 		sb.append(tbBorder).append('\n');
 		
 		return sb.toString();
 	}
 	
-	private static String regionToCharPoss(IRegion r) {
+	private static String regionToCharPoss(IRegion r, Map<IRegion, String> possList) {
 		String className = r.getClass().getSimpleName();
+		String ident = possList.get(r);
 		String result = " ";
+		
 		if ("RegionBuilding".equals(className)) {
 			result = "B";
 		} else if ("RegionLawn".equals(className)) {
@@ -82,8 +85,8 @@ public abstract class CardPrinter {
 			result = "K";
 		}
 		
-		if (r.getPlayer() != null)
-			result = result + "P";
+		if (ident != null)
+			result = result + ident;
 		else
 			result = result + " ";
 		return result;
