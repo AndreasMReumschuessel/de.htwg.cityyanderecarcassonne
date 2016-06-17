@@ -2,6 +2,8 @@ package de.htwg.cityyanderecarcassonne.controller;
 
 public enum GameStatus {
 	WELCOME,
+	PLAYER_ADDED,
+	PLAYER_CHANGED,
     CREATE,
     CARD_SET_SUCCESS,
     CARD_SET_FAIL,

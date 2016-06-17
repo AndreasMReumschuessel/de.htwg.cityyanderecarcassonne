@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -25,16 +26,26 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private int sizeX, sizeY;
 	private Player currentPlayer;
 	
-	private Map<Position, String> possMap;
-	private boolean possGen;
+	private Map<Position, String> cPossMap;
+	private boolean cPossGen;
+	
+	private Map<IRegion, String> mPossMap;
+	private boolean mPossGen;
+	
+	private Queue<Player> playerQueue;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		
-		this.possMap = new HashMap<>();
-		this.possGen = false;
+		this.cPossMap = new HashMap<>();
+		this.cPossGen = false;
+		
+		this.mPossMap = new HashMap<>();
+		this.mPossGen = false;
+		
+		this.playerQueue = new LinkedList<>();
 		
 		status = GameStatus.WELCOME;
 	}
@@ -78,23 +89,22 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private void placeCard(ICard c, Position pos) {
 		if (townsquare.setCard(c, pos)) {
 			this.setStatus(GameStatus.CARD_SET_SUCCESS);
-			statusMessage = c.toString();
 		} else {
 			this.setStatus(GameStatus.CARD_SET_FAIL);
-			statusMessage = c.toString();
 		}
+		statusMessage = c.toString();
 	}
 	
 	@Override 
 	public void placeCard(ICard c, String poss) {
-		if (possGen) {
+		if (cPossGen) {
 			Map<String, Position> map = new HashMap<>();
-			for (Position p : possMap.keySet())
-				map.put(possMap.get(p), p);
+			for (Position p : cPossMap.keySet())
+				map.put(cPossMap.get(p), p);
 			
 			placeCard(c, map.get(poss));
 		}
-		possGen = false;
+		cPossGen = false;
 		notifyObservers();
 	}
 	
@@ -103,14 +113,25 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return currentCard;
 	}	
 
-	@Override
-	public void placeMeeple(Player player,ICard card, IRegion region) {
+	private void placeMeeple(Player player, ICard card, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
-			statusMessage = card.toString();
 		} else	{
 			setStatus(GameStatus.MEEPLE_SET_FAIL);
 		}
+		statusMessage = "Meeple from Player " + currentPlayer;
+	}
+	
+	@Override
+	public void placeMeeple(Player player, ICard card, String poss) {
+		if (mPossGen) {
+			Map<String, IRegion> map = new HashMap<>();
+			for (IRegion r : mPossMap.keySet())
+				map.put(mPossMap.get(r), r);
+			
+			placeMeeple(player, card, map.get(poss));
+		}
+		mPossGen = false;
 		notifyObservers();
 	}
 	
@@ -123,16 +144,11 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		statusMessage = "";
 		notifyObservers();
 	}
-
-	@Override
-	public void changePlayer(Player player) {
-		currentPlayer = player;
-		notifyObservers();
-	}
 	
 	@Override
 	public void startRound()	{
 		this.setStatus(GameStatus.ROUND_START);
+		statusMessage = "";
 		currentCard = takeCard();
 		if(currentCard == null)	{
 			// Finish Game : Check points
@@ -143,6 +159,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
+		statusMessage = "";
 		// this.getScore();
 		notifyObservers();
 	}
@@ -174,6 +191,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			 em.put(p, input);
 			 ascii++;
 		 }
+		 mPossMap = em;
+		 mPossGen = true;
 		 return em;
 	}
 
@@ -188,8 +207,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			 em.put(p, input);
 			 ascii++;
 		 }
-		 possMap = em;
-		 possGen = true;
+		 cPossMap = em;
+		 cPossGen = true;
 		 return em;
 	}
 
@@ -205,6 +224,36 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			sb.append((char) (((input - 65)%26) + 65));
 		}		
 		return sb.toString();
+	}
+	
+	@Override
+	public void addPlayer(String name) {
+		Player player = new Player(name);
+		playerQueue.add(player);
+		setStatus(GameStatus.PLAYER_ADDED);
+		
+		if ("Yandere-chan".equals(name))
+			statusMessage = "wait no, I have to kill you! Now!";
+		else
+			statusMessage = name + "!";
+		
+		notifyObservers();
+	}
+	
+	@Override
+	public void nextPlayer() {
+		currentPlayer = playerQueue.poll();
+		playerQueue.add(currentPlayer);
+		
+		setStatus(GameStatus.PLAYER_CHANGED);
+		statusMessage = currentPlayer.toString() + " <3";
+		
+		notifyObservers();
+	}
+	
+	@Override
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 }

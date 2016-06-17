@@ -36,8 +36,12 @@ public class TextUI implements IObserver {
 			printCommands();
 		} else if ("c".equals(line)) {
 			controller.create();
+		} else if (line.startsWith("p")) {
+			controller.addPlayer(line.substring(1));
 		} else if ("sr".equals(line)) {
 			controller.startRound();
+		} else if ("np".equals(line)) {
+			controller.nextPlayer();
 		} else if ("fr".equals(line)) {
 			controller.finishRound();
 		} else if ("rl".equals(line)) {
@@ -47,7 +51,7 @@ public class TextUI implements IObserver {
 		} else if (line.matches("s[A-Z]+")) {
 			controller.placeCard(card, line.replace("s", ""));
 		} else if (line.matches("m[A-Z]")) {
-			// controller.placeMeeple(player, line.replace("m", ""));
+			controller.placeMeeple(controller.getCurrentPlayer(), card, line.replace("m", ""));
 		} else {
 			printCommandUnknown();
 		}
@@ -59,7 +63,7 @@ public class TextUI implements IObserver {
 	public void printTUI() {
 		GameStatus status = controller.getStatus();
 		
-		if (status != GameStatus.WELCOME) {
+		if (status != GameStatus.WELCOME && status != GameStatus.PLAYER_ADDED) {
 			if (tsPrinter == null)
 				tsPrinter = new TownsquarePrinter(controller.getTownsquare());
 			
@@ -74,7 +78,7 @@ public class TextUI implements IObserver {
 			}
 			printOutln();
 		}
-		printOutln("Status: " + sm.getStatusMessage(status));
+		printOutln("Status: " + sm.getStatusMessage(status) + controller.getStatusMessage());
 		printOutln();
 		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
@@ -92,6 +96,7 @@ public class TextUI implements IObserver {
 	private void printCommands() {
 		printOutln("Commands:");
 		printOutln("c:           Create a new Game.");
+		printOutln("p[Name]:     Add a Player.");
 		printOutln("sr:          Start a new Round.");
 		printOutln("fr:          Finish current Round.");
 		printOutln("rl:          Rotate Card counterclockwise.");

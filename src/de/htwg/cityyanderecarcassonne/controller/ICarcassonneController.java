@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
@@ -23,9 +22,7 @@ public interface ICarcassonneController {
     
     public String getTownsquareString();
     
-    public void placeMeeple(Player player,ICard card, IRegion region);
-     
-    public void changePlayer(Player player);
+    public void placeMeeple(Player player,ICard card, String poss);
     
     public void rotateCardLeft();
     
@@ -48,4 +45,10 @@ public interface ICarcassonneController {
     public String generateLetter(int ascii);
 
 	void placeCard(ICard c, String poss);
+
+	void addPlayer(String name);
+
+	void nextPlayer();
+
+	Player getCurrentPlayer();
 }
