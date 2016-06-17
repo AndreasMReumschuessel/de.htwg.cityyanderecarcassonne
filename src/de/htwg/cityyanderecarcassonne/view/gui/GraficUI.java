@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
 /* 
  * JMenuBar
@@ -51,9 +54,12 @@ public class GraficUI extends JFrame implements ActionListener {
     
     //Layout
     SpringLayout leftPanelLayout;
+    Border blackline;
     
     //JButton
     JButton finishRound;
+    JButton turnLeft;
+    JButton turnRight;
     
     //Picture
     BufferedImage cardPicture;
@@ -87,14 +93,25 @@ public class GraficUI extends JFrame implements ActionListener {
     
     leftPanel = new JPanel();
     leftPanel.setPreferredSize(new Dimension(250,1000));
-    leftPanel.setBackground(Color.BLUE.brighter());
+    leftPanel.setBackground(Color.gray);
     
 //===================================================================================================    
     
     
     finishRound = new JButton("Finish round");
     finishRound.setPreferredSize(new Dimension(200, 50));
+    finishRound.setFont(new Font("Arial", Font.PLAIN, 25));
+    finishRound.setToolTipText("Finishes round");
     
+    turnLeft = new JButton();
+    turnLeft.setPreferredSize(new Dimension(75, 40));
+    turnLeft.setIcon(new ImageIcon("./src/de/htwg/cityyanderecarcassonne/view/gui/turn_left.png"));
+    turnLeft.setToolTipText("Turns card to the left");
+    
+    turnRight = new JButton();
+    turnRight.setPreferredSize(new Dimension(75, 40));
+    turnRight.setIcon(new ImageIcon("./src/de/htwg/cityyanderecarcassonne/view/gui/turn_right.png"));
+    turnRight.setToolTipText("Turns card to the right");
 
 //===================================================================================================    
     
@@ -105,6 +122,7 @@ public class GraficUI extends JFrame implements ActionListener {
      }
  
     picLabel = new JLabel(new ImageIcon(cardPicture));
+    picLabel.setToolTipText("Current card on hand");
     
 //===================================================================================================        
     
@@ -115,6 +133,15 @@ public class GraficUI extends JFrame implements ActionListener {
     
     leftPanelLayout.putConstraint(SpringLayout.WEST	, picLabel, 59, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, picLabel, 100, SpringLayout.NORTH, contentPane);
+    
+    leftPanelLayout.putConstraint(SpringLayout.WEST	, turnLeft, 40, SpringLayout.WEST, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.NORTH, turnLeft, 260, SpringLayout.NORTH, contentPane);
+    
+    leftPanelLayout.putConstraint(SpringLayout.WEST	, turnRight, 140, SpringLayout.WEST, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.NORTH, turnRight, 260, SpringLayout.NORTH, contentPane);
+    
+    blackline = BorderFactory.createLineBorder(Color.black);
+    leftPanel.setBorder(blackline);
     
     leftPanel.setLayout(leftPanelLayout);
 
@@ -127,6 +154,8 @@ public class GraficUI extends JFrame implements ActionListener {
     
     leftPanel.add(finishRound);
     leftPanel.add(picLabel);
+    leftPanel.add(turnLeft);
+    leftPanel.add(turnRight);
     
     this.setJMenuBar(menuBar);
     this.add(mainPanel, BorderLayout.CENTER);
