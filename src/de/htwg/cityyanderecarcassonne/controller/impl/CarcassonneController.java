@@ -186,16 +186,16 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
 	@Override
 	public String generateLetter(int ascii) {
+		StringBuilder sb = new StringBuilder();
+		int input = ascii + 65;
 		
-		char input = 65;
-		
-		if(ascii <= 90 && ascii >= 65){
-			input = (char) ascii;
-		} else if(ascii > 90)	{
-			// StringBuilder für AZ etc.?!
-		}
-		
-		return Character.toString(input);
+		if(input >= 65 && input <= 90){
+			sb.append((char) input);
+		} else if(input > 91){
+			sb.append((char) 65);
+			sb.append((char) (input - 65)%35 + 65);  
+		}		
+		return sb.toString();
 	}
 	
 }
