@@ -1,17 +1,16 @@
 package de.htwg.cityyanderecarcassonne.model;
-//update
 
 public class Player {
 
     private String name;
     private int sumMeeples;
     private int score;
-    private final int maxMeeple = 8; 
+    private static final int MAX_MEEPLE = 8; 
 
     public Player(String name) {
+    	this.sumMeeples = 8;
         setName(name);
         setScore(0);
-        sumMeeples = 8;
     }
 
     public void setScore(int score) {
@@ -40,7 +39,7 @@ public class Player {
 	}
 	
 	public void addMeeple()	{
-		if(sumMeeples < maxMeeple)	{
+		if(sumMeeples < MAX_MEEPLE)	{
 			sumMeeples++;
 		}
 	}

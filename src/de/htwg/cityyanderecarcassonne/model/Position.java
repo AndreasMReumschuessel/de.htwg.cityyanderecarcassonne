@@ -47,6 +47,10 @@ public class Position {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		return xyEquals(obj);
+	}
+	
+	private boolean xyEquals(Object obj) {
 		Position other = (Position) obj;
 		if (x != other.x)
 			return false;

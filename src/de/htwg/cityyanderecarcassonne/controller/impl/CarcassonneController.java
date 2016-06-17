@@ -19,10 +19,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private GameStatus status = GameStatus.WELCOME;
 	private String statusMessage;
 	private Stock stock;
-	public ICard currentCard;
+	private ICard currentCard;
 	private Townsquare townsquare;
 	private int sizeX, sizeY;
-	public Player currentPlayer;
+	private Player currentPlayer;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
@@ -105,8 +105,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public List<IRegion> getRegionPossibilities(ICard card) {
-		//return townsquare.getRegionPossibilities(card);
-		notifyObservers();
+		// TODO: As descibed in Backlog Item #1489
 		return null;
 	}
 

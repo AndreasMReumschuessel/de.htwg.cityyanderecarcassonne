@@ -21,7 +21,7 @@ public class IDManager {
 	private static IDManager instance = null;
 	
 	protected IDManager() {
-		//throw new UnsupportedOperationException();
+		
 	}
 	
 	public static IDManager getInstance()	{

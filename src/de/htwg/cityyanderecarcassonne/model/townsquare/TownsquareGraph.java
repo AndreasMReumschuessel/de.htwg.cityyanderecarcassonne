@@ -111,7 +111,7 @@ public final class TownsquareGraph {
 		
 		for (IRegion r : tmp) {
 			r.setID(maxID);
-			IDManager.setPlayer(maxID, r.getPlayer()); //TODO: Validate
+			IDManager.setPlayer(maxID, r.getPlayer());
 		}
 	}
 	
