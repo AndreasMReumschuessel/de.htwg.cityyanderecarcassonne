@@ -172,7 +172,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public Map<Position, String> getPossibilitiesMap(ICard card) {
 		 List<Position> lpos = townsquare.getPossibilities(card);
 		 Map<Position, String>  em = new HashMap<>();
-		 int ascii = 65;
+		 int ascii = 0;
 		 
 		 for (Position p : lpos) {
 			 String input = this.generateLetter(ascii);
@@ -191,9 +191,9 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		
 		if(input >= 65 && input <= 90){
 			sb.append((char) input);
-		} else if(input > 91){
+		} else if(input > 90){
 			sb.append((char) 65);
-			sb.append((char) (input - 65)%35 + 65);  
+			sb.append((char) ((input - 65)%35 + 65));  
 		}		
 		return sb.toString();
 	}
