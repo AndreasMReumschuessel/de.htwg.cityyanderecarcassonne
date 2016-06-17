@@ -11,7 +11,7 @@ public class TextUI implements IObserver {
 	
 	private CarcassonneController controller;
 	private StatusMessage sm;
-	private TownsquarePrinter printer;
+	private TownsquarePrinter tsPrinter;
 	private ICard card;
 	
 	public TextUI (CarcassonneController controller) {
@@ -58,18 +58,18 @@ public class TextUI implements IObserver {
 		GameStatus status = controller.getStatus();
 		
 		if (status != GameStatus.WELCOME) {
-			if (printer == null)
-				printer = new TownsquarePrinter(controller.getTownsquare());
+			if (tsPrinter == null)
+				tsPrinter = new TownsquarePrinter(controller.getTownsquare());
 			
 			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 				card = controller.cardOnHand();
-				// printOut(printer.printNormalTownsquare());
-				printOutln(printer.printCardPossibilitiesTownsquare(controller.getPossibilitiesMap(card)));
+				printOutln(tsPrinter.printCardPossibilitiesTownsquare(controller.getPossibilitiesMap(card)));
 			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
-				// printOut(printer.printMeeplePossibilitiesTownsquare(controller.getPossibilities(card));
-				printOut(printer.printNormalTownsquare());
+				card = controller.cardOnHand();
+				printOut(tsPrinter.printMeeplePossibilitiesTownsquare(card, controller.getRegionPossibilities(card)));
+				// printOut(printer.printNormalTownsquare());
 			} else {
-				printOut(printer.printNormalTownsquare());
+				printOut(tsPrinter.printNormalTownsquare());
 			}
 			printOutln();
 		}
@@ -78,7 +78,7 @@ public class TextUI implements IObserver {
 		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
 			printOutln("Actual card to place:");
-			printOutln(printer.printCard(card, false));
+			printOutln(CardPrinter.printCard(card));
 			printOutln();
 		}
 		printOutln("For commands enter \'h\'.");

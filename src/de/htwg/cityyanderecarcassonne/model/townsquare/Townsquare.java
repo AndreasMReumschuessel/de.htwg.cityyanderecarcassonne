@@ -72,8 +72,8 @@ public class Townsquare implements ITownsquare {
 		
 		ICard card = c;
 		
-		for (int cy = 0; cy < dimY - 1; cy++) {
-			for (int cx = 0; cx < dimX - 1; cx++) {
+		for (int cy = 0; cy < dimY; cy++) {
+			for (int cx = 0; cx < dimX; cx++) {
 				ICard nL = getCard(cx - 1, cy);
 				ICard nB = getCard(cx, cy + 1);
 				ICard nT = getCard(cx, cy - 1);

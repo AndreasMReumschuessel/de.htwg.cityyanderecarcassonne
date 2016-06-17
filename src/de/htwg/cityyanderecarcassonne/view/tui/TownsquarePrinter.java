@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
+import java.util.List;
 import java.util.Map;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -16,51 +17,6 @@ public final class TownsquarePrinter {
 		this.ts = ts;
 		this.dimX = ts.getDimX();
 		this.dimY = ts.getDimY();
-	}
-	
-	public String printCard(ICard card, boolean selected) {
-		StringBuilder sb = new StringBuilder();
-		String tbBorder;
-		String lrBorder;
-		
-		if (selected) {
-			tbBorder = " ############ ";
-			lrBorder = "#";
-		} else {
-			tbBorder = " ------------ ";
-			lrBorder = "|";
-		}
-		sb.append(tbBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToChar(card.getTopLeft()) + " " + regionToChar(card.getTopMiddle()) + " " + regionToChar(card.getTopRight()) + "  ").append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftTop()) + "        " + regionToChar(card.getRightTop())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftMiddle()) + "   " + regionToChar(card.getCenterMiddle()) + "   " + regionToChar(card.getRightMiddle())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append(regionToChar(card.getLeftBelow()) + "        " + regionToChar(card.getRightBelow())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToChar(card.getBelowLeft()) + " " + regionToChar(card.getBelowMiddle()) + " " + regionToChar(card.getBelowLeft()) + "  ").append(lrBorder).append('\n');		
-		sb.append(tbBorder).append('\n');
-		
-		return sb.toString();
-	}
-	
-	private String regionToChar(IRegion r) {
-		String className = r.getClass().getSimpleName();
-		String result = " ";
-		if ("RegionBuilding".equals(className)) {
-			result = "B";
-		} else if ("RegionLawn".equals(className)) {
-			result = "L";
-		} else if ("RegionStreet".equals(className)) {
-			result = "S";
-		} else if ("RegionCrossing".equals(className)) {
-			result = "C";
-		} else if ("RegionSchool".equals(className)) {
-			result = "K";
-		}
-		
-		if (r.getPlayer() != null)
-			result = result + "P";
-		else
-			result = result + " ";
-		return result;
 	}
 	
 	public String printNormalTownsquare() {
@@ -85,7 +41,7 @@ public final class TownsquarePrinter {
 	
 	private void performNormalPrint(int l, ICard cx, StringBuilder sb) {
 		if (cx != null)
-			sb.append(mlToSl(l, printCard(cx, false)));
+			sb.append(mlToSl(l, CardPrinter.printCard(cx)));
 		else
 			sb.append("              ");
 	}
@@ -116,10 +72,40 @@ public final class TownsquarePrinter {
 			String ident = possibilities.get(tmppos);
 			sb.append(mlToSl(l, pseudoCard(ident)));
 		} else if (cx != null) {
-			sb.append(mlToSl(l, printCard(cx, false)));
+			sb.append(mlToSl(l, CardPrinter.printCard(cx)));
 		} else {
 			sb.append("              ");
 		}
+	}
+	
+	public String printMeeplePossibilitiesTownsquare(ICard card, List<IRegion> possList) {
+		StringBuilder sb = new StringBuilder();
+		
+		int xMin = getXMin();
+		int xMax = getXMax();
+		int yMin = getYMin();
+		int yMax = getYMax();
+		
+		for (int y = yMin; y < yMax + 1; y++) {
+			for (int l = 0; l < 7; l++) {
+				for (int x = xMin; x < xMax + 1; x++) {
+					ICard cx = ts.getCard(x, y);
+					performMeeplePrint(l, card, cx, possList, sb);
+				}
+				sb.append('\n');
+			}
+		}
+		return sb.toString();
+	}
+	
+	private void performMeeplePrint(int l, ICard card, ICard cx, List<IRegion> possList, StringBuilder sb) {
+		if (cx != null)
+			if (card.equals(cx))
+				sb.append(mlToSl(l, CardPrinter.printCardPoss(cx, possList)));
+			else
+				sb.append(mlToSl(l, CardPrinter.printCard(cx)));
+		else
+			sb.append("              ");
 	}
 	
 	private String mlToSl(int ln, String multi) {
