@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import java.util.List;
 import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;

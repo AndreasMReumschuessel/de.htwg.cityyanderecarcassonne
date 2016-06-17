@@ -46,6 +46,8 @@ public class TextUI implements IObserver {
 			controller.rotateCardRight();
 		} else if (line.matches("s[A-Z]+")) {
 			controller.placeCard(card, line.replace("s", ""));
+		} else if (line.matches("m[A-Z]")) {
+			// controller.placeMeeple(player, line.replace("m", ""));
 		} else {
 			printCommandUnknown();
 		}
@@ -67,7 +69,6 @@ public class TextUI implements IObserver {
 			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
 				card = controller.cardOnHand();
 				printOut(tsPrinter.printMeeplePossibilitiesTownsquare(card, controller.getRegionPossibilitiesMap(card)));
-				// printOut(printer.printNormalTownsquare());
 			} else {
 				printOut(tsPrinter.printNormalTownsquare());
 			}

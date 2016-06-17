@@ -240,7 +240,7 @@ public abstract class MasterCard implements ICard {
 	public List<IRegion> getRegionPossibilities()	{
 		List<IRegion> rP = new LinkedList<>();
 		
-		for(IRegion region : this.getRegionList())	{
+for(IRegion region : this.getRegionList())	{
 			if(region.getClass().equals(RegionCrossing.class))
 				continue;
 			if(!IDManager.isOwned(region.getID()))	{
