@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.view.tui;
+package de.htwg.cityyanderecarcassonne.view;
 
 import static org.junit.Assert.*;
 

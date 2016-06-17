@@ -30,7 +30,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		status = GameStatus.WELCOME;
-		create();
 	}
 	
 	@Override

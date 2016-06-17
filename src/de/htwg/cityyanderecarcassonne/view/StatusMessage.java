@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.view.tui;
+package de.htwg.cityyanderecarcassonne.view;
 
 import java.util.HashMap;
 import java.util.Map;

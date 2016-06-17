@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
