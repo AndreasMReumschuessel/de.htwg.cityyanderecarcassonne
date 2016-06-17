@@ -7,6 +7,7 @@ import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionCrossing;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 
 public abstract class MasterCard implements ICard {
@@ -159,6 +160,8 @@ public abstract class MasterCard implements ICard {
 		rP.add(belowMiddle);
 		rP.add(belowRight);
 		
+		rP.add(centerMiddle);
+		
 		rP.add(topLeft);
 		rP.add(topMiddle);
 		rP.add(topRight);
@@ -238,6 +241,8 @@ public abstract class MasterCard implements ICard {
 		List<IRegion> rP = new LinkedList<>();
 		
 		for(IRegion region : this.getRegionList())	{
+			if(region.getClass().equals(RegionCrossing.class))
+				continue;
 			if(!IDManager.isOwned(region.getID()))	{
 				rP.add(region);
 			}
