@@ -174,7 +174,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			 em.put(p, input);
 			 ascii++;
 		 }
-		 return null;
+		 return em;
 	}
 
 	@Override
