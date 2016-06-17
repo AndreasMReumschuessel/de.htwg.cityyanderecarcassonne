@@ -25,10 +25,17 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private int sizeX, sizeY;
 	private Player currentPlayer;
 	
+	private Map<Position, String> possMap;
+	private boolean possGen;
+	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
+		
+		this.possMap = new HashMap<>();
+		this.possGen = false;
+		
 		status = GameStatus.WELCOME;
 	}
 	
@@ -68,20 +75,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
         return status;
     }
 	
-    @Override
-	public void placeCard(ICard c, int x, int y) {
-		if (townsquare.setCard(c, x, y)) {
-			status = GameStatus.CARD_SET_SUCCESS;
-			statusMessage = c.toString();
-		} else {
-			status = GameStatus.CARD_SET_FAIL;
-			statusMessage = c.toString();
-		}
-		notifyObservers();
-	}
-	
-	@Override
-	public void placeCard(ICard c, Position pos) {
+	private void placeCard(ICard c, Position pos) {
 		if (townsquare.setCard(c, pos)) {
 			this.setStatus(GameStatus.CARD_SET_SUCCESS);
 			statusMessage = c.toString();
@@ -89,6 +83,18 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			this.setStatus(GameStatus.CARD_SET_FAIL);
 			statusMessage = c.toString();
 		}
+	}
+	
+	@Override 
+	public void placeCard(ICard c, String poss) {
+		if (possGen) {
+			Map<String, Position> map = new HashMap<>();
+			for (Position p : possMap.keySet())
+				map.put(possMap.get(p), p);
+			
+			placeCard(c, map.get(poss));
+		}
+		possGen = false;
 		notifyObservers();
 	}
 	
@@ -99,7 +105,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public List<IRegion> getRegionPossibilities(ICard card) {
-		// TODO: As descibed in Backlog Item #1489
+		// TODO
 		return new LinkedList<IRegion>();
 	}
 
@@ -173,6 +179,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			 em.put(p, input);
 			 ascii++;
 		 }
+		 possMap = em;
+		 possGen = true;
 		 return em;
 	}
 

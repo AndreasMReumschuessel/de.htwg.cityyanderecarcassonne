@@ -44,8 +44,8 @@ public class TextUI implements IObserver {
 			controller.rotateCardLeft();
 		} else if ("rr".equals(line)) {
 			controller.rotateCardRight();
-		} else if (line.matches("s[0-9]+")) {
-			controller.placeCard(card, Character.getNumericValue(line.charAt(1)), Character.getNumericValue(line.charAt(2)));
+		} else if (line.matches("s[A-Z]+")) {
+			controller.placeCard(card, line.replace("s", ""));
 		} else {
 			printCommandUnknown();
 		}

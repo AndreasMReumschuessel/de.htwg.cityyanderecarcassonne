@@ -17,10 +17,6 @@ public interface ICarcassonneController {
 	
 	public ICard cardOnHand();
 	
-	public void placeCard(ICard c, Position pos);
-	
-	public void placeCard(ICard c, int x, int y);
-	
 	public List<IRegion> getRegionPossibilities(ICard card);
 	
     public GameStatus getStatus();
@@ -50,4 +46,6 @@ public interface ICarcassonneController {
     public Map<Position, String> getPossibilitiesMap(ICard card);
 	
     public String generateLetter(int ascii);
+
+	void placeCard(ICard c, String poss);
 }
