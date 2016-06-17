@@ -1,38 +1,44 @@
 package de.htwg.cityyanderecarcassonne.model;
 
+import java.util.List;
+
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 
 public interface ICard {
 	
-	IRegion getTopLeft();
+	public IRegion getTopLeft();
 	
-	IRegion getTopMiddle();
+	public IRegion getTopMiddle();
 	
-	IRegion getTopRight();
+	public IRegion getTopRight();
 	
-	IRegion getLeftTop();
+	public IRegion getLeftTop();
 	
-	IRegion getRightTop();
+	public IRegion getRightTop();
 	
-	IRegion getLeftMiddle();
+	public IRegion getLeftMiddle();
 	
-	IRegion getCenterMiddle();
+	public IRegion getCenterMiddle();
 	
-	IRegion getRightMiddle();
+	public IRegion getRightMiddle();
 	
-	IRegion getLeftBelow();
+	public IRegion getLeftBelow();
 	
-	IRegion getRightBelow();
+	public IRegion getRightBelow();
 	
-	IRegion getBelowLeft();
+	public IRegion getBelowLeft();
 	
-	IRegion getBelowMiddle();
+	public IRegion getBelowMiddle();
 	
-	IRegion getBelowRight();
+	public IRegion getBelowRight();
 	
-	Graph<IRegion> getCardGraph();
+	public Graph<IRegion> getCardGraph();
 	
-	ICard rotateLeft();
+	public List<IRegion> getRegionList();
 	
-	ICard rotateRight();
+	public ICard rotateLeft();
+	
+	public ICard rotateRight();
+	
+	public List<IRegion> getRegionPossibilities();
 }

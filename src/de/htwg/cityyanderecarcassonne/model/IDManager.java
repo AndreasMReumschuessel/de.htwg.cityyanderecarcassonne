@@ -97,6 +97,11 @@ public class IDManager {
 		return false;
 	}
 	
+	/**
+	 * Returns true when the id is already used
+	 * @param id
+	 * @return 
+	 */
 	public static boolean isOwned(int id) {
 		if (idpool.contains(id)) {
 			return !idPlayer.get(id).isEmpty();

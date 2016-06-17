@@ -1,5 +1,9 @@
 package de.htwg.cityyanderecarcassonne.model.cards;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
@@ -144,6 +148,28 @@ public abstract class MasterCard implements ICard {
 		return cardGraph;
 	}
 	
+	public List<IRegion> getRegionList()	{
+		List<IRegion> rP = new LinkedList<>();
+		
+		rP.add(leftTop);
+		rP.add(leftMiddle);
+		rP.add(leftBelow);
+		
+		rP.add(belowLeft);
+		rP.add(belowMiddle);
+		rP.add(belowRight);
+		
+		rP.add(topLeft);
+		rP.add(topMiddle);
+		rP.add(topRight);
+		
+		rP.add(rightTop);
+		rP.add(rightMiddle);
+		rP.add(rightBelow);
+		
+		return rP;
+	}
+	
 	@Override
 	public ICard rotateLeft() {
 		rotate("left");
@@ -206,6 +232,17 @@ public abstract class MasterCard implements ICard {
 			rightMiddle = tM;
 			rightBelow = tR;
 		}
+	}
+	
+	public List<IRegion> getRegionPossibilities()	{
+		List<IRegion> rP = new LinkedList<>();
+		
+		for(IRegion region : this.getRegionList())	{
+			if(!IDManager.isOwned(region.getID()))	{
+				rP.add(region);
+			}
+		}
+		return rP;
 	}
 	
 	@Override

@@ -105,8 +105,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public List<IRegion> getRegionPossibilities(ICard card) {
-		// TODO
-		return new LinkedList<IRegion>();
+		return card.getRegionPossibilities();
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			sb.append((char) input);
 		} else if(input > 90){
 			sb.append((char) 65);
-			sb.append((char) ((input - 65)%35 + 65));  
+			sb.append((char) (((input - 65)%26) + 65));
 		}		
 		return sb.toString();
 	}
