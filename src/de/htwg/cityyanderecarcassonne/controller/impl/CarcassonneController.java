@@ -165,7 +165,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public Map<IRegion, String>	getRegionPossibilitiesMap(ICard card)	{
-		 List<IRegion> lR = card.getRegionList();
+		 List<IRegion> lR = card.getRegionPossibilities();
 		 Map<IRegion, String>  em = new HashMap<>();
 		 int ascii = 0;
 		 

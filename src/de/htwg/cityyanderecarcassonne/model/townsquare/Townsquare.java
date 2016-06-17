@@ -1,7 +1,5 @@
 package de.htwg.cityyanderecarcassonne.model.townsquare;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
