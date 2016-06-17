@@ -148,6 +148,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
+		// this.getScore();
 		notifyObservers();
 	}
 
