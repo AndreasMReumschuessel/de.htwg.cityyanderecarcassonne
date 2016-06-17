@@ -95,12 +95,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public ICard cardOnHand() {
 		return currentCard;
-	}
-
-	@Override
-	public List<Position> getPossibilities(ICard card) {
-		notifyObservers();
-		return townsquare.getPossibilities(card);
 	}	
 	
 	@Override

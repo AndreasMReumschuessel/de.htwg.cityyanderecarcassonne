@@ -21,8 +21,6 @@ public interface ICarcassonneController {
 	
 	public void placeCard(ICard c, int x, int y);
 	
-	public List<Position> getPossibilities(ICard card);
-	
 	public List<IRegion> getRegionPossibilities(ICard card);
 	
     public GameStatus getStatus();
