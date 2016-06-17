@@ -173,7 +173,7 @@ public abstract class MasterCard implements ICard {
 		IRegion rM = getRightMiddle();
 		IRegion rB = getRightBelow();
 		
-		if (direction.equals("left")) {
+		if ("left".equals(direction)) {
 			leftTop = tR;
 			leftMiddle = tM;
 			leftBelow = tL;

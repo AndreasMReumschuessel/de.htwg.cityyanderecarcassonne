@@ -62,13 +62,15 @@ public class TextUI implements IObserver {
 				printer = new TownsquarePrinter(controller.getTownsquare());
 			
 			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
-				// printOut(printer.printCardPossibilitiesTownsquare(controller.getPossibilities(card));
+				card = controller.cardOnHand();
+				// printOut(printer.printNormalTownsquare());
+				printOutln(printer.printCardPossibilitiesTownsquare(controller.getPossibilitiesMap(card)));
 			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
 				// printOut(printer.printMeeplePossibilitiesTownsquare(controller.getPossibilities(card));
+				printOut(printer.printNormalTownsquare());
 			} else {
-				// printOut(printer.printNormalTownsquare());
+				printOut(printer.printNormalTownsquare());
 			}
-			printOutln(printer.printCardPossibilitiesTownsquare(null));
 			printOutln();
 		}
 		printOutln("Status: " + sm.getStatusMessage(status));

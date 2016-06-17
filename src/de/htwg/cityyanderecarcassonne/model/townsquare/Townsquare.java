@@ -1,5 +1,7 @@
 package de.htwg.cityyanderecarcassonne.model.townsquare;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,8 +65,12 @@ public class Townsquare implements ITownsquare {
 	}
 	
 	@Override
-	public List<Position> getPossibilities(ICard c) {
+	public List<Position> getPossibilities(final ICard c) {
 		List<Position> result = new LinkedList<>();
+		
+		//TODO Autosize
+		
+		ICard card = c;
 		
 		for (int cy = 0; cy < dimY - 1; cy++) {
 			for (int cx = 0; cx < dimX - 1; cx++) {
@@ -75,12 +81,21 @@ public class Townsquare implements ITownsquare {
 				
 				boolean hasNeigbhor = nL != null || nB != null || nT != null || nR != null;
 				
-				boolean setPossible = setPossible(c, cx, cy) ||
-									  setPossible(c.rotateRight(), cx, cy) ||
-									  setPossible(c.rotateRight(), cx, cy) ||
-									  setPossible(c.rotateRight(), cx, cy);
+				/*boolean setPossible = setPossible(card, cx, cy) ||
+									  setPossible(card.rotateRight(), cx, cy) ||
+									  setPossible(card.rotateRight(), cx, cy) ||
+									  setPossible(card.rotateRight(), cx, cy);*/
 				
-				if (hasNeigbhor && setPossible) {
+				boolean setPossible1 = setPossible(card, cx, cy);
+				boolean setPossible2 = setPossible(card.rotateRight(), cx, cy);
+				boolean setPossible3 = setPossible(card.rotateRight(), cx, cy);
+				boolean setPossible4 = setPossible(card.rotateRight(), cx, cy);
+				card.rotateRight();
+				
+				boolean setSum = setPossible1 || setPossible2 || setPossible3 || setPossible4; 
+				
+				
+				if (hasNeigbhor && setSum) {
 					Position possibility = new Position(cx, cy);
 						
 					result.add(possibility);
@@ -119,7 +134,7 @@ public class Townsquare implements ITownsquare {
 		return nL && nB && nT && nR;
 	}
 	
-	private boolean neigborLeftCheck(ICard c, int x, int y) {
+	private boolean neigborLeftCheck(ICard c, int x, int y) {		
 		ICard neighborLeft = getCard(x - 1, y);
 		return neighborLeft == null ||
 			   c.getLeftTop().getClass().equals(neighborLeft.getRightTop().getClass()) &&

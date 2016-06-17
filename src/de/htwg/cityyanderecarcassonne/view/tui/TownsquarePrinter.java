@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import java.util.HashMap;
 import java.util.Map;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -93,9 +92,6 @@ public final class TownsquarePrinter {
 	
 	public String printCardPossibilitiesTownsquare(Map<Position, String> possibilities) {
 		StringBuilder sb = new StringBuilder();
-		
-		possibilities = new HashMap<Position, String>();
-		possibilities.put(new Position(5, 4), "C");
 		
 		int xMin = getXMin();
 		int xMax = getXMax();
