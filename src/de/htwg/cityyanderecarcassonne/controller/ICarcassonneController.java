@@ -17,8 +17,6 @@ public interface ICarcassonneController {
 	
 	public ICard cardOnHand();
 	
-	public List<IRegion> getRegionPossibilities(ICard card);
-	
     public GameStatus getStatus();
     
     public String getStatusMessage();
@@ -32,6 +30,8 @@ public interface ICarcassonneController {
     public void rotateCardLeft();
     
     public void rotateCardRight();
+    
+    public Map<IRegion, String>	getRegionPossibilitiesMap(ICard card);
 
     public void create();
 

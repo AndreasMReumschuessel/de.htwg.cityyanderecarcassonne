@@ -102,11 +102,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public ICard cardOnHand() {
 		return currentCard;
 	}	
-	
-	@Override
-	public List<IRegion> getRegionPossibilities(ICard card) {
-		return card.getRegionPossibilities();
-	}
 
 	@Override
 	public void placeMeeple(Player player,ICard card, IRegion region) {
@@ -166,6 +161,20 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	private ICard takeCard() {
 		return stock.getRandomCardFromStock();
+	}
+	
+	@Override
+	public Map<IRegion, String>	getRegionPossibilitiesMap(ICard card)	{
+		 List<IRegion> lR = card.getRegionList();
+		 Map<IRegion, String>  em = new HashMap<>();
+		 int ascii = 0;
+		 
+		 for (IRegion p : lR) {
+			 String input = this.generateLetter(ascii);
+			 em.put(p, input);
+			 ascii++;
+		 }
+		 return null;
 	}
 
 	@Override
