@@ -25,6 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
@@ -55,11 +56,18 @@ public class GraficUI extends JFrame implements ActionListener {
     JMenuItem info;
     JMenuItem close;
     
+    JMenuItem finishRoundItem;
+    JMenuItem rotateLeftItem;
+    JMenuItem rotateRightItem;
+    
     //Panel
     static JPanel mainPanel;
     JPanel leftPanel;
     JPanel player1Panel;
     JPanel player2Panel;
+    
+    //JTextField
+    static JLabel textField;
     
     //Layout
     SpringLayout leftPanelLayout;
@@ -114,9 +122,26 @@ public class GraficUI extends JFrame implements ActionListener {
     info = new JMenuItem("Information");
     close = new JMenuItem("Quit City Yandere Carcassone");
     
+    finishRoundItem = new JMenuItem("Finish current round");
+    rotateLeftItem = new JMenuItem("Rotate card to the left");
+    rotateRightItem = new JMenuItem("Rotate card to the right");
+    
     newGame.addActionListener(this);
     info.addActionListener(this);
     close.addActionListener(this);
+    
+    finishRoundItem.addActionListener(this);
+    rotateLeftItem.addActionListener(this);
+    rotateRightItem.addActionListener(this);
+    
+    KeyStroke finish = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+    finishRoundItem.setAccelerator(finish);
+    
+    KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0);
+    rotateLeftItem.setAccelerator(left);
+    
+    KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0);
+    rotateRightItem.setAccelerator(right);
    
     KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK);
     newGame.setAccelerator(ctrlC);
@@ -150,6 +175,14 @@ public class GraficUI extends JFrame implements ActionListener {
     
 //===================================================================================================    
     
+    textField = new JLabel();
+    textField.setPreferredSize(new Dimension(230, 100));
+    textField.setBackground(Color.WHITE);
+    textField.setHorizontalAlignment(SwingConstants.CENTER);
+    textField.setBorder(blackline);
+    textField.setOpaque(true);
+
+//=================================================================================================== 
     
     finishRound = new JButton("Finish round");
     finishRound.setPreferredSize(new Dimension(200, 50));
@@ -185,6 +218,7 @@ public class GraficUI extends JFrame implements ActionListener {
     meepleCount1.setPreferredSize(new Dimension(50, 50));
     meepleCount1.setBackground(Color.WHITE);
     meepleCount1.setOpaque(true);
+    meepleCount1.setHorizontalAlignment(SwingConstants.CENTER);
     
     player1Name = new JLabel();
     player1Name.setText(player1);
@@ -194,6 +228,7 @@ public class GraficUI extends JFrame implements ActionListener {
     player1Name.setPreferredSize(new Dimension(130, 50));
     player1Name.setBackground(Color.GRAY.brighter());
     player1Name.setOpaque(true);
+    player1Name.setHorizontalAlignment(SwingConstants.CENTER);
     
     player1Score = new JLabel();
     player1Score.setText(scoreCountText1);
@@ -203,6 +238,7 @@ public class GraficUI extends JFrame implements ActionListener {
     player1Score.setPreferredSize(new Dimension(50, 50));
     player1Score.setBackground(Color.WHITE);
     player1Score.setOpaque(true);
+    player1Score.setHorizontalAlignment(SwingConstants.CENTER);
     
 //===================================================================================================      
          
@@ -214,6 +250,7 @@ public class GraficUI extends JFrame implements ActionListener {
     meepleCount2.setPreferredSize(new Dimension(50, 50));
     meepleCount2.setBackground(Color.WHITE);
     meepleCount2.setOpaque(true);
+    meepleCount2.setHorizontalAlignment(SwingConstants.CENTER);
     
     player2Name = new JLabel();
     player2Name.setText(player2);
@@ -223,6 +260,7 @@ public class GraficUI extends JFrame implements ActionListener {
     player2Name.setPreferredSize(new Dimension(130, 50));
     player2Name.setBackground(Color.GRAY.brighter());
     player2Name.setOpaque(true);
+    player2Name.setHorizontalAlignment(SwingConstants.CENTER);
     
     player2Score = new JLabel();
     player2Score.setText(scoreCountText2);
@@ -232,6 +270,7 @@ public class GraficUI extends JFrame implements ActionListener {
     player2Score.setPreferredSize(new Dimension(50, 50));
     player2Score.setBackground(Color.WHITE);
     player2Score.setOpaque(true);
+    player2Score.setHorizontalAlignment(SwingConstants.CENTER);
     
 //===================================================================================================    
     
@@ -266,6 +305,9 @@ public class GraficUI extends JFrame implements ActionListener {
     
     leftPanelLayout.putConstraint(SpringLayout.WEST	, player2Panel, 5, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, player2Panel, 405, SpringLayout.NORTH, contentPane);
+    
+    leftPanelLayout.putConstraint(SpringLayout.WEST	, textField, 10, SpringLayout.WEST, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.NORTH, textField, 830, SpringLayout.NORTH, contentPane);
     
     leftPanel.setBorder(blackline);
     
@@ -310,6 +352,9 @@ public class GraficUI extends JFrame implements ActionListener {
     menu.add(newGame);
     menu.add(info);
     menu.add(close);
+    menu.add(finishRoundItem);
+    menu.add(rotateLeftItem);
+    menu.add(rotateRightItem);
     menuBar.add(menu);
     
     leftPanel.add(finishRound);
@@ -318,6 +363,7 @@ public class GraficUI extends JFrame implements ActionListener {
     leftPanel.add(turnRight);
     leftPanel.add(player1Panel);
     leftPanel.add(player2Panel);
+    leftPanel.add(textField);
     player1Panel.add(meepleCount1);
     player1Panel.add(player1Name);
     player1Panel.add(player1Score);
@@ -358,14 +404,11 @@ public class GraficUI extends JFrame implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-    			JOptionPane.showMessageDialog(mainPanel, "Round finished!");
+    		    textField.setText("Round finished");
             } else if(e.getKeyCode() == KeyEvent.VK_LEFT)	{
-    			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-    			JOptionPane.showMessageDialog(mainPanel, "Card turned to left!");
+    			textField.setText("Card turned to left!");
             } else if(e.getKeyCode() == KeyEvent.VK_RIGHT)	{
-    			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-    			JOptionPane.showMessageDialog(mainPanel, "Card turned to right!");
+    			textField.setText("Card turned to right!");
             }
         }
     }
@@ -381,17 +424,13 @@ public class GraficUI extends JFrame implements ActionListener {
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
 		} else if(source == this.finishRound){
-			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-			JOptionPane.showMessageDialog(this, "Round finished!");
+		    textField.setText("Round finished");
 		} else if(source == this.turnLeft){
-			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-			JOptionPane.showMessageDialog(this, "Card turned to left!");
+			textField.setText("Card turned to left!");
 		} else if(source == this.turnRight){
-			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-			JOptionPane.showMessageDialog(this, "Card turned to right!");
+			textField.setText("Card turned to right!");
 		} else if(source == this.newGame){
-			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
-			JOptionPane.showMessageDialog(this, "New game created!");
+			textField.setText("New game created!");
 		}
 	}
 	

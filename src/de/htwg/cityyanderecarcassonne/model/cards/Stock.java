@@ -1,8 +1,10 @@
-package de.htwg.cityyanderecarcassonne.model;
+package de.htwg.cityyanderecarcassonne.model.cards;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.cards.*;
 
 public class Stock {

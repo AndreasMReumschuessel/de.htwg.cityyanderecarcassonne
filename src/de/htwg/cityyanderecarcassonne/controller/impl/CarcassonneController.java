@@ -10,7 +10,7 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
-import de.htwg.cityyanderecarcassonne.model.Stock;
+import de.htwg.cityyanderecarcassonne.model.cards.Stock;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
