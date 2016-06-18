@@ -12,9 +12,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 
 /* 
  * JMenuBar
@@ -24,10 +26,11 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 */
 public class GraficUI extends JFrame implements ActionListener {
 
-	private ICarcassonneController inController;
+	private static ICarcassonneController inController;
 	private ICard currentCard;
 	Icon image;
 	RotatedIcon a;
+	StatusMessage status;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -95,6 +98,8 @@ public class GraficUI extends JFrame implements ActionListener {
     public GraficUI(ICarcassonneController controller)	{
     	
     this.inController = controller;
+    
+    status = new StatusMessage();
     
     // Menubars
     menuBar = new JMenuBar();
@@ -414,11 +419,11 @@ public class GraficUI extends JFrame implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    		    textField.setText("Round finished");
+    		    textField.setText(inController.getStatusMessage());
             } else if(e.getKeyCode() == KeyEvent.VK_LEFT)	{
-    			textField.setText("Card turned to left!");
+    			textField.setText(inController.getStatusMessage());
             } else if(e.getKeyCode() == KeyEvent.VK_RIGHT)	{
-    			textField.setText("Card turned to right!");
+    			textField.setText(inController.getStatusMessage());
             }
         }
     }
@@ -440,24 +445,24 @@ public class GraficUI extends JFrame implements ActionListener {
 			currentCard = inController.cardOnHand();
 			printCard(currentCard);
 			
-		    textField.setText("Round finished");
+		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		    
 		} else if(source == this.turnLeft || source == this.rotateLeftItem){
-			this.rotateCardToLeft(currentCard);
 			
-			textField.setText("Card turned to left!");
+			this.rotateCardToLeft(currentCard);
+			textField.setText("Card turned to the left!");
 			
 		} else if(source == this.turnRight || source == this.rotateRightItem){
-			this.rotateCardToRight(currentCard);
-			
-			textField.setText("Card turned to right!");
+			this.rotateCardToRight(currentCard);		
+			textField.setText("Card turned to the right!");
 			
 		} else if(source == this.newGame)	{
 			inController.create();
 			inController.startRound();
 			currentCard = inController.cardOnHand();
 			printCard(currentCard);
-			textField.setText("New game created!");
+			
+		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		}
 	}
 	
