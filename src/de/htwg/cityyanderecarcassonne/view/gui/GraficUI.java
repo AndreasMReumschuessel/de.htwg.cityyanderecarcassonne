@@ -1,36 +1,20 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
+
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.ICard;
 
 /* 
  * JMenuBar
@@ -40,9 +24,11 @@ import javax.swing.border.Border;
 */
 public class GraficUI extends JFrame implements ActionListener {
 
-	/**
-	 * 
-	 */
+	private ICarcassonneController inController;
+	private ICard currentCard;
+	Icon image;
+	RotatedIcon a;
+	
 	private static final long serialVersionUID = 1L;
 
 	//MenuBar
@@ -106,7 +92,9 @@ public class GraficUI extends JFrame implements ActionListener {
     
 //===================================================================================================    
     
-    public GraficUI()	{
+    public GraficUI(ICarcassonneController controller)	{
+    	
+    this.inController = controller;
     
     // Menubars
     menuBar = new JMenuBar();
@@ -274,8 +262,8 @@ public class GraficUI extends JFrame implements ActionListener {
     
 //===================================================================================================    
     
-    try {                
-    	cardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/card_test.png"));
+    try {
+    	cardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
      } catch (IOException ex) {
           // handle exception...
      }
@@ -386,6 +374,28 @@ public class GraficUI extends JFrame implements ActionListener {
     this.setVisible(true);
 	}
     
+    public void printCard(ICard card)	{
+        try {
+        	cardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        image = new ImageIcon(cardPicture);
+    	picLabel.setIcon(image);
+    }
+    
+    public void rotateCardToLeft(ICard card)	{
+    	image = new RotatedIcon(image, RotatedIcon.Rotate.UP);
+    	inController.rotateCardLeft();
+    	picLabel.setIcon(image);
+    }
+    
+    public void rotateCardToRight(ICard card)	{
+    	image = new RotatedIcon(image, RotatedIcon.Rotate.DOWN);
+    	inController.rotateCardRight();
+    	picLabel.setIcon(image);
+    }
+    
     public String infoPrint()	{
     	StringBuilder sb = new StringBuilder();
     	
@@ -423,19 +433,37 @@ public class GraficUI extends JFrame implements ActionListener {
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
+			
 		} else if(source == this.finishRound || source == this.finishRoundItem){
+			inController.finishRound();
+			inController.startRound();
+			currentCard = inController.cardOnHand();
+			printCard(currentCard);
+			
 		    textField.setText("Round finished");
+		    
 		} else if(source == this.turnLeft || source == this.rotateLeftItem){
+			this.rotateCardToLeft(currentCard);
+			
 			textField.setText("Card turned to left!");
+			
 		} else if(source == this.turnRight || source == this.rotateRightItem){
+			this.rotateCardToRight(currentCard);
+			
 			textField.setText("Card turned to right!");
-		} else if(source == this.newGame){
+			
+		} else if(source == this.newGame)	{
+			inController.create();
+			inController.startRound();
+			currentCard = inController.cardOnHand();
+			printCard(currentCard);
 			textField.setText("New game created!");
 		}
 	}
 	
 	public static void main(String[] args)	{
-		new GraficUI();
+		ICarcassonneController controller = new CarcassonneController(150, 150);
+		new GraficUI(controller);
 	}
 
 }

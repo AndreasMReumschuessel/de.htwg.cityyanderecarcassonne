@@ -27,6 +27,8 @@ public final class Carcassonne {
             continu = tui.processInput(in.next());
         }
         in.close();
+        
+        
 	}
 
 }
