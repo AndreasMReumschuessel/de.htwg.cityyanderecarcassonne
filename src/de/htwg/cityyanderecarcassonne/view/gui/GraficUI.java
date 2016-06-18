@@ -350,11 +350,11 @@ public class GraficUI extends JFrame implements ActionListener {
 //===================================================================================================    
     
     menu.add(newGame);
-    menu.add(info);
-    menu.add(close);
     menu.add(finishRoundItem);
     menu.add(rotateLeftItem);
     menu.add(rotateRightItem);
+    menu.add(info);
+    menu.add(close);
     menuBar.add(menu);
     
     leftPanel.add(finishRound);
@@ -423,11 +423,11 @@ public class GraficUI extends JFrame implements ActionListener {
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
-		} else if(source == this.finishRound){
+		} else if(source == this.finishRound || source == this.finishRoundItem){
 		    textField.setText("Round finished");
-		} else if(source == this.turnLeft){
+		} else if(source == this.turnLeft || source == this.rotateLeftItem){
 			textField.setText("Card turned to left!");
-		} else if(source == this.turnRight){
+		} else if(source == this.turnRight || source == this.rotateRightItem){
 			textField.setText("Card turned to right!");
 		} else if(source == this.newGame){
 			textField.setText("New game created!");
