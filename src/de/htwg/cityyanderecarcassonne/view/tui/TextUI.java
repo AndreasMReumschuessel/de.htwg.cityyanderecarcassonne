@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
@@ -64,6 +65,7 @@ public class TextUI implements IObserver {
 	
 	public void printTUI() {
 		GameStatus status = controller.getStatus();
+		Player player = controller.getCurrentPlayer();
 		
 		if (status != GameStatus.WELCOME && status != GameStatus.PLAYER_ADDED && status != GameStatus.FINISH) {
 			if (tsPrinter == null)
@@ -72,20 +74,25 @@ public class TextUI implements IObserver {
 			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 				card = controller.cardOnHand();
 				printOutln(tsPrinter.printCardPossibilitiesTownsquare(controller.getCardPossibilitiesMap(card)));
-			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
-				card = controller.cardOnHand();
-				printOut(tsPrinter.printMeeplePossibilitiesTownsquare(card, controller.getRegionPossibilitiesMap(card)));
+			} else if ( status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
+				if (player.getSumMeeples() > 0) {
+					card = controller.cardOnHand();
+					printOut(tsPrinter.printMeeplePossibilitiesTownsquare(card, controller.getRegionPossibilitiesMap(card)));
+				}
 			} else {
 				printOut(tsPrinter.printNormalTownsquare());
 			}
 			printOutln();
 		}
 		printOutln("Status: " + sm.getStatusMessage(status) + controller.getStatusMessage());
+		if (player != null)
+			printOutln("Current Player: " + player + " --> Remaining Meeples: " + player.getSumMeeples());
 		printOutln();
 		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
 			printOutln("Actual card to place:");
 			printOutln(CardPrinter.printCard(card));
+			printOutln("Remaining Cards: " + controller.getRemainingCards());
 			printOutln();
 		}
 		printOutln("For commands enter \'h\'.");

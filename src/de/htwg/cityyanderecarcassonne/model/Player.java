@@ -5,10 +5,10 @@ public class Player {
     private String name;
     private int sumMeeples;
     private int score;
-    private static final int MAX_MEEPLE = 8; 
+    private static final int MAX_MEEPLE = 1; 
 
     public Player(String name) {
-    	this.sumMeeples = 8;
+    	this.sumMeeples = MAX_MEEPLE;
         setName(name);
         setScore(0);
     }

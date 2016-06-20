@@ -172,7 +172,7 @@ public class Townsquare implements ITownsquare {
 	@Override
 	public boolean placeMeepleOnRegion(Player player, IRegion region) {
 		int rID = region.getID();
-		if (!IDManager.isOwned(rID)) {
+		if (!IDManager.isOwned(rID) && player.getSumMeeples() > 0) {
 			region.setPlayer(player);
 			IDManager.setPlayer(rID, player);
 			return true;
