@@ -69,7 +69,7 @@ public class TextUI implements IObserver {
 			
 			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 				card = controller.cardOnHand();
-				printOutln(tsPrinter.printCardPossibilitiesTownsquare(controller.getPossibilitiesMap(card)));
+				printOutln(tsPrinter.printCardPossibilitiesTownsquare(controller.getCardPossibilitiesMap(card)));
 			} else if (status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
 				card = controller.cardOnHand();
 				printOut(tsPrinter.printMeeplePossibilitiesTownsquare(card, controller.getRegionPossibilitiesMap(card)));

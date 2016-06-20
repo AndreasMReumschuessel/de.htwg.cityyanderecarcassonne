@@ -40,7 +40,7 @@ public interface ICarcassonneController {
 
     public Townsquare getTownsquare();
 	
-    public Map<Position, String> getPossibilitiesMap(ICard card);
+    public Map<Position, String> getCardPossibilitiesMap(ICard card);
 	
     public String generateLetter(int ascii);
 

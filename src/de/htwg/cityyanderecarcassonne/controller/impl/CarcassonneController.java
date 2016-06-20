@@ -48,6 +48,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.playerQueue = new LinkedList<>();
 		
 		status = GameStatus.WELCOME;
+		statusMessage = "";
 	}
 	
 	@Override
@@ -197,7 +198,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public Map<Position, String> getPossibilitiesMap(ICard card) {
+	public Map<Position, String> getCardPossibilitiesMap(ICard card) {
 		 List<Position> lpos = townsquare.getPossibilities(card);
 		 Map<Position, String>  em = new HashMap<>();
 		 int ascii = 0;
