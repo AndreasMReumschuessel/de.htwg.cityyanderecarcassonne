@@ -23,6 +23,7 @@ public class StatusMessage {
         text.put(GameStatus.ROUND_START,"New Round!");
         text.put(GameStatus.TAKE_CARD,"Took a card from the staple");
         text.put(GameStatus.ROUND_END,"Draw finished!");
+        text.put(GameStatus.FINISH,"Game finished! I'm currently counting my senpai's points as fast as I can ^w^ ");
     }
     
     public String getStatusMessage(GameStatus gs) {

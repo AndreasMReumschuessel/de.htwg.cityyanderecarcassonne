@@ -112,7 +112,12 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public ICard cardOnHand() {
 		return currentCard;
-	}	
+	}
+	
+	@Override
+	public int getRemainingCards() {
+		return stock.getSizeOfStock();
+	}
 
 	private void placeMeeple(Player player, ICard card, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
@@ -152,11 +157,21 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		statusMessage = "";
 		currentCard = takeCard();
 		if(currentCard == null)	{
+			finish();
+			return;
 			// Finish Game : Check points
 		}
 		notifyObservers();
 	}
 	
+	@Override
+	public void finish() {
+		this.setStatus(GameStatus.FINISH);
+		statusMessage = "";
+		
+		notifyObservers();
+	}
+
 	@Override
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);

@@ -40,6 +40,8 @@ public class TextUI implements IObserver {
 			controller.addPlayer(line.substring(1));
 		} else if ("sr".equals(line)) {
 			controller.startRound();
+			if (controller.getStatus() == GameStatus.FINISH)
+				return processInput("q");
 		} else if ("np".equals(line)) {
 			controller.nextPlayer();
 		} else if ("fr".equals(line)) {
@@ -63,7 +65,7 @@ public class TextUI implements IObserver {
 	public void printTUI() {
 		GameStatus status = controller.getStatus();
 		
-		if (status != GameStatus.WELCOME && status != GameStatus.PLAYER_ADDED) {
+		if (status != GameStatus.WELCOME && status != GameStatus.PLAYER_ADDED && status != GameStatus.FINISH) {
 			if (tsPrinter == null)
 				tsPrinter = new TownsquarePrinter(controller.getTownsquare());
 			

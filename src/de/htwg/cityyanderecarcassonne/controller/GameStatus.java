@@ -13,5 +13,6 @@ public enum GameStatus {
     SHOW_CANDIDATES,
     ROUND_START,
     TAKE_CARD,
-    ROUND_END
+    ROUND_END,
+    FINISH
 }

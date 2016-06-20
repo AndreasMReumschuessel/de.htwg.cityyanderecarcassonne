@@ -51,4 +51,8 @@ public interface ICarcassonneController {
 	void nextPlayer();
 
 	Player getCurrentPlayer();
+
+	int getRemainingCards();
+
+	void finish();
 }
