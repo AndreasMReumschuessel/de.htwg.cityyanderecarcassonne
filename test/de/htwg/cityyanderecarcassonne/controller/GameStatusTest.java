@@ -17,6 +17,8 @@ public class GameStatusTest {
 		Set<String> expected = new HashSet<> (Arrays.asList
 				(
 				"WELCOME",
+				"PLAYER_ADDED",
+				"PLAYER_CHANGED",
 			    "CREATE",
 			    "CARD_SET_SUCCESS",
 			    "CARD_SET_FAIL",
@@ -26,7 +28,8 @@ public class GameStatusTest {
 			    "SHOW_CANDIDATES",
 			    "ROUND_START",
 			    "TAKE_CARD",
-			    "ROUND_END"
+			    "ROUND_END",
+			    "FINISH"
 				));
 		
 		Set<String> actual = new HashSet<>();

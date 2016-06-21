@@ -181,6 +181,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.setStatus(GameStatus.ROUND_END);
 		statusMessage = "";
 		// this.getScore();
+		// call ScoreCounter
 		notifyObservers();
 		startRound(); //TODO
 	}
@@ -275,6 +276,5 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public Player getCurrentPlayer() {
 		return currentPlayer;
-	}
-	
+	}	
 }
