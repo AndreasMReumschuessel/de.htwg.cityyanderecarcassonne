@@ -17,6 +17,7 @@ public class IDManager {
 	private static int streetID = 50000;
 	
 	private static Map<Integer, List<Player>> idPlayer = new HashMap<>();
+	private static Map<Integer, Integer> idSumCards = new HashMap<>();
 	
 	private static IDManager instance = null;
 	
@@ -69,6 +70,7 @@ public class IDManager {
 	private static void addID(int id) {
 		idpool.add(id);
 		idPlayer.put(id, new LinkedList<>());
+		idSumCards.put(id, 1);
 	}
 	
 	public static boolean idUsed(int id) {
@@ -111,5 +113,17 @@ public class IDManager {
 	
 	public static List<Player> getPlayerList(int id) {
 		return idPlayer.get(id);
+	}
+	
+	public static boolean setSumCards(int id, int value) {
+		if (idpool.contains(id) && value >= getSumCards(id)) {
+			idSumCards.put(id, value);
+			return true;
+		}
+		return false;
+	}
+	
+	public static int getSumCards(int id) {
+		return idSumCards.get(id);
 	}
 }

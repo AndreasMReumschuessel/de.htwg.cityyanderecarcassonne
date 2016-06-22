@@ -9,4 +9,8 @@ public interface IRegion {
 	void setID(int id);
 	
 	int getID();
+
+	void setOpenBorder(boolean value);
+
+	boolean getOpenBorder();
 }

@@ -8,9 +8,11 @@ public abstract class MasterRegion implements IRegion{
 	protected String typename;
 	protected Player player;
 	protected int id;
+	protected boolean openBorder;
 	
 	public MasterRegion() {
 		super();
+		this.openBorder = true;
 	}
 
 	@Override
@@ -31,6 +33,16 @@ public abstract class MasterRegion implements IRegion{
 	@Override
 	public int getID() {
 		return id;
+	}
+	
+	@Override
+	public void setOpenBorder(boolean value) {
+		openBorder = value;
+	}
+	
+	@Override
+	public boolean getOpenBorder() {
+		return openBorder;
 	}
 	
 	@Override

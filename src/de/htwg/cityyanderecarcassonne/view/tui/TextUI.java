@@ -86,7 +86,7 @@ public class TextUI implements IObserver {
 		}
 		printOutln("Status: " + sm.getStatusMessage(status) + controller.getStatusMessage());
 		if (player != null)
-			printOutln("Current Player: " + player + " --> Remaining Meeples: " + player.getSumMeeples());
+			printOutln("Current Player: " + player + " --> Remaining Meeples: " + player.getSumMeeples() + " --> Score: " + player.getScore());
 		printOutln();
 		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
