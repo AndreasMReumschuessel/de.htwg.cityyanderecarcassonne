@@ -9,28 +9,27 @@ import javax.swing.border.Border;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 
-/* 
- * JMenuBar
- * JMenuItem
- * JButton
- * BorderFactory
-*/
 public class GraficUI extends JFrame implements ActionListener {
 
 	private static ICarcassonneController inController;
 	private ICard currentCard;
-	Icon image;
+	ImageIcon image;
 	RotatedIcon a;
 	StatusMessage status;
+	int startX;
+	int startY;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -50,7 +49,9 @@ public class GraficUI extends JFrame implements ActionListener {
     JMenuItem rotateRightItem;
     
     //Panel
+    Container contentPane;
     static JPanel mainPanel;
+    JPanel gamePanel;
     JPanel leftPanel;
     JPanel player1Panel;
     JPanel player2Panel;
@@ -60,6 +61,9 @@ public class GraficUI extends JFrame implements ActionListener {
     
     //Layout
     SpringLayout leftPanelLayout;
+    SpringLayout gamePanelLayout;
+    GridBagConstraints gpc;
+    SpringLayout mainLayout;
     SpringLayout meepleCount1Layout;
     SpringLayout meepleCount2Layout;
     Border blackline;
@@ -90,8 +94,16 @@ public class GraficUI extends JFrame implements ActionListener {
     String player2 = "Andreas";
     
     //Picture
-    BufferedImage cardPicture;
+    BufferedImage picture;
+    JLabel startLabel;
     JLabel picLabel;
+    JLabel possibilitiesLabel;
+    
+    JLabel[][] cardMatrix;
+    
+    int spielfeld = 1000;
+    int grid = 5;
+    int karte = spielfeld/grid;
     
 //===================================================================================================    
     
@@ -119,14 +131,6 @@ public class GraficUI extends JFrame implements ActionListener {
     rotateLeftItem = new JMenuItem("Rotate card to the left");
     rotateRightItem = new JMenuItem("Rotate card to the right");
     
-    newGame.addActionListener(this);
-    info.addActionListener(this);
-    close.addActionListener(this);
-    
-    finishRoundItem.addActionListener(this);
-    rotateLeftItem.addActionListener(this);
-    rotateRightItem.addActionListener(this);
-    
     KeyStroke finish = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
     finishRoundItem.setAccelerator(finish);
     
@@ -145,10 +149,22 @@ public class GraficUI extends JFrame implements ActionListener {
     KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK);
     close.setAccelerator(ctrlQ);
     
+    newGame.addActionListener(this);
+    info.addActionListener(this);
+    close.addActionListener(this);
+    
+    finishRoundItem.addActionListener(this);
+    rotateLeftItem.addActionListener(this);
+    rotateRightItem.addActionListener(this);
+    
 //===================================================================================================
     
     mainPanel = new JPanel();
     mainPanel.setBackground(Color.GRAY.darker());
+    
+    gamePanel = new JPanel(new GridLayout(grid, grid));
+    gamePanel.setPreferredSize(new Dimension(spielfeld, spielfeld));
+    gamePanel.setBackground(Color.GRAY.brighter());
     
     leftPanel = new JPanel();
     leftPanel.setPreferredSize(new Dimension(250,1000));
@@ -264,28 +280,46 @@ public class GraficUI extends JFrame implements ActionListener {
     player2Score.setBackground(Color.WHITE);
     player2Score.setOpaque(true);
     player2Score.setHorizontalAlignment(SwingConstants.CENTER);
+      
+//===================================================================================================       
+    
+    contentPane = this.getContentPane();
+    mainLayout = new SpringLayout();
+    mainLayout.putConstraint(SpringLayout.WEST	, gamePanel, 0, SpringLayout.WEST, contentPane);
+    mainLayout.putConstraint(SpringLayout.NORTH, gamePanel, 0, SpringLayout.NORTH, contentPane);
+    
+    mainLayout.putConstraint(SpringLayout.WEST	, leftPanel, 1000, SpringLayout.WEST, contentPane);
+    mainLayout.putConstraint(SpringLayout.NORTH, leftPanel, 0, SpringLayout.NORTH, contentPane);
+    
+    mainPanel.setLayout(mainLayout);
+    
+//===================================================================================================      
+   
+	cardMatrix = new JLabel[grid][grid];
     
 //===================================================================================================    
-    
+
     try {
-    	cardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
+    	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
      } catch (IOException ex) {
           // handle exception...
      }
  
-    picLabel = new JLabel(new ImageIcon(cardPicture));
-    picLabel.setToolTipText("Current card on hand");
-    picLabel.setBorder(blackline);
+    startLabel = new JLabel(new ImageIcon(picture));
+    startLabel.setToolTipText("Current card on hand");
+    startLabel.setBorder(blackline);
+    
+    
+    picLabel = new JLabel(new ImageIcon(picture));
+    possibilitiesLabel = new JLabel(new ImageIcon(picture));
     
 //===================================================================================================        
-    
-    Container contentPane = this.getContentPane();
     leftPanelLayout = new SpringLayout();
     leftPanelLayout.putConstraint(SpringLayout.WEST	, finishRound, 25, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, finishRound, 25, SpringLayout.NORTH, contentPane);
     
-    leftPanelLayout.putConstraint(SpringLayout.WEST	, picLabel, 59, SpringLayout.WEST, contentPane);
-    leftPanelLayout.putConstraint(SpringLayout.NORTH, picLabel, 100, SpringLayout.NORTH, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.WEST	, startLabel, 59, SpringLayout.WEST, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.NORTH, startLabel, 100, SpringLayout.NORTH, contentPane);
     
     leftPanelLayout.putConstraint(SpringLayout.WEST	, turnLeft, 40, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, turnLeft, 260, SpringLayout.NORTH, contentPane);
@@ -351,7 +385,7 @@ public class GraficUI extends JFrame implements ActionListener {
     menuBar.add(menu);
     
     leftPanel.add(finishRound);
-    leftPanel.add(picLabel);
+    leftPanel.add(startLabel);
     leftPanel.add(turnLeft);
     leftPanel.add(turnRight);
     leftPanel.add(player1Panel);
@@ -364,31 +398,92 @@ public class GraficUI extends JFrame implements ActionListener {
     player2Panel.add(player2Name);
     player2Panel.add(player2Score);
     
+    mainPanel.add(gamePanel);
+    mainPanel.add(leftPanel);
+    
     this.setJMenuBar(menuBar);
     this.add(mainPanel, BorderLayout.CENTER);
-    this.add(leftPanel, BorderLayout.LINE_END);
 
 //===================================================================================================    
     
     // Eigenschaften
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setTitle("Yandere Carcassonne");
-	this.setPreferredSize(new Dimension(1500,1000));
+	this.setPreferredSize(new Dimension(1260,1260));
     this.pack();
     this.setResizable(false);
     this.setVisible(true);
 	}
     
-    public void printCard(ICard card)	{
+    public ImageIcon getImage(String filename)	{
         try {
-        	cardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + filename + ".png"));
          } catch (IOException ex) {
               // handle exception...
          }
-        image = new ImageIcon(cardPicture);
-    	picLabel.setIcon(image);
+         return new ImageIcon(picture);
     }
     
+    public ImageIcon getImage(ICard card)	{
+        try {
+        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+         return new ImageIcon(picture);
+    }
+    
+    public ImageIcon skale(ImageIcon im)	{
+		Image tmp = im.getImage().getScaledInstance(karte, karte, Image.SCALE_SMOOTH);
+		return new ImageIcon(tmp);
+    }
+    
+    public void printCardLeftPanel()	{	
+    	picLabel.setIcon(image);
+        leftPanelLayout.putConstraint(SpringLayout.WEST	, picLabel, 59, SpringLayout.WEST, contentPane);
+        leftPanelLayout.putConstraint(SpringLayout.NORTH, picLabel, 100, SpringLayout.NORTH, contentPane);   
+    	leftPanel.setLayout(leftPanelLayout); 	
+    	leftPanel.add(picLabel);
+    }
+    
+    public void printPossibilities()	{
+    	Map<String, Position> spList = flip(inController.getCardPossibilitiesMap(currentCard));
+    	
+    	image = skale(getImage("possibilities"));
+    	
+    	for(Map.Entry<String, Position> pos : spList.entrySet())	{
+    		
+    		int coordX = (pos.getValue().getX() - inController.getDimensionX()/2) + grid/2;
+    		int coordY = (pos.getValue().getY() - inController.getDimensionY()/2) + grid/2;
+    		
+    		System.out.println(coordX + " , " + coordY);
+    		
+    		cardMatrix[coordX][coordY].setIcon(image);
+    	}
+    }
+    
+    public void placeStartCard(Position pos)	{
+		image = skale(getImage(currentCard));
+		cardMatrix[pos.getX()][pos.getY()].setIcon(image);
+    }
+    
+    public void placeCard(String pos)	{
+    	Map<String, Position> spList = flip(inController.getCardPossibilitiesMap(currentCard));
+
+
+    	
+    }
+    
+    public Map<String, Position> flip(Map<Position, String> ps)	{
+    	Map<String, Position> sp = new HashMap<>();
+    	
+    	for(Map.Entry<Position, String> test : ps.entrySet())	{
+    		sp.put(test.getValue(), test.getKey());
+    	}
+    	
+    	return sp;
+    }
+    /*
     public void rotateCardToLeft(ICard card)	{
     	image = new RotatedIcon(image, RotatedIcon.Rotate.UP);
     	inController.rotateCardLeft();
@@ -400,7 +495,7 @@ public class GraficUI extends JFrame implements ActionListener {
     	inController.rotateCardRight();
     	picLabel.setIcon(image);
     }
-    
+    */
     public String infoPrint()	{
     	StringBuilder sb = new StringBuilder();
     	
@@ -413,6 +508,18 @@ public class GraficUI extends JFrame implements ActionListener {
     	.append("Henning Krause");
     	
     	return sb.toString();
+    }
+    
+    public void newField()	{
+    	
+    	for(int i = 0; i  < cardMatrix.length; i++)	{
+    		for(int j = 0; j < cardMatrix[i].length;j++){
+    			cardMatrix[i][j] = new JLabel();
+    			cardMatrix[i][j].setIcon(image);
+    			cardMatrix[i][j].setVisible(true);
+    			gamePanel.add(cardMatrix[i][j]);
+    		}
+    	}
     }
     
     static class KeyListener extends KeyAdapter {
@@ -438,29 +545,35 @@ public class GraficUI extends JFrame implements ActionListener {
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
-			
 		} else if(source == this.finishRound || source == this.finishRoundItem){
 			inController.finishRound();
-			inController.startRound();
 			currentCard = inController.cardOnHand();
-			printCard(currentCard);
 			
+			printCardLeftPanel();
+			
+			printPossibilities();
 		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		    
 		} else if(source == this.turnLeft || source == this.rotateLeftItem){
 			
-			this.rotateCardToLeft(currentCard);
+			//this.rotateCardToLeft(currentCard);
 			textField.setText("Card turned to the left!");
 			
 		} else if(source == this.turnRight || source == this.rotateRightItem){
-			this.rotateCardToRight(currentCard);		
+			//this.rotateCardToRight(currentCard);		
 			textField.setText("Card turned to the right!");
 			
 		} else if(source == this.newGame)	{
 			inController.create();
-			inController.startRound();
+			inController.addPlayer(player1);
+			inController.addPlayer(player2);
 			currentCard = inController.cardOnHand();
-			printCard(currentCard);
+			
+			image = getImage("rueckseite");
+			image = skale(image);
+			newField();
+			
+			placeStartCard(new Position(grid/2, grid/2));
 			
 		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		}
