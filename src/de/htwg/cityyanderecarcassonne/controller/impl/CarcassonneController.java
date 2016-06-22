@@ -182,6 +182,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		statusMessage = "";
 		// this.getScore();
 		// call ScoreCounter
+		townsquare.refreshScore();
 		notifyObservers();
 		startRound(); //TODO
 	}

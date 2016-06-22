@@ -20,11 +20,33 @@ public final class TownsquareCalculus {
 	public static void refreshScore() {
 		skynet = TownsquareGraph.getFullGraph();
 		
+		Map<Integer, List<IRegion>> areas = breadthFirstSearch(skynet.getVertex(0));
+		
+		calcScoreClosedAreas(areas);
 	}
 	
-	private static List<IRegion> breadthFirstSearch(IRegion s) {
+	private static void calcScoreClosedAreas(Map<Integer, List<IRegion>> areas) {
+		Map<Integer, List<IRegion>> result = new HashMap<>();
+		result.putAll(areas);
+		
+		for (Map.Entry<Integer, List<IRegion>> entry : areas.entrySet()) {
+			for (IRegion r : entry.getValue()) {
+				if (r.getOpenBorder()) {
+					result.remove(entry.getKey());
+					break;
+				}
+			}
+		}
+		
+		System.out.println(result);
+		
+		int i = 0;
+		
+	}
+
+	private static Map<Integer, List<IRegion>> breadthFirstSearch(IRegion s) {
 		Map<IRegion, Boolean> visited = new HashMap<>();
-		List<IRegion> results = new LinkedList<>();
+		Map<Integer, List<IRegion>> results = new HashMap<>();
 		
 		for (IRegion v : skynet.getVertexList())
 			visited.put(v, false);
@@ -34,7 +56,7 @@ public final class TownsquareCalculus {
 		return results;
 	}
 
-	private static void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, List<IRegion> results) {
+	private static void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, Map<Integer, List<IRegion>> results) {
 		Queue<IRegion> q = new LinkedList<>();
 		Class<?> type = s.getClass();
 		int id = s.getID();
@@ -50,7 +72,9 @@ public final class TownsquareCalculus {
 			
 			visited.replace(n, true);
 			
-			results.add(n);
+			if (results.get(n.getID()) == null)
+				results.put(n.getID(), new LinkedList<>());
+			results.get(n.getID()).add(n);
 			
 			for (IRegion w : skynet.getAdjacentVertexList(n)) {
 				if (!visited.get(w))
