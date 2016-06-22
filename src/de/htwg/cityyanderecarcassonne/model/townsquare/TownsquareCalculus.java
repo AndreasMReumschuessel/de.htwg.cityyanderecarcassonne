@@ -6,8 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionStreet;
 
 public final class TownsquareCalculus {
 	
@@ -38,10 +43,41 @@ public final class TownsquareCalculus {
 			}
 		}
 		
+		for (Map.Entry<Integer, List<IRegion>> entry : result.entrySet()) {
+			for (IRegion r : entry.getValue()) {
+				Player player = r.getPlayer();
+				if (player != null) {
+					r.setPlayer(null);
+					player.addMeeple();
+					
+					int oldScore = player.getScore();
+					int points = IDManager.getSumCards(entry.getKey()) / IDManager.getPlayerList(entry.getKey()).size();
+					player.setScore(oldScore + points);
+					System.out.println("LIST FOR ID " + entry.getKey() + ": " + IDManager.getPlayerList(entry.getKey()));
+				}
+			}
+		}
+		
 		System.out.println(result);
 		
 		int i = 0;
 		
+	}
+	
+	private int genPoints(int id, IRegion r) {
+		int points = 0;
+		int multiplier = 1;
+		
+		if (r.getClass().equals(RegionStreet.class)) {
+			multiplier = 1;
+		} else if (r.getClass().equals(RegionBuilding.class)) {
+			multiplier = 2;
+			// Gleichstand, beide volle Punkte
+			// Derjenige mit den meisten Rittern drauf, bekommt die meisten Punkte
+		} else if (r.getClass().equals(RegionLawn.class)) {
+			multiplier = 3; // quatsch
+		}
+		return 0;
 	}
 
 	private static Map<Integer, List<IRegion>> breadthFirstSearch(IRegion s) {

@@ -77,6 +77,8 @@ public abstract class MasterCard implements ICard {
 		cardGraph.addEdge(leftMiddle, centerMiddle);
 		
 		cardGraph.addEdge(rightTop, belowLeft); /* Necessary for CardOP */
+		
+		this.centerMiddle.setOpenBorder(false); /* Important for calculating Score */
 	}
 
 	@Override

@@ -163,7 +163,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		if(currentCard == null)	{
 			finish();
 			return;
-			// Finish Game : Check points
 		}
 		notifyObservers();
 	}
@@ -173,6 +172,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.setStatus(GameStatus.FINISH);
 		statusMessage = "";
 		
+		townsquare.refreshScore();
 		notifyObservers();
 	}
 
