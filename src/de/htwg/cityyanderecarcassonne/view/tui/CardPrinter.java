@@ -6,6 +6,10 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 
 public abstract class CardPrinter {
+	
+	private CardPrinter() {
+		throw new UnsupportedOperationException();
+	}
 
 	public static String printCard(ICard card) {
 		StringBuilder sb = new StringBuilder();
