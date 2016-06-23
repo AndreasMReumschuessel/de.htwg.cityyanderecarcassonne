@@ -28,18 +28,7 @@ public abstract class CardPrinter {
 	
 	private static String regionToChar(IRegion r) {
 		String className = r.getClass().getSimpleName();
-		String result = " ";
-		if ("RegionBuilding".equals(className)) {
-			result = "B";
-		} else if ("RegionLawn".equals(className)) {
-			result = "L";
-		} else if ("RegionStreet".equals(className)) {
-			result = "S";
-		} else if ("RegionCrossing".equals(className)) {
-			result = "C";
-		} else if ("RegionSchool".equals(className)) {
-			result = "K";
-		}
+		String result = convertRegionName(className);
 		
 		if (r.getPlayer() != null)
 			result = result + "P";
@@ -70,6 +59,16 @@ public abstract class CardPrinter {
 	private static String regionToCharPoss(IRegion r, Map<IRegion, String> possList) {
 		String className = r.getClass().getSimpleName();
 		String ident = possList.get(r);
+		String result = convertRegionName(className);
+		
+		if (ident != null)
+			result = result + ident;
+		else
+			result = result + " ";
+		return result;
+	}
+	
+	private static String convertRegionName(String className) {
 		String result = " ";
 		
 		if ("RegionBuilding".equals(className)) {
@@ -84,10 +83,6 @@ public abstract class CardPrinter {
 			result = "K";
 		}
 		
-		if (ident != null)
-			result = result + ident;
-		else
-			result = result + " ";
 		return result;
 	}
 }
