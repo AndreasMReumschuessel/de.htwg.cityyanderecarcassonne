@@ -10,9 +10,6 @@ import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
-import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
-import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
-import de.htwg.cityyanderecarcassonne.model.regions.RegionStreet;
 
 public final class TownsquareCalculus {
 	
@@ -35,7 +32,7 @@ public final class TownsquareCalculus {
 		result.putAll(areas);
 		
 		for (Map.Entry<Integer, List<IRegion>> entry : areas.entrySet()) {
-			for (IRegion r : entry.getValue()) {
+			for (IRegion r : entry.getValue()) {				
 				if (r.getOpenBorder()) {
 					result.remove(entry.getKey());
 					break;
@@ -51,45 +48,31 @@ public final class TownsquareCalculus {
 				break;
 			case 1:
 				calculateBuildingpoints(entry.getKey(), entry.getValue());
+				break;
 			}
-			/*
-			for (IRegion r : entry.getValue()) {
-				Player player = r.getPlayer();
-				if (player != null) {
-					r.setPlayer(null);
-					player.addMeeple();
-					
-					int oldScore = player.getScore();
-					int points = IDManager.getSumCards(entry.getKey()) / IDManager.getPlayerList(entry.getKey()).size();
-					player.setScore(oldScore + points);
-					System.out.println("LIST FOR ID " + entry.getKey() + ": " + IDManager.getPlayerList(entry.getKey()));
-				}
-			}*/
 		}
 		
 		System.out.println(result);
-		
-		int i = 0;
-		
 	}
 
 	private static void calculateStreetpoints(int id, List<IRegion> rList) {
 		
 		List<Player> relevantPlayers = getRelevantPlayers(id);
 		
-		for (Player p : relevantPlayers) {
-			int oldScore = p.getScore();
-			int points = IDManager.getSumCards(id);
-			p.setScore(oldScore + points);
-			System.out.println("Player: " + p + ", Score: " + p.getScore());
-		}
+		int points = IDManager.getSumCards(id);
+		assignPoints(relevantPlayers, points);
 		
 		freeMeeple(rList);
 	}
 	
-	private static void calculateBuildingpoints(Integer key, List<IRegion> value) {
-		// TODO Auto-generated method stub
+	private static void calculateBuildingpoints(int id, List<IRegion> rList) {
+
+		List<Player> relevantPlayers = getRelevantPlayers(id);
 		
+		int points = IDManager.getSumCards(id)  * 2;
+		assignPoints(relevantPlayers, points);
+		
+		freeMeeple(rList);
 	}
 	
 	private static List<Player> getRelevantPlayers(int id) {
@@ -149,21 +132,13 @@ public final class TownsquareCalculus {
 			}
 		}
 	}
-
-	private int genPoints(int id, IRegion r) {
-		int points = 0;
-		int multiplier = 1;
-		
-		if (r.getClass().equals(RegionStreet.class)) {
-			multiplier = 1;
-		} else if (r.getClass().equals(RegionBuilding.class)) {
-			multiplier = 2;
-			// Gleichstand, beide volle Punkte
-			// Derjenige mit den meisten Rittern drauf, bekommt die meisten Punkte
-		} else if (r.getClass().equals(RegionLawn.class)) {
-			multiplier = 3; // quatsch
+	
+	private static void assignPoints(List<Player> players, int points) {
+		for (Player p : players) {
+			int oldScore = p.getScore();
+			p.setScore(oldScore + points);
+			System.out.println("Player: " + p + ", Score: " + p.getScore());
 		}
-		return 0;
 	}
 
 	private static Map<Integer, List<IRegion>> breadthFirstSearch(IRegion s) {
@@ -180,8 +155,6 @@ public final class TownsquareCalculus {
 
 	private static void breadthVisit(IRegion s, Map<IRegion, Boolean> visited, Map<Integer, List<IRegion>> results) {
 		Queue<IRegion> q = new LinkedList<>();
-		Class<?> type = s.getClass();
-		int id = s.getID();
 		IRegion n = s;
 		
 		q.add(n);
