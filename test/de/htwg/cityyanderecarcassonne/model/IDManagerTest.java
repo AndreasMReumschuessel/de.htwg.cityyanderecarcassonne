@@ -86,7 +86,7 @@ public class IDManagerTest {
 		Player player2 = new Player("Gundula");
 		
 		assertTrue(IDManager.setPlayer(id, player1));
-		assertFalse(IDManager.setPlayer(id, player1));
+		assertTrue(IDManager.setPlayer(id, player1));
 		assertTrue(IDManager.setPlayer(id, player2));
 		
 		assertFalse(IDManager.setPlayer(12, player1));
