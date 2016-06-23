@@ -91,10 +91,10 @@ public class IDManager {
 	public static boolean setPlayer(int id, Player player) {
 		if (idpool.contains(id) && player != null) {
 			List<Player> playerList = idPlayer.get(id);
-			if (!playerList.contains(player)) {
+			//if (!playerList.contains(player)) {
 				playerList.add(player);
 				return true;
-			}
+			//}
 		}
 		return false;
 	}

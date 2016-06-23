@@ -21,7 +21,7 @@ public final class Carcassonne {
 	}
 
 	public static void main(String[] args) {
-		/*
+		
 		Player pa = new Player("A");
 		Player pb = new Player("B");
 		Townsquare ts = new Townsquare(10, 10);
@@ -50,8 +50,8 @@ public final class Carcassonne {
 		ts.setCard(s1, 5, 4);
 		ts.setCard(s2, 5, 7);
 		ts.refreshScore();
-		*/
 		
+		/*
 		controller = new CarcassonneController(150, 150);
 		tui = new TextUI(controller);
 		tui.printTUI();
@@ -62,7 +62,7 @@ public final class Carcassonne {
             continu = tui.processInput(in.next());
         }
         in.close();
-        
+        */
         
 	}
 
