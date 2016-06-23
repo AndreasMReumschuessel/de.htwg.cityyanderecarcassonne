@@ -2,6 +2,7 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -27,8 +28,11 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 
 	private static ICarcassonneController inController;
 	private ICard currentCard;
-	ImageIcon image;
-	RotatedIcon a;
+	Icon startImage;
+	Icon mainImage;
+	Icon backImage;
+	Icon leftImage;
+	Icon possImage;
 	StatusMessage status;
 	List<Position> redraw;
 	Map<Position, String> psList;
@@ -103,8 +107,8 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     JLabel[][] cardMatrix;
     
     int spielfeld = 1000;
-    int grid = 5;
-    int karte = spielfeld/grid;
+    int grid;
+    int karte;
     
 //===================================================================================================    
     
@@ -166,6 +170,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     mainPanel.setBackground(Color.GRAY.darker());
     mainPanel.addMouseListener(this);
     
+    grid = 11;
     gamePanel = new JPanel(new GridLayout(grid, grid));
     gamePanel.setPreferredSize(new Dimension(spielfeld, spielfeld));
     gamePanel.setBackground(Color.GRAY.brighter());
@@ -313,9 +318,6 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     picLabel.setToolTipText("Current card on hand");
     picLabel.setBorder(blackline);
     
-    
-    picLabel = new JLabel(new ImageIcon(picture));
-    
 //===================================================================================================        
     leftPanelLayout = new SpringLayout();
     leftPanelLayout.putConstraint(SpringLayout.WEST	, finishRound, 25, SpringLayout.WEST, contentPane);
@@ -418,75 +420,70 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     this.setVisible(true);
 	}
     
-    public ImageIcon getImage(String filename)	{
+    public BufferedImage getImage(String filename)	{
         try {
-        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + filename + ".png"));
+        	picture =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + filename + ".png"));
+        	return picture;
          } catch (IOException ex) {
               // handle exception...
          }
-         return new ImageIcon(picture);
+		return picture;
     }
     
-    public ImageIcon getImage(ICard card)	{
+    public BufferedImage getImage(ICard card)	{
         try {
-        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+        	picture =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+        	return picture;
          } catch (IOException ex) {
               // handle exception...
          }
-         return new ImageIcon(picture);
+		return picture;
     }
     
-    public ImageIcon skale(ImageIcon im)	{
-		Image tmp = im.getImage().getScaledInstance(karte, karte, Image.SCALE_SMOOTH);
+    public ImageIcon skale(Image im)	{
+    	karte = spielfeld/grid;
+		Image tmp = im.getScaledInstance(karte, karte, Image.SCALE_SMOOTH);
 		return new ImageIcon(tmp);
     }
     
     public void printCardLeftPanel()	{
-    	image = getImage(currentCard);
-    	picLabel.setIcon(image);	
+    	getImage(inController.cardOnHand());
+    	leftImage = new ImageIcon(picture);
+    	picLabel.setIcon(leftImage);	
     }
     
     public void printPossibilities()	{
-    	Map<String, Position> spList = flip(inController.getCardPossibilitiesMap(currentCard));
+		psList = inController.getCardPossibilitiesMap(inController.cardOnHand());
+    	Map<String, Position> spList = flip(inController.getCardPossibilitiesMap(inController.cardOnHand()));
     	
-    	image = skale(getImage("possibilities"));
+    	getImage("possibilities");
+    	possImage = skale(picture);
     	
     	for(Map.Entry<String, Position> pos : spList.entrySet())	{
     		
-    		int coordY = (pos.getValue().getX() - inController.getDimensionX()/2 + grid/2);
-    		int coordX = (pos.getValue().getY() - inController.getDimensionY()/2 + grid/2);
+    		int coordY = (pos.getValue().getX() - inController.getDimensionX()/2) + grid/2;
+    		int coordX = (pos.getValue().getY() - inController.getDimensionY()/2) + grid/2;
     		
-    		redraw.add(new Position(coordX, coordY));
+//    		System.out.println(pos.getKey() + " : " + pos.getValue().getX() + " , " + pos.getValue().getY());
+//    		System.out.println(coordY + " , " + coordX);
     		
-    		System.out.println(coordX + " , " + coordY);
+    		redraw.add(new Position(coordY, coordX));
     		
-    		cardMatrix[coordX][coordY].setIcon(image);
-    		
+    		cardMatrix[coordX][coordY].setIcon(possImage);
     	}
     }
     
-    public void placeStartCard(Position pos)	{
-		image = skale(getImage(currentCard));
-		cardMatrix[pos.getX()][pos.getY()].setIcon(image);
-    }
-    
-    public void placeCard(String letter)	{
-    	Map<String, Position> spList = flip(psList);
-    	Position pos = spList.get(letter);
-    	redraw.remove(pos);
-    	
-		int coordX = (pos.getX() - inController.getDimensionX()/2 + grid/2);
-		int coordY = (pos.getY() - inController.getDimensionY()/2 + grid/2);
-    	
-    	image = skale(getImage(currentCard));
-    	cardMatrix[coordX][coordY].setIcon(image);
+    public void placeStartCard()	{
+    	Position pos = new Position(grid/2, grid/2);
+    	startImage = skale(getImage(inController.cardOnHand()));
+		cardMatrix[pos.getX()][pos.getY()].setIcon(startImage);
     }
     
     public void redraw()	{
-		image = skale(getImage("rueckseite"));
 		for(Position p : redraw){
-			cardMatrix[p.getX()][p.getY()].setIcon(image);
+			cardMatrix[p.getY()][p.getX()].setIcon(backImage);
 		}
+		redraw.removeAll(redraw);
     }
     
     public Map<String, Position> flip(Map<Position, String> ps)	{
@@ -495,20 +492,36 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     	for(Map.Entry<Position, String> test : ps.entrySet())	{
     		sp.put(test.getValue(), test.getKey());
     	}
-    	
     	return sp;
     }
     
-    public void rotateCardToLeft(ICard card)	{
-    	RotatedIcon ri = new RotatedIcon(getImage(card), RotatedIcon.Rotate.UP);
+    public void rotateCardToLeft()	{
+    	picture = rotateImage(picture, -90.0);
     	inController.rotateCardLeft();
-    	picLabel.setIcon(ri);
+    	leftImage = new ImageIcon(picture);
+    	picLabel.setIcon(leftImage);
+    	mainImage = skale(picture);
     }
     
-    public void rotateCardToRight(ICard card)	{
-    	RotatedIcon ri = new RotatedIcon(getImage(card), RotatedIcon.Rotate.DOWN);
-    	inController.rotateCardRight();
-    	picLabel.setIcon(ri);
+    public void rotateCardToRight()	{
+    	picture = rotateImage(picture, 90.0);
+    	inController.rotateCardRight(); 
+    	leftImage = new ImageIcon(picture);
+    	picLabel.setIcon(leftImage);
+    	mainImage = skale(picture);
+    }
+    
+    private static BufferedImage rotateImage(BufferedImage src, double degrees) {
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(
+                Math.toRadians(degrees),
+                src.getWidth() / 2,
+                src.getHeight() / 2);
+        BufferedImage rotatedImage = new BufferedImage(src.getWidth(), src
+                .getHeight(), src.getType());
+        Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
+        g.setTransform(affineTransform);
+        g.drawImage(src, 0, 0, null);
+        return rotatedImage;
     }
     
     public String infoPrint()	{
@@ -526,15 +539,39 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     }
     
     public void newField()	{
-    	
+    	backImage = skale(getImage("rueckseite"));
     	for(int i = 0; i  < cardMatrix.length; i++)	{
     		for(int j = 0; j < cardMatrix[i].length;j++){
     			cardMatrix[i][j] = new JLabel();
-    			cardMatrix[i][j].setIcon(image);
+    			cardMatrix[i][j].setIcon(backImage);
     			cardMatrix[i][j].setVisible(true);
     			gamePanel.add(cardMatrix[i][j]);
     		}
     	}
+    }
+    
+    public void resizeView()	{
+    	JLabel[][] oldMatrix = cardMatrix;
+    	
+    	for(int i = 0; i  < oldMatrix.length; i++)	{
+    		for(int j = 0; j < oldMatrix[i].length;j++){
+    			gamePanel.remove(oldMatrix[i][j]);
+    		}
+    	}
+    	
+    	gamePanel.setBackground(Color.GRAY.brighter());
+
+    	grid = 7;
+    	karte = spielfeld/grid;
+    	
+    	gamePanel.setLayout(new GridLayout(grid, grid));
+    	
+        gamePanel.setBackground(Color.GRAY.brighter());
+        
+    	cardMatrix = new JLabel[grid][grid];
+    	
+    	newField();
+
     }
     
     static class KeyListener extends KeyAdapter {
@@ -562,34 +599,32 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 			JOptionPane.showMessageDialog(this,this.infoPrint());
 		} else if(source == this.finishRound || source == this.finishRoundItem)	{
 			inController.finishRound();
-			currentCard = inController.cardOnHand();	
-			printCardLeftPanel();
-			psList = inController.getCardPossibilitiesMap(currentCard);
+			currentCard = inController.cardOnHand();
+			
+	    	printCardLeftPanel();
 			printPossibilities();
-
-			//redraw();
+			
+	    	mainImage = skale(getImage(currentCard));
+			
 		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		    
 		} else if(source == this.turnLeft || source == this.rotateLeftItem){	
-			this.rotateCardToLeft(currentCard);
+			this.rotateCardToLeft();
 			textField.setText("Card turned to the left!");
 			
 		} else if(source == this.turnRight || source == this.rotateRightItem){
-			this.rotateCardToRight(currentCard);		
+			this.rotateCardToRight();		
 			textField.setText("Card turned to the right!");
 			
 		} else if(source == this.newGame)	{
 			inController.create();
+			
+			// TODO : Pop-Up Fenster Player Eingabe
 			inController.addPlayer(player1);
-			inController.addPlayer(player2);
-			currentCard = inController.cardOnHand();
-			
-			image = getImage("rueckseite");
-			image = skale(image);
+			inController.addPlayer(player2);	
+	
 			newField();
-			
-			placeStartCard(new Position(grid/2, grid/2));
-			
+			placeStartCard();
 		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		}
 	}
@@ -604,18 +639,32 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 		int x = (int) (arg0.getPoint().getX()/karte);
 		int y = (int) (arg0.getPoint().getY()/karte);
 		
-		System.out.println(inController.getStatusMessage());
+		System.out.println(x + " , " + y);
 		
 		if(inController.getStatus() == GameStatus.ROUND_START)	{
-			int realX = ((x-2)) + 75;
-			int realY = (-1*(y-2)) + 75;
+			
+			System.out.println(grid/2);
+			
+			int realX = ((x-(grid/2))) + 75;
+			int realY = ((y-(grid/2))) + 75;
 			
 			Position p = new Position(realX, realY);
+			
+			System.out.println(realX + " , " + realY);
 			
 			inController.placeCard(currentCard, psList.get(p));
 			
 			if(inController.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
-				cardMatrix[y][x].setIcon(skale(getImage(currentCard)));
+				cardMatrix[y][x].setIcon(mainImage);
+				
+				System.out.println(redraw);
+				redraw.remove(new Position(x,y));
+				System.out.println(redraw);
+				redraw();
+				
+		    	System.out.println("Marke 0");
+		    	//resizeView();
+				
 			} else if(inController.getStatus() == GameStatus.CARD_SET_FAIL)	{
 				inController.setStatus(GameStatus.ROUND_START);
 			}
