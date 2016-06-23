@@ -10,26 +10,28 @@ import javax.swing.border.Border;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 
-public class GraficUI extends JFrame implements ActionListener {
+public class GraficUI extends JFrame implements ActionListener, MouseListener {
 
 	private static ICarcassonneController inController;
 	private ICard currentCard;
 	ImageIcon image;
 	RotatedIcon a;
 	StatusMessage status;
-	int startX;
-	int startY;
+	List<Position> redraw;
+	Map<Position, String> psList;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -95,7 +97,6 @@ public class GraficUI extends JFrame implements ActionListener {
     
     //Picture
     BufferedImage picture;
-    JLabel startLabel;
     JLabel picLabel;
     JLabel possibilitiesLabel;
     
@@ -112,6 +113,8 @@ public class GraficUI extends JFrame implements ActionListener {
     this.inController = controller;
     
     status = new StatusMessage();
+    
+    redraw = new LinkedList<>();
     
     // Menubars
     menuBar = new JMenuBar();
@@ -161,6 +164,7 @@ public class GraficUI extends JFrame implements ActionListener {
     
     mainPanel = new JPanel();
     mainPanel.setBackground(Color.GRAY.darker());
+    mainPanel.addMouseListener(this);
     
     gamePanel = new JPanel(new GridLayout(grid, grid));
     gamePanel.setPreferredSize(new Dimension(spielfeld, spielfeld));
@@ -305,21 +309,20 @@ public class GraficUI extends JFrame implements ActionListener {
           // handle exception...
      }
  
-    startLabel = new JLabel(new ImageIcon(picture));
-    startLabel.setToolTipText("Current card on hand");
-    startLabel.setBorder(blackline);
+    picLabel = new JLabel(new ImageIcon(picture));
+    picLabel.setToolTipText("Current card on hand");
+    picLabel.setBorder(blackline);
     
     
     picLabel = new JLabel(new ImageIcon(picture));
-    possibilitiesLabel = new JLabel(new ImageIcon(picture));
     
 //===================================================================================================        
     leftPanelLayout = new SpringLayout();
     leftPanelLayout.putConstraint(SpringLayout.WEST	, finishRound, 25, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, finishRound, 25, SpringLayout.NORTH, contentPane);
     
-    leftPanelLayout.putConstraint(SpringLayout.WEST	, startLabel, 59, SpringLayout.WEST, contentPane);
-    leftPanelLayout.putConstraint(SpringLayout.NORTH, startLabel, 100, SpringLayout.NORTH, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.WEST	, picLabel, 59, SpringLayout.WEST, contentPane);
+    leftPanelLayout.putConstraint(SpringLayout.NORTH, picLabel, 100, SpringLayout.NORTH, contentPane);
     
     leftPanelLayout.putConstraint(SpringLayout.WEST	, turnLeft, 40, SpringLayout.WEST, contentPane);
     leftPanelLayout.putConstraint(SpringLayout.NORTH, turnLeft, 260, SpringLayout.NORTH, contentPane);
@@ -385,7 +388,7 @@ public class GraficUI extends JFrame implements ActionListener {
     menuBar.add(menu);
     
     leftPanel.add(finishRound);
-    leftPanel.add(startLabel);
+    leftPanel.add(picLabel);
     leftPanel.add(turnLeft);
     leftPanel.add(turnRight);
     leftPanel.add(player1Panel);
@@ -438,12 +441,9 @@ public class GraficUI extends JFrame implements ActionListener {
 		return new ImageIcon(tmp);
     }
     
-    public void printCardLeftPanel()	{	
-    	picLabel.setIcon(image);
-        leftPanelLayout.putConstraint(SpringLayout.WEST	, picLabel, 59, SpringLayout.WEST, contentPane);
-        leftPanelLayout.putConstraint(SpringLayout.NORTH, picLabel, 100, SpringLayout.NORTH, contentPane);   
-    	leftPanel.setLayout(leftPanelLayout); 	
-    	leftPanel.add(picLabel);
+    public void printCardLeftPanel()	{
+    	image = getImage(currentCard);
+    	picLabel.setIcon(image);	
     }
     
     public void printPossibilities()	{
@@ -453,12 +453,15 @@ public class GraficUI extends JFrame implements ActionListener {
     	
     	for(Map.Entry<String, Position> pos : spList.entrySet())	{
     		
-    		int coordX = (pos.getValue().getX() - inController.getDimensionX()/2) + grid/2;
-    		int coordY = (pos.getValue().getY() - inController.getDimensionY()/2) + grid/2;
+    		int coordY = (pos.getValue().getX() - inController.getDimensionX()/2 + grid/2);
+    		int coordX = (pos.getValue().getY() - inController.getDimensionY()/2 + grid/2);
+    		
+    		redraw.add(new Position(coordX, coordY));
     		
     		System.out.println(coordX + " , " + coordY);
     		
     		cardMatrix[coordX][coordY].setIcon(image);
+    		
     	}
     }
     
@@ -467,11 +470,23 @@ public class GraficUI extends JFrame implements ActionListener {
 		cardMatrix[pos.getX()][pos.getY()].setIcon(image);
     }
     
-    public void placeCard(String pos)	{
-    	Map<String, Position> spList = flip(inController.getCardPossibilitiesMap(currentCard));
-
-
+    public void placeCard(String letter)	{
+    	Map<String, Position> spList = flip(psList);
+    	Position pos = spList.get(letter);
+    	redraw.remove(pos);
     	
+		int coordX = (pos.getX() - inController.getDimensionX()/2 + grid/2);
+		int coordY = (pos.getY() - inController.getDimensionY()/2 + grid/2);
+    	
+    	image = skale(getImage(currentCard));
+    	cardMatrix[coordX][coordY].setIcon(image);
+    }
+    
+    public void redraw()	{
+		image = skale(getImage("rueckseite"));
+		for(Position p : redraw){
+			cardMatrix[p.getX()][p.getY()].setIcon(image);
+		}
     }
     
     public Map<String, Position> flip(Map<Position, String> ps)	{
@@ -483,19 +498,19 @@ public class GraficUI extends JFrame implements ActionListener {
     	
     	return sp;
     }
-    /*
+    
     public void rotateCardToLeft(ICard card)	{
-    	image = new RotatedIcon(image, RotatedIcon.Rotate.UP);
+    	RotatedIcon ri = new RotatedIcon(getImage(card), RotatedIcon.Rotate.UP);
     	inController.rotateCardLeft();
-    	picLabel.setIcon(image);
+    	picLabel.setIcon(ri);
     }
     
     public void rotateCardToRight(ICard card)	{
-    	image = new RotatedIcon(image, RotatedIcon.Rotate.DOWN);
+    	RotatedIcon ri = new RotatedIcon(getImage(card), RotatedIcon.Rotate.DOWN);
     	inController.rotateCardRight();
-    	picLabel.setIcon(image);
+    	picLabel.setIcon(ri);
     }
-    */
+    
     public String infoPrint()	{
     	StringBuilder sb = new StringBuilder();
     	
@@ -545,22 +560,22 @@ public class GraficUI extends JFrame implements ActionListener {
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
-		} else if(source == this.finishRound || source == this.finishRoundItem){
+		} else if(source == this.finishRound || source == this.finishRoundItem)	{
 			inController.finishRound();
-			currentCard = inController.cardOnHand();
-			
+			currentCard = inController.cardOnHand();	
 			printCardLeftPanel();
-			
+			psList = inController.getCardPossibilitiesMap(currentCard);
 			printPossibilities();
+
+			//redraw();
 		    textField.setText(status.getStatusMessage(inController.getStatus()));
 		    
-		} else if(source == this.turnLeft || source == this.rotateLeftItem){
-			
-			//this.rotateCardToLeft(currentCard);
+		} else if(source == this.turnLeft || source == this.rotateLeftItem){	
+			this.rotateCardToLeft(currentCard);
 			textField.setText("Card turned to the left!");
 			
 		} else if(source == this.turnRight || source == this.rotateRightItem){
-			//this.rotateCardToRight(currentCard);		
+			this.rotateCardToRight(currentCard);		
 			textField.setText("Card turned to the right!");
 			
 		} else if(source == this.newGame)	{
@@ -582,6 +597,53 @@ public class GraficUI extends JFrame implements ActionListener {
 	public static void main(String[] args)	{
 		ICarcassonneController controller = new CarcassonneController(150, 150);
 		new GraficUI(controller);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {	
+		int x = (int) (arg0.getPoint().getX()/karte);
+		int y = (int) (arg0.getPoint().getY()/karte);
+		
+		System.out.println(inController.getStatusMessage());
+		
+		if(inController.getStatus() == GameStatus.ROUND_START)	{
+			int realX = ((x-2)) + 75;
+			int realY = (-1*(y-2)) + 75;
+			
+			Position p = new Position(realX, realY);
+			
+			inController.placeCard(currentCard, psList.get(p));
+			
+			if(inController.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
+				cardMatrix[y][x].setIcon(skale(getImage(currentCard)));
+			} else if(inController.getStatus() == GameStatus.CARD_SET_FAIL)	{
+				inController.setStatus(GameStatus.ROUND_START);
+			}
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
