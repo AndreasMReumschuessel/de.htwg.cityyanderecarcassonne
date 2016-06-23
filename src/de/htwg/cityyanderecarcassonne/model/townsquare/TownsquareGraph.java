@@ -54,72 +54,51 @@ public final class TownsquareGraph {
 	private static void addLeft(ICard center, ICard left) {
 		mergeIDs(center.getLeftTop(), left.getRightTop());
 		skynet.addEdge(center.getLeftTop(), left.getRightTop());
-		center.getLeftTop().setOpenBorder(false);
-		left.getRightTop().setOpenBorder(false);
 		
 		mergeIDs(center.getLeftMiddle(), left.getRightMiddle());
 		skynet.addEdge(center.getLeftMiddle(), left.getRightMiddle());
-		center.getLeftMiddle().setOpenBorder(false);
-		left.getRightMiddle().setOpenBorder(false);
 		
 		mergeIDs(center.getLeftBelow(), left.getRightBelow());
 		skynet.addEdge(center.getLeftBelow(), left.getRightBelow());
-		center.getLeftBelow().setOpenBorder(false);
-		left.getRightBelow().setOpenBorder(false);
 	}
 
 	private static void addBelow(ICard center, ICard below) {
 		mergeIDs(center.getBelowLeft(), below.getTopLeft());
 		skynet.addEdge(center.getBelowLeft(), below.getTopLeft());
-		center.getBelowLeft().setOpenBorder(false);
-		below.getTopLeft().setOpenBorder(false);
 		
 		mergeIDs(center.getBelowMiddle(), below.getTopMiddle());
 		skynet.addEdge(center.getBelowMiddle(), below.getTopMiddle());
-		center.getBelowMiddle().setOpenBorder(false);
-		below.getTopMiddle().setOpenBorder(false);
 		
 		mergeIDs(center.getBelowRight(), below.getTopRight());
 		skynet.addEdge(center.getBelowRight(), below.getTopRight());
-		center.getBelowRight().setOpenBorder(false);
-		below.getTopRight().setOpenBorder(false);
 	}
 
 	private static void addTop(ICard center, ICard top) {
 		mergeIDs(center.getTopLeft(), top.getBelowLeft());
 		skynet.addEdge(center.getTopLeft(), top.getBelowLeft());
-		center.getTopLeft().setOpenBorder(false);
-		top.getBelowLeft().setOpenBorder(false);
 		
 		mergeIDs(center.getTopMiddle(), top.getBelowMiddle());
 		skynet.addEdge(center.getTopMiddle(), top.getBelowMiddle());
-		center.getTopMiddle().setOpenBorder(false);
-		top.getBelowMiddle().setOpenBorder(false);
 		
 		mergeIDs(center.getTopRight(), top.getBelowRight());
 		skynet.addEdge(center.getTopRight(), top.getBelowRight());
-		center.getTopRight().setOpenBorder(false);
-		top.getBelowRight().setOpenBorder(false);
 	}
 	
 	private static void addRight(ICard center, ICard right) {
 		mergeIDs(center.getRightTop(), right.getLeftTop());
 		skynet.addEdge(center.getRightTop(), right.getLeftTop());
-		center.getRightTop().setOpenBorder(false);
-		right.getLeftTop().setOpenBorder(false);
 		
 		mergeIDs(center.getRightMiddle(), right.getLeftMiddle());
 		skynet.addEdge(center.getRightMiddle(), right.getLeftMiddle());
-		center.getRightMiddle().setOpenBorder(false);
-		right.getLeftMiddle().setOpenBorder(false);
 		
 		mergeIDs(center.getRightBelow(), right.getLeftBelow());
 		skynet.addEdge(center.getRightBelow(), right.getLeftBelow());
-		center.getRightBelow().setOpenBorder(false);
-		right.getLeftBelow().setOpenBorder(false); //TODO Possible task in mergeIDs?
 	}
 
 	private static void mergeIDs(IRegion r1, IRegion r2) {
+		r1.setOpenBorder(false);
+		r2.setOpenBorder(false);
+		
 		if (r1.getID() == r2.getID())
 			return;
 		

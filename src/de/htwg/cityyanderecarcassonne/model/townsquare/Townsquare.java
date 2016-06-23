@@ -65,9 +65,6 @@ public class Townsquare implements ITownsquare {
 	@Override
 	public List<Position> getPossibilities(final ICard c) {
 		List<Position> result = new LinkedList<>();
-		
-		//TODO Autosize
-		
 		ICard card = c;
 		
 		for (int cy = 0; cy < dimY; cy++) {
@@ -78,11 +75,6 @@ public class Townsquare implements ITownsquare {
 				ICard nR = getCard(cx + 1, cy);
 				
 				boolean hasNeigbhor = nL != null || nB != null || nT != null || nR != null;
-				
-				/*boolean setPossible = setPossible(card, cx, cy) ||
-									  setPossible(card.rotateRight(), cx, cy) ||
-									  setPossible(card.rotateRight(), cx, cy) ||
-									  setPossible(card.rotateRight(), cx, cy);*/
 				
 				boolean setPossible1 = setPossible(card, cx, cy);
 				boolean setPossible2 = setPossible(card.rotateRight(), cx, cy);

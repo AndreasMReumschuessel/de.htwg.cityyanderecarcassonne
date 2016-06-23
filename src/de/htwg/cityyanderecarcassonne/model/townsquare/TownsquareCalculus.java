@@ -49,10 +49,10 @@ public final class TownsquareCalculus {
 			case 1:
 				calculateBuildingpoints(entry.getKey(), entry.getValue());
 				break;
+			default:
+				break;
 			}
 		}
-		
-		System.out.println(result);
 	}
 
 	private static void calculateStreetpoints(int id, List<IRegion> rList) {
@@ -111,10 +111,6 @@ public final class TownsquareCalculus {
 				break;
 		}
 		
-		System.out.println("LIST FOR ID " + id + ": " + player);
-		System.out.println("Player: " + lastPlayer);
-		System.out.println("Equal Full Points: " + winnerPlayer.keySet());
-		
 		if (lastPlayer != null)
 			result.add(lastPlayer);
 		else
@@ -137,7 +133,6 @@ public final class TownsquareCalculus {
 		for (Player p : players) {
 			int oldScore = p.getScore();
 			p.setScore(oldScore + points);
-			System.out.println("Player: " + p + ", Score: " + p.getScore());
 		}
 	}
 
