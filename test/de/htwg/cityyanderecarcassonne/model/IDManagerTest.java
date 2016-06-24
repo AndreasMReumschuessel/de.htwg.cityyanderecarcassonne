@@ -100,8 +100,9 @@ public class IDManagerTest {
 		Player player2 = new Player("Kirigaya Kazuto");
 		// Write a PM if you know these two ;D
 		
-		IDManager.setPlayer(id1, player1);
-		IDManager.setPlayer(id1, player2);
+		assertTrue(IDManager.setPlayer(id1, player1));
+		assertTrue(IDManager.setPlayer(id1, player2));
+		assertFalse(IDManager.setPlayer(id1, null));
 		
 		assertTrue(IDManager.isOwned(id1));
 		assertFalse(IDManager.isOwned(id2));
@@ -124,6 +125,28 @@ public class IDManagerTest {
 		assertEquals("[Max]", IDManager.getPlayerList(id2).toString());
 		
 		assertEquals(null, IDManager.getPlayerList(32));
+	}
+	
+	@Test
+	public void getSumCardsTest() {
+		int id1 = IDManager.getBuildingID();
+		
+		assertTrue(IDManager.setSumCards(id1, 3));
+		assertFalse(IDManager.setSumCards(10, 4));
+		assertFalse(IDManager.setSumCards(id1, -1));
+		
+		assertEquals(3, IDManager.getSumCards(id1));
+	}
+	
+	@Test
+	public void isAreaClosedTest() {
+		int id1 = IDManager.getBuildingID();
+		
+		assertTrue(IDManager.setAreaClosed(id1));
+		assertFalse(IDManager.setAreaClosed(55));
+		
+		assertTrue(IDManager.isAreaClosed(id1));
+		assertFalse(IDManager.isAreaClosed(33));
 	}
 
 }

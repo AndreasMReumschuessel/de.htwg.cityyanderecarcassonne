@@ -34,6 +34,7 @@ public class CalculusFinishGame extends ScoreCalculus {
 				break;
 			case 3:
 				calculateLawnpoints(entry.getKey(), entry.getValue());
+				break;
 			default:
 				break;
 			}
