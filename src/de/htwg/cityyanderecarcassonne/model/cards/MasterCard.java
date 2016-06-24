@@ -151,30 +151,6 @@ public abstract class MasterCard implements ICard {
 		return cardGraph;
 	}
 	
-	public List<IRegion> getRegionList()	{
-		List<IRegion> rP = new LinkedList<>();
-		
-		rP.add(leftTop);
-		rP.add(leftMiddle);
-		rP.add(leftBelow);
-		
-		rP.add(belowLeft);
-		rP.add(belowMiddle);
-		rP.add(belowRight);
-		
-		rP.add(centerMiddle);
-		
-		rP.add(topLeft);
-		rP.add(topMiddle);
-		rP.add(topRight);
-		
-		rP.add(rightTop);
-		rP.add(rightMiddle);
-		rP.add(rightBelow);
-		
-		return rP;
-	}
-	
 	@Override
 	public ICard rotateLeft() {
 		rotate("left");
@@ -239,16 +215,41 @@ public abstract class MasterCard implements ICard {
 		}
 	}
 	
-	public List<IRegion> getRegionPossibilities()	{
+	@Override
+	public List<IRegion> getRegionPossibilities() {
 		List<IRegion> rP = new LinkedList<>();
 		
-for(IRegion region : this.getRegionList())	{
+		for(IRegion region : this.getRegionList()) {
 			if(region.getClass().equals(RegionCrossing.class))
 				continue;
-			if(!IDManager.isOwned(region.getID()))	{
+			if(!IDManager.isOwned(region.getID())) {
 				rP.add(region);
 			}
 		}
+		return rP;
+	}
+	
+	private List<IRegion> getRegionList()	{
+		List<IRegion> rP = new LinkedList<>();
+		
+		rP.add(leftTop);
+		rP.add(leftMiddle);
+		rP.add(leftBelow);
+		
+		rP.add(belowLeft);
+		rP.add(belowMiddle);
+		rP.add(belowRight);
+		
+		rP.add(centerMiddle);
+		
+		rP.add(topLeft);
+		rP.add(topMiddle);
+		rP.add(topRight);
+		
+		rP.add(rightTop);
+		rP.add(rightMiddle);
+		rP.add(rightBelow);
+		
 		return rP;
 	}
 	

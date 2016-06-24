@@ -6,7 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
+import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.CardA;
 import de.htwg.cityyanderecarcassonne.model.cards.CardB;
@@ -70,6 +72,29 @@ public class TownsquareTest {
 		
 		assertEquals("[(49|48), (51|48), (52|49), (47|50), (52|50), (48|51), (52|51), (51|52)]", map.getPossibilities(new CardH()).toString());
 		assertEquals("[(49|48), (51|48), (48|49), (52|49), (47|50), (52|50), (48|51), (52|51), (51|52)]", map.getPossibilities(new CardI()).toString());
-		System.out.println(map.toString());
+	}
+	
+	@Test
+	public void placeMeepleTest() {
+		ICard card = new CardD();
+		IRegion region = card.getCenterMiddle();
+		Player player = new Player("Hans");
+		Player player2 = new Player("Uschi");
+		
+		assertTrue(map.placeMeepleOnRegion(player, region));
+		
+		for (int i = 0; i <= player.getSumMeeples(); i++)
+			player.removeMeeple();
+		
+		assertFalse(map.placeMeepleOnRegion(player, region));
+		
+		assertFalse(map.placeMeepleOnRegion(player2, region));
+	}
+	
+	@Test
+	public void toStringTest() {
+		String wish = "Townsquare, Dim(X|Y): (100|101), Size: 0";
+		
+		assertEquals(wish, map.toString());
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
-import de.htwg.cityyanderecarcassonne.model.cards.*;
 
 public class Stock {
 
@@ -70,6 +69,13 @@ public class Stock {
 	 */
 	public void importCards()	{
 		
+		importCardsPart1();
+		importCardsPart2();
+		importCardsPart3();
+		
+	}
+	
+	private void importCardsPart1() {
 		for(int i = 0; i < cardCountA; i++)	{
 			cardStock.add(new CardA());
 		}
@@ -97,7 +103,9 @@ public class Stock {
 		for(int i = 0; i < cardCountH; i++)	{
 			cardStock.add(new CardH());
 		}
-		
+	}
+
+	private void importCardsPart2() {
 		for(int i = 0; i < cardCountI; i++)	{
 			cardStock.add(new CardI());
 		}
@@ -125,7 +133,9 @@ public class Stock {
 		for(int i = 0; i < cardCountQR; i++)	{
 			cardStock.add(new CardQR());
 		}
-		
+	}
+
+	private void importCardsPart3() {
 		for(int i = 0; i < cardCountST; i++)	{
 			cardStock.add(new CardST());
 		}
@@ -144,9 +154,9 @@ public class Stock {
 		
 		for(int i = 0; i < cardCountX; i++)	{
 			cardStock.add(new CardX());
-		}
+		}		
 	}
-	
+
 	/**
 	 * Get size of stock
 	 * @return size of stock

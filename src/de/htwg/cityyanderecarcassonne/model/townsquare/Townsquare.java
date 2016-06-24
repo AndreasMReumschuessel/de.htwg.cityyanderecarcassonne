@@ -82,7 +82,7 @@ public class Townsquare implements ITownsquare {
 				boolean setPossible4 = setPossible(card.rotateRight(), cx, cy);
 				card.rotateRight();
 				
-				boolean setSum = this.setSum(setPossible1, setPossible2, setPossible3, setPossible4);//setPossible1 || setPossible2 || setPossible3 || setPossible4;
+				boolean setSum = setSum(setPossible1, setPossible2, setPossible3, setPossible4);
 				
 				
 				if (hasNeigbhor && setSum) {
@@ -171,6 +171,7 @@ public class Townsquare implements ITownsquare {
 		if (!IDManager.isOwned(rID) && player.getSumMeeples() > 0) {
 			region.setPlayer(player);
 			IDManager.setPlayer(rID, player);
+			player.removeMeeple();
 			return true;
 		} 
 		return false;

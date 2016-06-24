@@ -127,7 +127,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private void placeMeeple(Player player, ICard card, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
-			player.removeMeeple();
 		} else	{
 			setStatus(GameStatus.MEEPLE_SET_FAIL);
 		}

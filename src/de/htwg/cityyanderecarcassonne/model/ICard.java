@@ -34,8 +34,6 @@ public interface ICard {
 	
 	public Graph<IRegion> getCardGraph();
 	
-	public List<IRegion> getRegionList();
-	
 	public ICard rotateLeft();
 	
 	public ICard rotateRight();
