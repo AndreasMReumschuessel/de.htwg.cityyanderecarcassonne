@@ -83,11 +83,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
     }
     
     @Override
-    public String getTownsquareString() {
-    	return townsquare.toString();
-    }
-    
-    @Override
     public GameStatus getStatus() {
         return status;
     }
@@ -124,7 +119,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return stock.getSizeOfStock();
 	}
 
-	private void placeMeeple(Player player, ICard card, IRegion region) {
+	private void placeMeeple(Player player, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
 		} else	{
@@ -140,11 +135,11 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			for (IRegion r : mPossMap.keySet())
 				map.put(mPossMap.get(r), r);
 			
-			placeMeeple(player, card, map.get(poss));
+			placeMeeple(player, map.get(poss));
 		}
 		mPossGen = false;
 		notifyObservers();
-		finishRound(); //TODO
+		finishRound();
 	}
 	
 	@Override
@@ -161,10 +156,11 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public void startRound()	{
-		nextPlayer(); //TODO
+		nextPlayer();
 		
 		this.setStatus(GameStatus.ROUND_START);
 		statusMessage = "";
+		
 		currentCard = takeCard();
 		if(currentCard == null)	{
 			finish();
@@ -190,7 +186,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		
 		scoreCalculus.refreshScore();
 		notifyObservers();
-		startRound(); //TODO
+		startRound();
 	}
 
 	@Override

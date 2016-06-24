@@ -20,8 +20,6 @@ public interface ICarcassonneController {
     
     public String getStatusMessage();
     
-    public String getTownsquareString();
-    
     public void placeMeeple(Player player,ICard card, String poss);
     
     public void rotateCardLeft();
