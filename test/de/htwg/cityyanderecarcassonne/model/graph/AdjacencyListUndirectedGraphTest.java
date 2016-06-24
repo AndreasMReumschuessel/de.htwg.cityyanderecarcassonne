@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import de.htwg.cityyanderecarcassonne.model.*;
-import de.htwg.cityyanderecarcassonne.model.graph.*;
 import de.htwg.cityyanderecarcassonne.model.regions.*;
 
 public class AdjacencyListUndirectedGraphTest {
