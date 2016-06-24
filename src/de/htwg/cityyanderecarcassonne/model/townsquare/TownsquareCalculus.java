@@ -57,7 +57,8 @@ public final class TownsquareCalculus {
 
 	private static void calculateStreetpoints(int id, List<IRegion> rList) {
 		
-		List<Player> relevantPlayers = getRelevantPlayers(id);
+		List<Player> settledPlayers = getSettledPlayers(rList);
+		List<Player> relevantPlayers = getRelevantPlayers(id, settledPlayers);
 		
 		int points = IDManager.getSumCards(id);
 		assignPoints(relevantPlayers, points);
@@ -67,16 +68,16 @@ public final class TownsquareCalculus {
 	
 	private static void calculateBuildingpoints(int id, List<IRegion> rList) {
 
-		List<Player> relevantPlayers = getRelevantPlayers(id);
+		List<Player> settledPlayers = getSettledPlayers(rList);
+		List<Player> relevantPlayers = getRelevantPlayers(id, settledPlayers);
 		
 		int points = IDManager.getSumCards(id)  * 2;
 		assignPoints(relevantPlayers, points);
 		
 		freeMeeple(rList);
 	}
-	
-	private static List<Player> getRelevantPlayers(int id) {
-		List<Player> player = IDManager.getPlayerList(id);
+
+	private static List<Player> getRelevantPlayers(int id, List<Player> player) {
 		Map<Player, Integer> winnerPlayer = new HashMap<>();
 		List<Player> result = new LinkedList<>();
 		
@@ -107,7 +108,7 @@ public final class TownsquareCalculus {
 				}
 			}
 			
-			if (player != null)
+			if (lastPlayer != null)
 				break;
 		}
 		
@@ -116,6 +117,17 @@ public final class TownsquareCalculus {
 		else
 			result.addAll(winnerPlayer.keySet());
 		
+		return result;
+	}
+	
+	private static List<Player> getSettledPlayers(List<IRegion> rList) {
+		List<Player> result = new LinkedList<>();
+		for (IRegion r : rList) {
+			Player player = r.getPlayer();
+			if (player != null) {
+				result.add(player);
+			}
+		}
 		return result;
 	}
 	
