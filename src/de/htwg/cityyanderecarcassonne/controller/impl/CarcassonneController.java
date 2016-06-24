@@ -8,9 +8,13 @@ import java.util.Queue;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.Stock;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.ScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
@@ -33,6 +37,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private boolean mPossGen;
 	
 	private Queue<Player> playerQueue;
+	
+	private IScoreCalculus scoreCalculus;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
@@ -148,6 +154,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.townsquare = new Townsquare(sizeX, sizeY);
 		currentCard = stock.getStartCard();
 		townsquare.setCard(currentCard, sizeX / 2, sizeY / 2);
+		scoreCalculus = new CalculusRunningGame(townsquare);
+		
 		status = GameStatus.CREATE;
 		statusMessage = "";
 		notifyObservers();
@@ -172,7 +180,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.setStatus(GameStatus.FINISH);
 		statusMessage = "";
 		
-		townsquare.refreshScore();
+		scoreCalculus = new CalculusFinishGame(townsquare);
+		scoreCalculus.refreshScore();
 		notifyObservers();
 	}
 
@@ -180,9 +189,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
 		statusMessage = "";
-		// this.getScore();
-		// call ScoreCounter
-		townsquare.refreshScore();
+		
+		scoreCalculus.refreshScore();
 		notifyObservers();
 		startRound(); //TODO
 	}

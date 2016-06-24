@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.model.townsquare;
+package de.htwg.cityyanderecarcassonne.model.scorecalculus;
 
 import static org.junit.Assert.*;
 
@@ -7,11 +7,14 @@ import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.cards.*;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
+import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
-public class TownsquareCalculusTest {
+public class ScoreCalculusTest {
 	private ITownsquare ts;
 	private Player pa;
 	private Player pb;
@@ -129,7 +132,8 @@ public class TownsquareCalculusTest {
 
 	@Test
 	public final void refreshScoreTest() {
-		ts.refreshScore();
+		IScoreCalculus sc = new CalculusRunningGame(ts);
+		sc.refreshScore();
 		assertEquals(17, pa.getScore());
 		assertEquals(15, pb.getScore());
 		assertEquals(11, pc.getScore());

@@ -171,9 +171,4 @@ public class Townsquare implements ITownsquare {
 		} 
 		return false;
 	}
-	
-	@Override
-	public void refreshScore() {
-		TownsquareCalculus.refreshScore(this);
-	}
 }
