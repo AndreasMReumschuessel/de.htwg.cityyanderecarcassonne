@@ -69,7 +69,7 @@ public final class TownsquareCalculus {
 	private static void calculateStreetpoints(int id, List<IRegion> rList) {
 		
 		List<Player> settledPlayers = getSettledPlayers(rList);
-		List<Player> relevantPlayers = getRelevantPlayers(id, settledPlayers);
+		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
 		
 		int points = IDManager.getSumCards(id);
 		assignPoints(relevantPlayers, points);
@@ -80,7 +80,7 @@ public final class TownsquareCalculus {
 	private static void calculateBuildingpoints(int id, List<IRegion> rList) {
 
 		List<Player> settledPlayers = getSettledPlayers(rList);
-		List<Player> relevantPlayers = getRelevantPlayers(id, settledPlayers);
+		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
 		
 		int points = IDManager.getSumCards(id)  * 2;
 		assignPoints(relevantPlayers, points);
@@ -134,7 +134,7 @@ public final class TownsquareCalculus {
 		}
 	}
 
-	private static List<Player> getRelevantPlayers(int id, List<Player> player) {
+	private static List<Player> getRelevantPlayers(List<Player> player) {
 		Map<Player, Integer> winnerPlayer = new HashMap<>();
 		List<Player> result = new LinkedList<>();
 		
