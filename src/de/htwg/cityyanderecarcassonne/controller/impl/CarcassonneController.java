@@ -14,7 +14,6 @@ import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.Stock;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
-import de.htwg.cityyanderecarcassonne.model.scorecalculus.ScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;

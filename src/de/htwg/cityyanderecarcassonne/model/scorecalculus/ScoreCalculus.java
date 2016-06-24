@@ -38,17 +38,6 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 		freeMeeple(rList);
 	}
 	
-	protected void calculateBuildingpoints(int id, List<IRegion> rList) {
-
-		List<Player> settledPlayers = getSettledPlayers(rList);
-		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
-		
-		int points = IDManager.getSumCards(id)  * 2;
-		assignPoints(relevantPlayers, points);
-		
-		freeMeeple(rList);
-	}
-	
 	protected void calculateSchoolpoints(ITownsquare townsquare) {
 		Map<ICard, Position> schools = getSchools(townsquare);
 		for (ICard card : schools.keySet()) {

@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionCrossing;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
-import de.htwg.cityyanderecarcassonne.model.townsquare.TownsquareGraph;
 
 public class CalculusRunningGame extends ScoreCalculus {
 
@@ -19,9 +19,7 @@ public class CalculusRunningGame extends ScoreCalculus {
 	}
 
 	@Override
-	public void refreshScore() {
-		skynet = TownsquareGraph.getFullGraph();
-		
+	public void refreshScore() {		
 		Map<Integer, List<IRegion>> areas = breadthFirstSearch(skynet.getVertex(0));
 		
 		calcScoreClosedAreas(areas);
@@ -35,6 +33,7 @@ public class CalculusRunningGame extends ScoreCalculus {
 		for (Map.Entry<Integer, List<IRegion>> entry : areas.entrySet()) {
 			for (IRegion r : entry.getValue()) {				
 				if (r.getOpenBorder() || deniedRegions(r.getClass())) {
+					IDManager.setAreaClosed(entry.getKey());
 					result.remove(entry.getKey());
 					break;
 				}
@@ -56,10 +55,22 @@ public class CalculusRunningGame extends ScoreCalculus {
 		}
 	}
 	
+	protected void calculateBuildingpoints(int id, List<IRegion> rList) {
+
+		List<Player> settledPlayers = getSettledPlayers(rList);
+		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
+		
+		int points = IDManager.getSumCards(id)  * 2;
+		assignPoints(relevantPlayers, points);
+		
+		freeMeeple(rList);
+	}
+	
 	private boolean deniedRegions(Class<? extends IRegion> r) {
 		return r.equals(RegionLawn.class) || r.equals(RegionCrossing.class);
 	}
 	
+	@Override
 	protected void assignSchoolPoints(ICard card, int points) {
 		if (points == 9) {
 			IRegion region = card.getCenterMiddle();
