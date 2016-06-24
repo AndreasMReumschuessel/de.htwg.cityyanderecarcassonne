@@ -2,8 +2,6 @@ package de.htwg.cityyanderecarcassonne.model;
 
 import java.util.List;
 
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
-
 public interface ICard {
 	
 	public IRegion getTopLeft();
@@ -32,7 +30,7 @@ public interface ICard {
 	
 	public IRegion getBelowRight();
 	
-	public Graph<IRegion> getCardGraph();
+	public IGraph<IRegion> getCardGraph();
 	
 	public ICard rotateLeft();
 	

@@ -6,8 +6,8 @@ import java.util.List;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionCrossing;
+import de.htwg.cityyanderecarcassonne.model.IGraph;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 
 public abstract class MasterCard implements ICard {
@@ -30,7 +30,7 @@ public abstract class MasterCard implements ICard {
 	protected IRegion belowMiddle;
 	protected IRegion belowRight;
 	
-	private Graph<IRegion> cardGraph;
+	private IGraph<IRegion> cardGraph;
 	
 	protected MasterCard() {
 		super();
@@ -147,7 +147,7 @@ public abstract class MasterCard implements ICard {
 	}
 	
 	@Override
-	public Graph<IRegion> getCardGraph() {
+	public IGraph<IRegion> getCardGraph() {
 		return cardGraph;
 	}
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import de.htwg.cityyanderecarcassonne.model.IGraph;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
@@ -13,13 +14,12 @@ import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionSchool;
 import de.htwg.cityyanderecarcassonne.model.townsquare.TownsquareGraph;
 
 public abstract class ScoreCalculus implements IScoreCalculus {
 	
-	protected Graph<IRegion> skynet;
+	protected IGraph<IRegion> skynet;
 	protected ITownsquare townsquare;
 	
 	public ScoreCalculus(ITownsquare townsquare) {

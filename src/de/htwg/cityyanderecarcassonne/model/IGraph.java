@@ -1,6 +1,8 @@
-package de.htwg.cityyanderecarcassonne.model.graph;
+package de.htwg.cityyanderecarcassonne.model;
 
 import java.util.List;
+
+import de.htwg.cityyanderecarcassonne.model.graph.Edge;
 
 /**
 * Graph, der gerichtet oder ungerichtet sein kann.
@@ -12,7 +14,7 @@ import java.util.List;
 * @since 21.10.2011
 * @param <V> Knotentyp.
 */
-public interface Graph<V> {
+public interface IGraph<V> {
  /**
   * Fügt neuen Knoten zum Graph dazu.
   * @param v Knoten
