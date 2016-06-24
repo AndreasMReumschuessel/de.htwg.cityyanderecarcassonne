@@ -3,8 +3,9 @@ package de.htwg.cityyanderecarcassonne.model.graph;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.htwg.cityyanderecarcassonne.model.Edge;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.graph.Edge;
 import de.htwg.cityyanderecarcassonne.model.regions.*;
 
 public class EdgeTest {

@@ -2,8 +2,6 @@ package de.htwg.cityyanderecarcassonne.model;
 
 import java.util.List;
 
-import de.htwg.cityyanderecarcassonne.model.graph.Edge;
-
 /**
 * Graph, der gerichtet oder ungerichtet sein kann.
 * Der Graph ist gewichtet. Falls keine Gewichte angegeben werden,

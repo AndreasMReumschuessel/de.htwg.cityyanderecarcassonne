@@ -9,11 +9,11 @@ import java.util.Queue;
 import java.util.Set;
 
 import de.htwg.cityyanderecarcassonne.model.IGraph;
+import de.htwg.cityyanderecarcassonne.model.Edge;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
-import de.htwg.cityyanderecarcassonne.model.graph.Edge;
 
 public final class TownsquareGraph {
 	
