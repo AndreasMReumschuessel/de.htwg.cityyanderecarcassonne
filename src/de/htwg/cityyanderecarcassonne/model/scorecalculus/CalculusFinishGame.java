@@ -41,7 +41,7 @@ public class CalculusFinishGame extends ScoreCalculus {
 				calculateStreetpoints(entry.getKey(), entry.getValue()); /* Streetpoints because at end of game unfinished buildings count as much as streets */
 				break;
 			case 3:
-				calculateLawnpoints(entry.getKey(), entry.getValue());
+				calculateLawnpoints(entry.getValue());
 				break;
 			default:
 				break;
@@ -49,11 +49,11 @@ public class CalculusFinishGame extends ScoreCalculus {
 		}
 	}
 
-	private void calculateLawnpoints(Integer id, List<IRegion> rList) {
+	private void calculateLawnpoints(List<IRegion> rList) {
 		List<Player> settledPlayers = getSettledPlayers(rList);
 		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
 		
-		int points = LawnBreadthFirstSearch(rList.get(0)).size() * 3;
+		int points = lawnBreadthFirstSearch(rList.get(0)).size() * 3;
 		assignPoints(relevantPlayers, points);
 		
 		freeMeeple(rList);
@@ -72,19 +72,19 @@ public class CalculusFinishGame extends ScoreCalculus {
 		}	
 	}
 	
-	private Set<Integer> LawnBreadthFirstSearch(IRegion s) {
+	private Set<Integer> lawnBreadthFirstSearch(IRegion s) {
 		Map<IRegion, Boolean> visited = new HashMap<>();
 		Set<Integer> results = new HashSet<>();
 		
 		for (IRegion v : skynet.getVertexList())
 			visited.put(v, false);
 		
-		LawnBreadthVisit(s, visited, results);
+		lawnBreadthVisit(s, visited, results);
 		
 		return results;
 	}
 	
-	private void LawnBreadthVisit(IRegion s, Map<IRegion, Boolean> visited, Set<Integer> results) {
+	private void lawnBreadthVisit(IRegion s, Map<IRegion, Boolean> visited, Set<Integer> results) {
 		Queue<IRegion> q = new LinkedList<>();
 		IRegion n = s;
 		
