@@ -17,11 +17,15 @@ public class TownsquareCalculusTest {
 	private Townsquare ts;
 	private Player pa;
 	private Player pb;
+	private Player pc;
+	private Player pd;
 
 	@Before
 	public void setUp() throws Exception {
 		pa = new Player("A");
 		pb = new Player("B");
+		pc = new Player("C");
+		pd = new Player("D");
 		ts = new Townsquare(50, 50);
 		
 		ts.setCard(new CardD(), 5, 5);
@@ -60,13 +64,62 @@ public class TownsquareCalculusTest {
 		IRegion cr4 = c4.getLeftMiddle();		
 		ts.setCard(c4, 6, 5);
 		ts.placeMeepleOnRegion(pb, cr4);
+		
+		/* ----------------------------- */
+		
+		ICard c5 = new CardX();
+		IRegion cr5 = c5.getBelowMiddle();
+		ts.setCard(c5, 8, 7);
+		ts.placeMeepleOnRegion(pa, cr5);
+		
+		ICard c6 = new CardU();
+		IRegion cr6 = c6.getCenterMiddle();
+		ts.setCard(c6, 8, 9);
+		ts.placeMeepleOnRegion(pb, cr6);
+		
+		ICard c7 = new CardU();
+		IRegion cr7 = c7.getCenterMiddle();
+		ts.setCard(c7, 8, 11);
+		ts.placeMeepleOnRegion(pb, cr7);
+		
+		ICard c8 = new CardU();
+		IRegion cr8 = c8.getCenterMiddle();
+		ts.setCard(c8, 8, 13);
+		ts.placeMeepleOnRegion(pc, cr8);
+		
+		ICard c9 = new CardU();
+		IRegion cr9 = c9.getCenterMiddle();
+		ts.setCard(c9, 8, 15);
+		ts.placeMeepleOnRegion(pc, cr9);
+		
+		ICard c10 = new CardX();
+		IRegion cr10 = c10.getTopMiddle();
+		ts.setCard(c10, 8, 17);
+		ts.placeMeepleOnRegion(pd, cr10);
+		
+		ICard c11 = new CardU();
+		ts.setCard(c11, 8, 8);
+		
+		ICard c12 = new CardU();
+		ts.setCard(c12, 8, 10);
+		
+		ICard c13 = new CardU();
+		ts.setCard(c13, 8, 12);
+		
+		ICard c14 = new CardU();
+		ts.setCard(c14, 8, 14);
+		
+		ICard c15 = new CardU();
+		ts.setCard(c15, 8, 16);
 	}
 
 	@Test
 	public final void refreshScoreTest() {
 		ts.refreshScore();
 		assertEquals(8, pa.getScore());
-		assertEquals(4, pb.getScore());
+		assertEquals(15, pb.getScore());
+		assertEquals(11, pc.getScore());
+		assertEquals(0, pd.getScore());
 	}
 
 }
