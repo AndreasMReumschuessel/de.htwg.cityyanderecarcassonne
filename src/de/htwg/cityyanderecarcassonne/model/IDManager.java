@@ -18,6 +18,7 @@ public class IDManager {
 	
 	private static Map<Integer, List<Player>> idPlayer = new HashMap<>();
 	private static Map<Integer, Integer> idSumCards = new HashMap<>();
+	private static Map<Integer, Boolean> idAreaClosed = new HashMap<>();
 	
 	private static IDManager instance = null;
 	
@@ -123,5 +124,20 @@ public class IDManager {
 	
 	public static int getSumCards(int id) {
 		return idSumCards.get(id);
+	}
+	
+	public static boolean setAreaClosed(int id) {
+		if (idpool.contains(id)) {
+			idAreaClosed.put(id, true);
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isAreaClosed(int id) {
+		if (idAreaClosed.containsKey(id)) {
+			return idAreaClosed.get(id);
+		}
+		return false;
 	}
 }
