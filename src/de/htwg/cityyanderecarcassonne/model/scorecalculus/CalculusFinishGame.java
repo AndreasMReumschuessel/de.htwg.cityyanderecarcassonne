@@ -51,10 +51,12 @@ public class CalculusFinishGame extends ScoreCalculus {
 		IRegion region = card.getCenterMiddle();
 		Player player = region.getPlayer();
 		
-		int oldScore = player.getScore();
-		player.setScore(oldScore + points);
-		region.setPlayer(null);
-		player.addMeeple();		
+		if (player != null) {
+			int oldScore = player.getScore();
+			player.setScore(oldScore + points);
+			region.setPlayer(null);
+			player.addMeeple();
+		}
 	}
 
 }

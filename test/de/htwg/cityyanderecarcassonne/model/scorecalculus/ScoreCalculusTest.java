@@ -31,7 +31,11 @@ public class ScoreCalculusTest {
 		
 		ts.setCard(new CardD(), 5, 5);
 		ts.setCard(new CardW(), 7, 4);
-		ts.setCard(new CardW(), 7, 7);
+		
+		ICard c0 = new CardW();
+		IRegion cr0 = c0.getTopMiddle();
+		ts.setCard(c0, 7, 7);
+		ts.placeMeepleOnRegion(pb, cr0);
 		
 		ICard c1 = new CardU();
 		c1.rotateLeft();
@@ -80,7 +84,9 @@ public class ScoreCalculusTest {
 		ts.setCard(c18, 7, 6);
 		
 		ICard c19 = new CardB();
+		IRegion cr19 = c19.getCenterMiddle();
 		ts.setCard(c19, 8, 5);
+		ts.placeMeepleOnRegion(pd, cr19);
 		
 		/* ----------------------------- */
 		
@@ -131,13 +137,33 @@ public class ScoreCalculusTest {
 	}
 
 	@Test
-	public final void refreshScoreTest() {
+	public final void refreshScoreRunningGameTest() {
 		IScoreCalculus sc = new CalculusRunningGame(ts);
 		sc.refreshScore();
 		assertEquals(17, pa.getScore());
 		assertEquals(15, pb.getScore());
 		assertEquals(11, pc.getScore());
 		assertEquals(0, pd.getScore());
+		
+		/* Switching to game end */
+		
+		ICard c20 = new CardU();
+		c20.rotateLeft();
+		IRegion cr20 = c20.getCenterMiddle();
+		ts.setCard(c20, 8, 4);
+		ts.placeMeepleOnRegion(pd, cr20);
+		
+		ICard c21 = new CardE();
+		IRegion cr21 = c21.getTopMiddle();
+		ts.setCard(c21, 8, 3);
+		ts.placeMeepleOnRegion(pd, cr21);
+		
+		sc = new CalculusFinishGame(ts);
+		sc.refreshScore();
+		assertEquals(17, pa.getScore());
+		assertEquals(15, pb.getScore());
+		assertEquals(11, pc.getScore());
+		assertEquals(8, pd.getScore());
 	}
 
 }
