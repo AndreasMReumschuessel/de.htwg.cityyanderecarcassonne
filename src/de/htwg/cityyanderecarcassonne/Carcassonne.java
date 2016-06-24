@@ -3,13 +3,6 @@ package de.htwg.cityyanderecarcassonne;
 import java.util.Scanner;
 
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
-import de.htwg.cityyanderecarcassonne.model.ICard;
-import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.cards.*;
-import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
-import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.view.tui.TextUI;
 
 public final class Carcassonne {
