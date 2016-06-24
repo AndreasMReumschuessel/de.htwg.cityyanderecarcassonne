@@ -161,7 +161,7 @@ public class ScoreCalculusTest {
 		sc = new CalculusFinishGame(ts);
 		sc.refreshScore();
 		assertEquals(17, pa.getScore());
-		assertEquals(15, pb.getScore());
+		assertEquals(18, pb.getScore());
 		assertEquals(11, pc.getScore());
 		assertEquals(8, pd.getScore());
 	}

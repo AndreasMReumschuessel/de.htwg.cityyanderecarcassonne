@@ -1,12 +1,20 @@
 package de.htwg.cityyanderecarcassonne.model.scorecalculus;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
 public class CalculusFinishGame extends ScoreCalculus {
 
@@ -42,9 +50,13 @@ public class CalculusFinishGame extends ScoreCalculus {
 	}
 
 	private void calculateLawnpoints(Integer id, List<IRegion> rList) {
-		// Breitensuche innerhalb der Wiese
-		// Merken, welche Burgen abgeschlossen sind
-		// Punkte = Anzahl der Burgen mal drei
+		List<Player> settledPlayers = getSettledPlayers(rList);
+		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
+		
+		int points = LawnBreadthFirstSearch(rList.get(0)).size() * 3;
+		assignPoints(relevantPlayers, points);
+		
+		freeMeeple(rList);
 	}
 
 	@Override
@@ -57,6 +69,44 @@ public class CalculusFinishGame extends ScoreCalculus {
 			player.setScore(oldScore + points);
 			region.setPlayer(null);
 			player.addMeeple();
+		}	
+	}
+	
+	private Set<Integer> LawnBreadthFirstSearch(IRegion s) {
+		Map<IRegion, Boolean> visited = new HashMap<>();
+		Set<Integer> results = new HashSet<>();
+		
+		for (IRegion v : skynet.getVertexList())
+			visited.put(v, false);
+		
+		LawnBreadthVisit(s, visited, results);
+		
+		return results;
+	}
+	
+	private void LawnBreadthVisit(IRegion s, Map<IRegion, Boolean> visited, Set<Integer> results) {
+		Queue<IRegion> q = new LinkedList<>();
+		IRegion n = s;
+		
+		q.add(n);
+		
+		while (!q.isEmpty()) {
+			n = q.remove();
+			
+			if (visited.get(n))
+				continue;
+			
+			visited.replace(n, true);
+			
+			for (IRegion w : skynet.getAdjacentVertexList(n)) {
+				if (w.getClass().equals(RegionBuilding.class) 
+						&& IDManager.isAreaClosed(w.getID())) {
+					results.add(w.getID());
+				}
+				
+				if (!visited.get(w) && w.getClass().equals(RegionLawn.class) && w.getID() == n.getID())
+					q.add(w);
+			}
 		}
 	}
 

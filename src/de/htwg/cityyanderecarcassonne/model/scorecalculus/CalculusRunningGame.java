@@ -33,7 +33,6 @@ public class CalculusRunningGame extends ScoreCalculus {
 		for (Map.Entry<Integer, List<IRegion>> entry : areas.entrySet()) {
 			for (IRegion r : entry.getValue()) {				
 				if (r.getOpenBorder() || deniedRegions(r.getClass())) {
-					IDManager.setAreaClosed(entry.getKey());
 					result.remove(entry.getKey());
 					break;
 				}
@@ -41,6 +40,7 @@ public class CalculusRunningGame extends ScoreCalculus {
 		}
 		
 		for (Map.Entry<Integer, List<IRegion>> entry : result.entrySet()) {
+			IDManager.setAreaClosed(entry.getKey());
 			int type = Character.getNumericValue(entry.getKey().toString().charAt(0));
 			switch (type) {
 			case 5:
