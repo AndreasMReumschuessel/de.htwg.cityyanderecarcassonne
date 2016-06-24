@@ -2,19 +2,17 @@ package de.htwg.cityyanderecarcassonne.model.townsquare;
 
 import static org.junit.Assert.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.cards.*;
 
 public class TownsquareCalculusTest {
-	private Townsquare ts;
+	private ITownsquare ts;
 	private Player pa;
 	private Player pb;
 	private Player pc;
@@ -64,6 +62,22 @@ public class TownsquareCalculusTest {
 		IRegion cr4 = c4.getLeftMiddle();		
 		ts.setCard(c4, 6, 5);
 		ts.placeMeepleOnRegion(pb, cr4);
+		
+		ICard c16 = new CardB();
+		IRegion cr16 = c16.getCenterMiddle();
+		ts.setCard(c16, 6, 6);
+		ts.placeMeepleOnRegion(pa, cr16);
+		
+		ICard c17 = new CardU();
+		ts.setCard(c17, 7, 5);
+		
+		ICard c18 = new CardV();
+		c18.rotateLeft();
+		c18.rotateLeft();
+		ts.setCard(c18, 7, 6);
+		
+		ICard c19 = new CardB();
+		ts.setCard(c19, 8, 5);
 		
 		/* ----------------------------- */
 		
@@ -116,7 +130,7 @@ public class TownsquareCalculusTest {
 	@Test
 	public final void refreshScoreTest() {
 		ts.refreshScore();
-		assertEquals(8, pa.getScore());
+		assertEquals(17, pa.getScore());
 		assertEquals(15, pb.getScore());
 		assertEquals(11, pc.getScore());
 		assertEquals(0, pd.getScore());

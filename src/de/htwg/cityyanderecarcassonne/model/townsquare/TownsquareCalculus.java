@@ -6,10 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.ITownsquare;
 import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.graph.Graph;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionCrossing;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionSchool;
 
 public final class TownsquareCalculus {
 	
@@ -19,12 +25,13 @@ public final class TownsquareCalculus {
 		throw new UnsupportedOperationException();
 	}
 	
-	public static void refreshScore() {
+	public static void refreshScore(ITownsquare townsquare) {
 		skynet = TownsquareGraph.getFullGraph();
 		
 		Map<Integer, List<IRegion>> areas = breadthFirstSearch(skynet.getVertex(0));
 		
 		calcScoreClosedAreas(areas);
+		calculateSchoolpoints(townsquare);
 	}
 	
 	private static void calcScoreClosedAreas(Map<Integer, List<IRegion>> areas) {
@@ -33,7 +40,7 @@ public final class TownsquareCalculus {
 		
 		for (Map.Entry<Integer, List<IRegion>> entry : areas.entrySet()) {
 			for (IRegion r : entry.getValue()) {				
-				if (r.getOpenBorder()) {
+				if (r.getOpenBorder() || deniedRegions(r.getClass())) {
 					result.remove(entry.getKey());
 					break;
 				}
@@ -53,6 +60,10 @@ public final class TownsquareCalculus {
 				break;
 			}
 		}
+	}
+
+	private static boolean deniedRegions(Class<? extends IRegion> r) {
+		return r.equals(RegionLawn.class) || r.equals(RegionCrossing.class);
 	}
 
 	private static void calculateStreetpoints(int id, List<IRegion> rList) {
@@ -75,6 +86,52 @@ public final class TownsquareCalculus {
 		assignPoints(relevantPlayers, points);
 		
 		freeMeeple(rList);
+	}
+	
+	private static void calculateSchoolpoints(ITownsquare townsquare) {
+		Map<ICard, Position> schools = getSchools(townsquare);
+		for (ICard card : schools.keySet()) {
+			int points = sumSchoolArea(townsquare, schools.get(card).getX(), schools.get(card).getY());
+			assignSchoolPoints(card, points);
+		}
+		
+	}
+	
+	private static Map<ICard, Position> getSchools(ITownsquare townsquare) {
+		Map<ICard, Position> result = new HashMap<>();
+		for (int y = 0; y < townsquare.getDimY(); y++) {
+			for (int x = 0; x < townsquare.getDimY(); x++) {
+				ICard card = townsquare.getCard(x, y);
+				if (card != null && card.getCenterMiddle().getClass().equals(RegionSchool.class)) {
+					result.put(card, new Position(x, y));
+				}
+			}
+		}
+		return result;
+	}
+	
+	private static int sumSchoolArea(ITownsquare townsquare, int x, int y) {
+		int sum = 0;
+		for (int i = y - 1; i <= y + 1; i++) {
+			for (int j = x - 1; j <= x + 1; j++) {
+				if (townsquare.getCard(j, i) != null) {
+					sum++;
+				}
+			}
+		}
+		return sum;
+	}
+	
+	private static void assignSchoolPoints(ICard card, int points) {
+		if (points == 9) {
+			IRegion region = card.getCenterMiddle();
+			Player player = region.getPlayer();
+			
+			int oldScore = player.getScore();
+			player.setScore(oldScore + points);
+			region.setPlayer(null);
+			player.addMeeple();
+		}
 	}
 
 	private static List<Player> getRelevantPlayers(int id, List<Player> player) {

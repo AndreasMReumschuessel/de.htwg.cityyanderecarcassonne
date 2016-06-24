@@ -174,6 +174,6 @@ public class Townsquare implements ITownsquare {
 	
 	@Override
 	public void refreshScore() {
-		TownsquareCalculus.refreshScore();
+		TownsquareCalculus.refreshScore(this);
 	}
 }
