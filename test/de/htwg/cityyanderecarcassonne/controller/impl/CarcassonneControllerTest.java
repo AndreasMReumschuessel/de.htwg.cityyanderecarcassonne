@@ -14,7 +14,7 @@ public class CarcassonneControllerTest {
 	private CarcassonneController ctrl;
 
 	@Before
-	public void setUpBeforeClass() throws Exception {
+	public void setUp() throws Exception {
 		ctrl = new CarcassonneController(100, 110);
 		//ctrl.create();
 	}

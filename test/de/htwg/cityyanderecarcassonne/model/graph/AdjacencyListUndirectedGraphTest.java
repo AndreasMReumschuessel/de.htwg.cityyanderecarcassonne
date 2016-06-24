@@ -21,7 +21,6 @@ public class AdjacencyListUndirectedGraphTest {
 	private IRegion c;
 	private IRegion d;
 	private IRegion e;
-	private IRegion f;
 	
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -33,7 +32,6 @@ public class AdjacencyListUndirectedGraphTest {
 		c = new RegionBuilding();
 		d = new RegionBuilding();
 		e = new RegionBuilding();
-		f = new RegionBuilding();
 		graph = new AdjacencyListUndirectedGraph<>();
 		graph.addVertex(a);
 		graph.addVertex(b);
