@@ -114,7 +114,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     int spielfeld = 1000;
     int grid;
     int karte;
-	int i = 0;
+	int k = 0;
     
 //===================================================================================================    
     
@@ -176,7 +176,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     mainPanel.setBackground(Color.GRAY.darker());
     mainPanel.addMouseListener(this);
     
-    grid = 5;
+    grid = 3;
     gamePanel = new JPanel();
     gamePanel.setPreferredSize(new Dimension(spielfeld, spielfeld));
     gamePanel.setBackground(Color.GRAY.brighter());
@@ -437,7 +437,15 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     public BufferedImage getImage(String filename)	{
         try {
         	picture =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + filename + ".png"));
-        	return picture;
+         } catch (IOException ex) {
+              // handle exception...
+         }
+		return picture;
+    }
+    
+    public BufferedImage getImage(ICard card)	{
+        try {
+        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
          } catch (IOException ex) {
               // handle exception...
          }
@@ -456,17 +464,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 		gamePanelLayout.putConstraint(SpringLayout.WEST, meeple, x, SpringLayout.WEST, contentPane);
 		gamePanelLayout.putConstraint(SpringLayout.NORTH, meeple, y, SpringLayout.NORTH, contentPane);
     }
-    
-    public BufferedImage getImage(ICard card)	{
-        try {
-        	picture =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
-        	return picture;
-         } catch (IOException ex) {
-              // handle exception...
-         }
-		return picture;
-    }
-    
+
     public ImageIcon skale(Image im)	{
     	karte = spielfeld/grid;
 		Image tmp = im.getScaledInstance(karte, karte, Image.SCALE_SMOOTH);
@@ -475,16 +473,14 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     
     public void printCardLeftPanel()	{
     	getImage(inController.cardOnHand());
-    	leftImage = new ImageIcon(picture);
-    	picLabel.setIcon(leftImage);	
+    	picLabel.setIcon(new ImageIcon(getImage(currentCard)));	
     }
     
     public void printCardPossibilities()	{
 		psCardList = inController.getCardPossibilitiesMap(inController.cardOnHand());
     	Map<String, Position> spList = flipP(inController.getCardPossibilitiesMap(inController.cardOnHand()));
     	
-    	getImage("possibilities");
-    	possImage = skale(picture);
+    	possImage = skale(getImage("possibilities"));
     	
     	for(Map.Entry<String, Position> pos : spList.entrySet())	{
     		
@@ -501,10 +497,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 		psRegionList = inController.getCardPossibilitiesMap(inController.cardOnHand());
     	Map<String, IRegion> spList = flipR(inController.getRegionPossibilitiesMap(inController.cardOnHand()));
     	
-    	getImage("meeple_possibilities");
-    	possImage = skale(picture);
-    	
-    	System.out.println(spList);
+    	possImage = skale(getImage("meeple_possibilities"));
     	
     	for(Map.Entry<String, IRegion> pos : spList.entrySet())	{
     		
@@ -516,8 +509,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     public void placeStartCard()	{
     	Position pos = new Position(grid/2, grid/2);
     	currentCard = inController.cardOnHand();
-    	startImage = skale(getImage(currentCard));
-		cardMatrix[pos.getX()][pos.getY()].setIcon(startImage);
+		cardMatrix[pos.getX()][pos.getY()].setIcon(skale(getImage(currentCard)));
 		cardsOnField.put(pos, picture);
     }
     
@@ -549,8 +541,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     public void rotateCardToLeft()	{
     	picture = rotateImage(picture, -90.0);
     	inController.rotateCardLeft();
-    	leftImage = new ImageIcon(picture);
-    	picLabel.setIcon(leftImage);
+    	picLabel.setIcon(new ImageIcon(picture));
     	mainImage = skale(picture);
     }
     
@@ -604,7 +595,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     }
     
     public void resizeView()	{
-    	JLabel[][] oldMatrix = cardMatrix;
+    	JLabel[][] oldMatrix = cardMatrix; 
     	
     	for(int i = 0; i  < oldMatrix.length; i++)	{
     		for(int j = 0; j < oldMatrix[i].length;j++){
@@ -614,17 +605,32 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     	
     	gamePanel.updateUI();
 
-    	i = i + 2;
-    	grid = grid + i;
+    	k = 2;
+    	grid = grid + k;
     	karte = spielfeld/grid;
         
     	cardMatrix = new JLabel[grid][grid];
     	
     	newField();
     	
-    	for(Map.Entry<Position, Image> card : cardsOnField.entrySet()){
-    		cardMatrix[card.getKey().getX() + i/2][card.getKey().getY() + i/2].setIcon(skale(card.getValue()));
+    	Map<Position, Image> cardsOnFieldTmp = new HashMap<>();
+    	
+    	for(Map.Entry<Position, Image> card : cardsOnField.entrySet())	{
+    		
+    		System.out.println("Alte Koordinaten: " + card.getKey().getX() + " , " + card.getKey().getY());
+    		
+    		int newX = card.getKey().getX() + 1;
+    		int newY = card.getKey().getY() + 1;
+    		Image tmpImage = card.getValue();
+    		
+    		cardMatrix[newX][newY].setIcon(skale(card.getValue()));
+    		cardsOnField.remove(card);
+    		cardsOnFieldTmp.put(new Position(newX, newY), tmpImage);
+    		
+    		System.out.println();
     	}
+    	cardsOnField = cardsOnFieldTmp;
+    	System.out.println("Finish grid resize to : " + grid);
     }
     
     static class KeyListener extends KeyAdapter {
@@ -673,7 +679,6 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 			inController.create();
 			cardsOnField = new HashMap<>();
 			
-			// TODO : Pop-Up Fenster Player Eingabe
 			inController.addPlayer(player1);
 			inController.addPlayer(player2);	
 	
@@ -713,22 +718,14 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 				redraw.remove(new Position(x,y));
 				redraw();
 				
+				if((Math.abs(realX - inController.getDimensionX()/2) >= grid/2) || (Math.abs(realY - inController.getDimensionY()/2) >= grid/2))	{
+					resizeView();
+				}
+				
 			} else if(inController.getStatus() == GameStatus.CARD_SET_FAIL)	{
 				inController.setStatus(GameStatus.ROUND_START);
 			}
-		} else if(inController.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
-//			placeMeeple((int) arg0.getPoint().getX(), (int) arg0.getPoint().getY());
-//			redraw.remove(new Position(x,y));
-//			redraw();
 		}
-		
-		System.out.println("Formel: " +  Math.abs(realX - (inController.getDimensionX())/2));
-		System.out.println(grid/2);
-		
-		if((Math.abs(realX - (inController.getDimensionX())/2) > (grid/2)-1) || (Math.abs(realY - (inController.getDimensionY())/2) > (grid/2)-1)){
-			resizeView();
-		}
-		
 	}
 
 	@Override
