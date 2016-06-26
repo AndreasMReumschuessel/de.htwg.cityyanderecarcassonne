@@ -8,27 +8,27 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import de.htwg.cityyanderecarcassonne.model.IGraph;
+import de.htwg.cityyanderecarcassonne.model.Edge;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
-import de.htwg.cityyanderecarcassonne.model.graph.Edge;
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 
 public final class TownsquareGraph {
 	
-	private static Graph<IRegion> skynet = new AdjacencyListUndirectedGraph<>();
+	private static IGraph<IRegion> skynet = new AdjacencyListUndirectedGraph<>();
 	
 	private TownsquareGraph() {
 		throw new UnsupportedOperationException();
 	}
 	
-	public static Graph<IRegion> getFullGraph() {
+	public static IGraph<IRegion> getFullGraph() {
 		return skynet;
 	}
 	
 	public static boolean addCard(ICard center, ICard left, ICard below, ICard top, ICard right) {
-		Graph<IRegion> cardGraph = center.getCardGraph();
+		IGraph<IRegion> cardGraph = center.getCardGraph();
 		
 		for (IRegion v : cardGraph.getVertexList())
 			skynet.addVertex(v);

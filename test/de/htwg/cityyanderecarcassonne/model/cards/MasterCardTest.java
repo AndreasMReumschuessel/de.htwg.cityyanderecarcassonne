@@ -6,7 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Player;
 
 public class MasterCardTest {
 
@@ -104,6 +106,21 @@ public class MasterCardTest {
 		assertEquals(rT, card.getBelowRight());
 		assertEquals(rM, card.getBelowMiddle());
 		assertEquals(rB, card.getBelowLeft());
+	}
+	
+	@Test
+	public void getRegionPossibilities() {
+		IDManager.setPlayer(card.getBelowLeft().getID(), new Player("Stefan"));
+		
+		ICard card2 = new CardW();
+		assertEquals(2, card.getRegionPossibilities().size());
+		assertEquals(12, card2.getRegionPossibilities().size());
+	}
+	
+	@Test
+	public void toStringTest() {
+		String wish = "Card name: CardA";
+		assertEquals(wish, card.toString());
 	}
 
 }

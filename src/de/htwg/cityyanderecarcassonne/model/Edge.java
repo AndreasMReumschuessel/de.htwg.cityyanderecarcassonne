@@ -1,4 +1,4 @@
-package de.htwg.cityyanderecarcassonne.model.graph;
+package de.htwg.cityyanderecarcassonne.model;
 
 /**
  * Klasse für Kanten.

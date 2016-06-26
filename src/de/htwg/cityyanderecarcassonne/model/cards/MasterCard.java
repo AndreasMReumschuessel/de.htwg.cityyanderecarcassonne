@@ -6,8 +6,8 @@ import java.util.List;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
-import de.htwg.cityyanderecarcassonne.model.graph.Graph;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionCrossing;
+import de.htwg.cityyanderecarcassonne.model.IGraph;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 
 public abstract class MasterCard implements ICard {
@@ -30,7 +30,7 @@ public abstract class MasterCard implements ICard {
 	protected IRegion belowMiddle;
 	protected IRegion belowRight;
 	
-	private Graph<IRegion> cardGraph;
+	private IGraph<IRegion> cardGraph;
 	
 	protected MasterCard() {
 		super();
@@ -147,32 +147,8 @@ public abstract class MasterCard implements ICard {
 	}
 	
 	@Override
-	public Graph<IRegion> getCardGraph() {
+	public IGraph<IRegion> getCardGraph() {
 		return cardGraph;
-	}
-	
-	public List<IRegion> getRegionList()	{
-		List<IRegion> rP = new LinkedList<>();
-		
-		rP.add(leftTop);
-		rP.add(leftMiddle);
-		rP.add(leftBelow);
-		
-		rP.add(belowLeft);
-		rP.add(belowMiddle);
-		rP.add(belowRight);
-		
-		rP.add(centerMiddle);
-		
-		rP.add(topLeft);
-		rP.add(topMiddle);
-		rP.add(topRight);
-		
-		rP.add(rightTop);
-		rP.add(rightMiddle);
-		rP.add(rightBelow);
-		
-		return rP;
 	}
 	
 	@Override
@@ -239,16 +215,41 @@ public abstract class MasterCard implements ICard {
 		}
 	}
 	
-	public List<IRegion> getRegionPossibilities()	{
+	@Override
+	public List<IRegion> getRegionPossibilities() {
 		List<IRegion> rP = new LinkedList<>();
 		
-for(IRegion region : this.getRegionList())	{
+		for(IRegion region : this.getRegionList()) {
 			if(region.getClass().equals(RegionCrossing.class))
 				continue;
-			if(!IDManager.isOwned(region.getID()))	{
+			if(!IDManager.isOwned(region.getID())) {
 				rP.add(region);
 			}
 		}
+		return rP;
+	}
+	
+	private List<IRegion> getRegionList()	{
+		List<IRegion> rP = new LinkedList<>();
+		
+		rP.add(leftTop);
+		rP.add(leftMiddle);
+		rP.add(leftBelow);
+		
+		rP.add(belowLeft);
+		rP.add(belowMiddle);
+		rP.add(belowRight);
+		
+		rP.add(centerMiddle);
+		
+		rP.add(topLeft);
+		rP.add(topMiddle);
+		rP.add(topRight);
+		
+		rP.add(rightTop);
+		rP.add(rightMiddle);
+		rP.add(rightBelow);
+		
 		return rP;
 	}
 	

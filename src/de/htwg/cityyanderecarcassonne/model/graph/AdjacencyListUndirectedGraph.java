@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.htwg.cityyanderecarcassonne.model.Edge;
+
 public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
 	Map<V, HashMap<V, Double>> adjacencyList;
@@ -126,7 +128,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		}	
 		
 		for(Edge<V> e : edgeList)	{
-			if(e.source == v)	{
+			if(e.getSource() == v)	{
 				incidentVertexList.add(e);
 			}
 		}

@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import de.htwg.cityyanderecarcassonne.model.*;
-import de.htwg.cityyanderecarcassonne.model.graph.*;
 import de.htwg.cityyanderecarcassonne.model.regions.*;
 
 public class AdjacencyListUndirectedGraphTest {
@@ -22,7 +21,6 @@ public class AdjacencyListUndirectedGraphTest {
 	private IRegion c;
 	private IRegion d;
 	private IRegion e;
-	private IRegion f;
 	
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -34,7 +32,6 @@ public class AdjacencyListUndirectedGraphTest {
 		c = new RegionBuilding();
 		d = new RegionBuilding();
 		e = new RegionBuilding();
-		f = new RegionBuilding();
 		graph = new AdjacencyListUndirectedGraph<>();
 		graph.addVertex(a);
 		graph.addVertex(b);

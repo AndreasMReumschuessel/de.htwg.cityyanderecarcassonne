@@ -1,5 +1,7 @@
 package de.htwg.cityyanderecarcassonne.model.graph;
 
+import de.htwg.cityyanderecarcassonne.model.IGraph;
+
 /**
  * Graph mit ungerichteten Kanten.
  * Es ist zu beachten, dass nach erfolgreichem Einfügen der Kante (v,w)
@@ -10,7 +12,7 @@ package de.htwg.cityyanderecarcassonne.model.graph;
  * @since 21.10.2011
  * @param <V> Knotentyp.
  */
-public interface UndirectedGraph<V> extends Graph<V> {
+public interface UndirectedGraph<V> extends IGraph<V> {
     /**
      * Liefert Grad des Knotens v zurück.
      * Das ist die Anzahl der adjazenten Knoten bzw. inzidenten Kanten zu v.

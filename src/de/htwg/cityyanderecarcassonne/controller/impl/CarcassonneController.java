@@ -8,9 +8,12 @@ import java.util.Queue;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.Stock;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
+import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
@@ -33,6 +36,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private boolean mPossGen;
 	
 	private Queue<Player> playerQueue;
+	
+	private IScoreCalculus scoreCalculus;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
@@ -78,11 +83,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
     }
     
     @Override
-    public String getTownsquareString() {
-    	return townsquare.toString();
-    }
-    
-    @Override
     public GameStatus getStatus() {
         return status;
     }
@@ -119,10 +119,9 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return stock.getSizeOfStock();
 	}
 
-	private void placeMeeple(Player player, ICard card, IRegion region) {
+	private void placeMeeple(Player player, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
-			player.removeMeeple();
 		} else	{
 			setStatus(GameStatus.MEEPLE_SET_FAIL);
 		}
@@ -136,11 +135,11 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			for (IRegion r : mPossMap.keySet())
 				map.put(mPossMap.get(r), r);
 			
-			placeMeeple(player, card, map.get(poss));
+			placeMeeple(player, map.get(poss));
 		}
 		mPossGen = false;
 		notifyObservers();
-		finishRound(); //TODO
+		finishRound();
 	}
 	
 	@Override
@@ -148,6 +147,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.townsquare = new Townsquare(sizeX, sizeY);
 		currentCard = stock.getStartCard();
 		townsquare.setCard(currentCard, sizeX / 2, sizeY / 2);
+		scoreCalculus = new CalculusRunningGame(townsquare);
+		
 		status = GameStatus.CREATE;
 		statusMessage = "";
 		notifyObservers();
@@ -155,10 +156,11 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public void startRound()	{
-		nextPlayer(); //TODO
+		nextPlayer();
 		
 		this.setStatus(GameStatus.ROUND_START);
 		statusMessage = "";
+		
 		currentCard = takeCard();
 		if(currentCard == null)	{
 			finish();
@@ -172,7 +174,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.setStatus(GameStatus.FINISH);
 		statusMessage = "";
 		
-		townsquare.refreshScore();
+		scoreCalculus = new CalculusFinishGame(townsquare);
+		scoreCalculus.refreshScore();
 		notifyObservers();
 	}
 
@@ -180,11 +183,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public void finishRound()	{
 		this.setStatus(GameStatus.ROUND_END);
 		statusMessage = "";
-		// this.getScore();
-		// call ScoreCounter
-		townsquare.refreshScore();
+		
+		scoreCalculus.refreshScore();
 		notifyObservers();
-		startRound(); //TODO
+		startRound();
 	}
 
 	@Override

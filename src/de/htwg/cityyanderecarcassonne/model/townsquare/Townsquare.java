@@ -82,7 +82,7 @@ public class Townsquare implements ITownsquare {
 				boolean setPossible4 = setPossible(card.rotateRight(), cx, cy);
 				card.rotateRight();
 				
-				boolean setSum = setPossible1 || setPossible2 || setPossible3 || setPossible4; 
+				boolean setSum = setSum(setPossible1, setPossible2, setPossible3, setPossible4);
 				
 				
 				if (hasNeigbhor && setSum) {
@@ -93,6 +93,10 @@ public class Townsquare implements ITownsquare {
 			}
 		}
 		return result;
+	}
+	
+	private boolean setSum(boolean setPossible1, boolean setPossible2, boolean setPossible3, boolean setPossible4) {
+		return setPossible1 || setPossible2 || setPossible3 || setPossible4;
 	}
 	
 	@Override
@@ -167,13 +171,9 @@ public class Townsquare implements ITownsquare {
 		if (!IDManager.isOwned(rID) && player.getSumMeeples() > 0) {
 			region.setPlayer(player);
 			IDManager.setPlayer(rID, player);
+			player.removeMeeple();
 			return true;
 		} 
 		return false;
-	}
-	
-	@Override
-	public void refreshScore() {
-		TownsquareCalculus.refreshScore();
 	}
 }
