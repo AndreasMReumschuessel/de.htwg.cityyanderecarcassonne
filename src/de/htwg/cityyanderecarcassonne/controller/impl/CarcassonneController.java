@@ -90,8 +90,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private void placeCard(ICard c, Position pos) {
 		if (townsquare.setCard(c, pos)) {
 			this.setStatus(GameStatus.CARD_SET_SUCCESS);
+			cPossGen = false;
 		} else {
 			this.setStatus(GameStatus.CARD_SET_FAIL);
+			cPossGen = true;
 		}
 		statusMessage = c.toString();
 	}
@@ -105,7 +107,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			
 			placeCard(c, map.get(poss));
 		}
-		cPossGen = false;
 		notifyObservers();
 	}
 	
@@ -122,6 +123,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private void placeMeeple(Player player, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
+			
 		} else	{
 			setStatus(GameStatus.MEEPLE_SET_FAIL);
 		}
@@ -139,7 +141,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		}
 		mPossGen = false;
 		notifyObservers();
-		finishRound();
+		//finishRound();
 	}
 	
 	@Override
@@ -192,12 +194,14 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void rotateCardLeft() {
 		currentCard.rotateLeft();
+		this.setStatus(GameStatus.CARD_TURNED_LEFT);
 		notifyObservers();
 	}
 	
 	@Override
 	public void rotateCardRight() {
 		currentCard.rotateRight();
+		this.setStatus(GameStatus.CARD_TURNED_RIGHT);
 		notifyObservers();
 	}
 	
