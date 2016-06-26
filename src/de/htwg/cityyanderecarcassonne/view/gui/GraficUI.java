@@ -28,24 +28,27 @@ import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 
 public class GraficUI extends JFrame implements ActionListener, MouseListener {
 
-	private static ICarcassonneController inController;
-	private ICard currentCard;
-	Icon startImage;
-	Icon mainImage;
-	Icon backImage;
-	Icon leftImage;
-	Icon possImage;
+	private static ICarcassonneController controller;
 	StatusMessage status;
+	
 	List<Position> redrawCard;
 	List<IRegion> redrawRegion;
-	Map<Position, String> psCardList;
-	Map<IRegion, String> psRegionList;
-	Map<Position, Image> cardsOnField;
-    
+	
+	Map<Position, String> positionStringCardList;
+	Map<IRegion, String> regionStringMap;
+	
+	BigMap<Position, JLabel, BufferedImage> objectList;
+	
+	BigMap<JLabel, IRegion, Position> bm;
+	
     int spielfeld = 1000;
     int grid;
-    int karte;
+    int cardSize;
+    int meepleSize;
 	int k = 0;
+	int x;
+	int y;
+	int i = 0;
 	
 	Position topLeft;
 	Position topMiddle;
@@ -101,6 +104,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     SpringLayout meepleCount1Layout;
     SpringLayout meepleCount2Layout;
     Border blackline;
+    Border redLine;
     
     //JButton
     JButton finishRound;
@@ -114,7 +118,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     JLabel meepleCount2;
     JLabel player2Name;
     JLabel player2Score;
-    JLabel meeple;
+    List<JLabel> meepleList;
     
     JLabel topLeftLabel;
     JLabel topMiddleLabel;
@@ -147,19 +151,30 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     String player2 = "Andreas";
     
     //Picture
-    BufferedImage picture;
-    BufferedImage meeplePicture;
-    BufferedImage possibilitiesPicture;
     JLabel picLabel;
     JLabel possibilitiesLabel;
-    
     JLabel[][] cardMatrix;
+    
+	BufferedImage backPicture;
+	BufferedImage startPicture;
+	BufferedImage targetPicture;
+    BufferedImage meeplePicture1;
+    BufferedImage meeplePicture2;
+    BufferedImage possCardPicture;
+    BufferedImage possMeeplePicture;
+	
+	Icon startImage;
+	Icon targetImage;
+	Icon backImage;
+	Icon leftImage;
+	Icon possImage;
     
 //===================================================================================================    
     
-    public GraficUI(ICarcassonneController controller)	{
+    public GraficUI(ICarcassonneController controller, int grid)	{
     	
-    this.inController = controller;
+    this.grid = grid;	
+    this.controller = controller;
     
     status = new StatusMessage();
     
@@ -216,7 +231,6 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     mainPanel.setBackground(Color.GRAY.darker());
     mainPanel.addMouseListener(this);
     
-    grid = 5;
     gamePanel = new JPanel();
     gamePanel.setPreferredSize(new Dimension(spielfeld, spielfeld));
     gamePanel.setBackground(Color.GRAY.brighter());
@@ -236,6 +250,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     player2Panel.setToolTipText("Player 2 Info");
     
     blackline = BorderFactory.createLineBorder(Color.black);
+    redLine = BorderFactory.createLineBorder(Color.RED, 5);
     
 //===================================================================================================    
     
@@ -274,8 +289,13 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     
 //===================================================================================================    
     
-    meeple = new JLabel();
-    meeple.setVisible(false);
+    picLabel = new JLabel();
+    
+    meepleList = new LinkedList<>();
+    
+    for(int i = 0; i < 8; i++ )	{
+    	meepleList.add(new JLabel());
+    }
     
     topLeftLabel = new JLabel();
     topMiddleLabel = new JLabel();
@@ -370,27 +390,9 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     mainPanel.setLayout(mainLayout);
     
 //===================================================================================================      
-   
-	cardMatrix = new JLabel[grid][grid];
     
 //===================================================================================================    
-
-    try {
-    	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
-     } catch (IOException ex) {
-          // handle exception...
-     }
  
-    picLabel = new JLabel(new ImageIcon(picture));
-    picLabel.setToolTipText("Current card on hand");
-    picLabel.setBorder(blackline);
-    
-    try {
-    	possibilitiesPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/meeple_possibilities.png"));
-     } catch (IOException ex) {
-          // handle exception...
-     }
-    
 //===================================================================================================        
     leftPanelLayout = new SpringLayout();
     leftPanelLayout.putConstraint(SpringLayout.WEST	, finishRound, 25, SpringLayout.WEST, contentPane);
@@ -467,7 +469,9 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     menu.add(close);
     menuBar.add(menu);
     
-    gamePanel.add(meeple);
+    for(JLabel l : meepleList){
+    	gamePanel.add(l);
+    }
     
 	gamePanel.add(topLeftLabel);
 	gamePanel.add(topMiddleLabel);
@@ -518,58 +522,100 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     this.setVisible(true);
 	}
     
-    public BufferedImage getImage(String filename)	{
+    public void importPictures()	{
+    	
         try {
-        	picture =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + filename + ".png"));
+        	startPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
          } catch (IOException ex) {
               // handle exception...
          }
-		return picture;
-    }
-    
-    public BufferedImage getImage(ICard card)	{
+    	
         try {
-        	picture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
-         } catch (IOException ex) {
-              // handle exception...
-         }
-		return picture;
-    }
-    
-    public void placeMeeple(Position pos)	{
-        try {
-        	meeplePicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/meeple.png"));
+        	backPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite.png"));
          } catch (IOException ex) {
               // handle exception...
          }
         
-        meeple.setVisible(true);
-        meeple.setIcon(new ImageIcon(meeplePicture));
-		gamePanelLayout.putConstraint(SpringLayout.WEST, meeple, pos.getX(), SpringLayout.WEST, contentPane);
-		gamePanelLayout.putConstraint(SpringLayout.NORTH, meeple, pos.getY(), SpringLayout.NORTH, contentPane);
+        try {
+        	possCardPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/possibilities.png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
+        try {
+        	possMeeplePicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/meeple_possibilities.png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
+        try {
+        	meeplePicture1 = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/meeple_rot.png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
+        try {
+        	meeplePicture2 = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/meeple_blau.png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
+        picLabel.setIcon(new ImageIcon(startPicture));
+        picLabel.setBorder(blackline);
+        
+    }
+    
+    public BufferedImage getImage(ICard card)	{
+        try {
+        	targetPicture = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/" + card.getClass().getSimpleName() + ".png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+		return targetPicture;
     }
 
-    public ImageIcon skale(Image im)	{
-    	karte = spielfeld/grid;
-		Image tmp = im.getScaledInstance(karte, karte, Image.SCALE_SMOOTH);
+    public void placeMeeple(IRegion r, BufferedImage meeplePicture)	{
+    	
+    	JLabel meeple = meepleList.get(i++);
+    	
+        meeple.setIcon(skaleMeeple(meeplePicture,  2));
+        gamePanelLayout.putConstraint(SpringLayout.WEST, meeple, bm.getV(r).getX() - (meepleSize/4), SpringLayout.WEST, contentPane);
+		gamePanelLayout.putConstraint(SpringLayout.NORTH, meeple, bm.getV(r).getY() - (meepleSize/4), SpringLayout.NORTH, contentPane);
+		
+		controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), regionStringMap.get(r));
+		
+		objectList.add(new Position(bm.getV(r).getX(), bm.getV(r).getY()), meeple, meeplePicture);
+		redrawRegion.add(r);
+
+    }
+    
+    public ImageIcon skaleCard(Image im)	{
+    	cardSize = spielfeld/grid;
+		Image tmp = im.getScaledInstance(cardSize, cardSize, Image.SCALE_SMOOTH);
+		return new ImageIcon(tmp);
+    }
+    
+    public ImageIcon skaleMeeple(Image im, int s)	{
+    	meepleSize = (cardSize*s)/7;
+		Image tmp = im.getScaledInstance(meepleSize, meepleSize, Image.SCALE_SMOOTH);
 		return new ImageIcon(tmp);
     }
     
     public void printCardLeftPanel()	{
-    	getImage(inController.cardOnHand());
-    	picLabel.setIcon(new ImageIcon(getImage(currentCard)));	
+    	getImage(controller.cardOnHand());
+    	picLabel.setIcon(new ImageIcon(getImage(controller.cardOnHand())));	
     }
     
     public void printCardPossibilities()	{
-		psCardList = inController.getCardPossibilitiesMap(inController.cardOnHand());
-    	Map<String, Position> spList = flipP(inController.getCardPossibilitiesMap(inController.cardOnHand()));
+		positionStringCardList = controller.getCardPossibilitiesMap(controller.cardOnHand());
+    	Map<String, Position> spList = flipP(controller.getCardPossibilitiesMap(controller.cardOnHand()));
     	
-    	possImage = skale(getImage("possibilities"));
+    	possImage = skaleCard(possCardPicture);
     	
     	for(Map.Entry<String, Position> pos : spList.entrySet())	{
     		
-    		int coordX = (pos.getValue().getX() - inController.getDimensionX()/2) + grid/2;
-    		int coordY = (pos.getValue().getY() - inController.getDimensionY()/2) + grid/2;
+    		int coordX = (pos.getValue().getX() - controller.getDimensionX()/2) + grid/2;
+    		int coordY = (pos.getValue().getY() - controller.getDimensionY()/2) + grid/2;
     		
     		redrawCard.add(new Position(coordX, coordY));
     		
@@ -577,91 +623,102 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     	}
     }
     
-    public void printRegions(int x, int y)	{
+    public void printRegionPossibilities(int x, int y)	{
+    	bm = new BigMap<>();
     	
-    	Map<JLabel, Position> regions = new HashMap<>();
-    	Map<IRegion, JLabel> visible = new HashMap<>();
+    	meepleSize = cardSize/7;
     	
-    	topLeft = new Position(((1*karte)/4) + x - 12, 0 + y);
-    	topMiddle = new Position((2*(karte)/4) + x - 12, 0 + y);
-    	topRight = new Position(((3*karte)/4) + x - 12, 0 + y);
+    	topLeft = new Position(((1*cardSize)/4) + x - (meepleSize/2), 0 + y);
+    	topMiddle = new Position((2*(cardSize)/4) + x - (meepleSize/2), 0 + y);
+    	topRight = new Position(((3*cardSize)/4) + x - (meepleSize/2), 0 + y);
     	
-    	leftTop = new Position(0 + x, ((1*karte)/4) + y - 12);
-    	rightTop = new Position(((4*karte)/4) + x - 25, ((1*karte)/4) + y - 12);
+    	leftTop = new Position(0 + x, ((1*cardSize)/4) + y - (meepleSize/2));
+    	rightTop = new Position(((4*cardSize)/4) + x - meepleSize, ((1*cardSize)/4) + y - (meepleSize/2));
     	
-    	leftMiddle = new Position(0 + x, ((2*karte)/4) + y - 12);
-    	centerMiddle = new Position(((2*karte)/4) + x - 12, ((2*karte)/4) + y - 12);
-    	rightMiddle = new Position(((4*karte)/4) + x - 25, ((2*karte)/4) + y - 12);
+    	leftMiddle = new Position(0 + x, ((2*cardSize)/4) + y - (meepleSize/2));
+    	centerMiddle = new Position(((2*cardSize)/4) + x - (meepleSize/2), ((2*cardSize)/4) + y - (meepleSize/2));
+    	rightMiddle = new Position(((4*cardSize)/4) + x - meepleSize, ((2*cardSize)/4) + y - (meepleSize/2));
     	
-    	leftBelow = new Position(0 + x, ((3*karte)/4) + y - 12);
-    	rightBelow = new Position(((4*karte)/4) + x - 25, ((3*karte)/4) + y - 12);
+    	leftBelow = new Position(0 + x, ((3*cardSize)/4) + y - (meepleSize/2));
+    	rightBelow = new Position(((4*cardSize)/4) + x - meepleSize, ((3*cardSize)/4) + y - (meepleSize/2));
     	
-    	belowLeft = new Position(((1*karte)/4) + x - 12 , ((4*karte)/4) + y - 25);
-    	belowMiddle = new Position(((2*karte)/4) + x - 12, ((4*karte)/4) + y - 25);
-    	belowRight = new Position(((3*karte)/4) + x - 12, ((4*karte)/4) + y - 25);
+    	belowLeft = new Position(((1*cardSize)/4) + x - (meepleSize/2) , ((4*cardSize)/4) + y - meepleSize);
+    	belowMiddle = new Position(((2*cardSize)/4) + x - (meepleSize/2), ((4*cardSize)/4) + y - meepleSize);
+    	belowRight = new Position(((3*cardSize)/4) + x - (meepleSize/2), ((4*cardSize)/4) + y - meepleSize);
     	
-    	regions.put(topLeftLabel, topLeft);
-    	regions.put(topMiddleLabel, topMiddle);
-    	regions.put(topRightLabel, topRight);
+    	bm.add(topLeftLabel, controller.cardOnHand().getTopLeft(), topLeft);
+    	bm.add(topMiddleLabel, controller.cardOnHand().getTopMiddle(), topMiddle);
+    	bm.add(topRightLabel, controller.cardOnHand().getTopRight(), topRight);
     	
-    	regions.put(leftTopLabel, leftTop);
-    	regions.put(rightTopLabel, rightTop);
+    	bm.add(leftTopLabel, controller.cardOnHand().getLeftTop(), leftTop);
+    	bm.add(rightTopLabel, controller.cardOnHand().getRightTop(), rightTop);
     	
-    	regions.put(leftMiddleLabel, leftMiddle);
-    	regions.put(centerMiddleLabel, centerMiddle);
-    	regions.put(rightMiddleLabel, rightMiddle);
+    	bm.add(leftMiddleLabel, controller.cardOnHand().getLeftMiddle(), leftMiddle);
+    	bm.add(centerMiddleLabel, controller.cardOnHand().getCenterMiddle(), centerMiddle);
+    	bm.add(rightMiddleLabel, controller.cardOnHand().getRightMiddle(), rightMiddle);
     	
-    	regions.put(leftBelowLabel, leftBelow);
-    	regions.put(rightBelowLabel, rightBelow);
+    	bm.add(leftBelowLabel, controller.cardOnHand().getLeftBelow(), leftBelow);
+    	bm.add(rightBelowLabel, controller.cardOnHand().getRightBelow(), rightBelow);
     	
-    	regions.put(belowLeftLabel, belowLeft);
-    	regions.put(belowMiddleLabel, belowMiddle);
-    	regions.put(belowRightLabel, belowRight);
+    	bm.add(belowLeftLabel, controller.cardOnHand().getBelowLeft(), belowLeft);
+    	bm.add(belowMiddleLabel, controller.cardOnHand().getBelowMiddle(), belowMiddle);
+    	bm.add(belowRightLabel, controller.cardOnHand().getBelowRight(), belowRight);
     	
-		psRegionList = inController.getRegionPossibilitiesMap(inController.cardOnHand());
+    	regionStringMap = controller.getRegionPossibilitiesMap(controller.cardOnHand());
     	
-    	inController.placeMeeple(inController.getCurrentPlayer(), currentCard, psRegionList.get(currentCard.getTopLeft()));
-    	inController.placeMeeple(inController.getCurrentPlayer(), currentCard, psRegionList.get(currentCard.getTopRight()));
-    	inController.placeMeeple(inController.getCurrentPlayer(), currentCard, psRegionList.get(currentCard.getTopMiddle()));
-    	
-    	visible.put(currentCard.getTopLeft(), topLeftLabel);
-    	visible.put(currentCard.getTopMiddle(), topMiddleLabel);
-    	visible.put(currentCard.getTopRight(), topRightLabel);
-    	
-    	for(Map.Entry<IRegion, JLabel> point : visible.entrySet())	{
-    		if(IDManager.isOwned(point.getKey().getID()))	{
-    			point.getValue().setVisible(false);
+    	for(Map.Entry<IRegion, JLabel> point : bm.getKtoT().entrySet())	{
+    		if(!regionStringMap.containsKey(point.getKey()))	{			
+    			bm.getTtoV().remove(point.getValue());
     		}
     	}
     	
-    	for(Map.Entry<JLabel, Position> point : regions.entrySet())	{
-    		if(IDManager.isOwned(currentCard.getBelowLeft().getID()))	{	
-    		} 		
-    		point.getKey().setIcon(new ImageIcon(possibilitiesPicture));
+    	for(Map.Entry<JLabel, Position> point : bm.getTtoV().entrySet())	{
+    		point.getKey().setIcon(skaleMeeple(possMeeplePicture, 1));
+    		point.getKey().setVisible(true);
     		gamePanelLayout.putConstraint(SpringLayout.WEST, point.getKey(), point.getValue().getX(), SpringLayout.WEST, contentPane);
     		gamePanelLayout.putConstraint(SpringLayout.NORTH, point.getKey(), point.getValue().getY(), SpringLayout.NORTH, contentPane);
+    		
+    		redrawRegion.add(bm.getVtoK().get(point.getValue()));
     	}
+    }
+    
+    public IRegion getRegionPosition(MouseEvent arg0)	{		
+    	int realX = (int) arg0.getX() % cardSize;
+    	int realY = (int) arg0.getY() % cardSize;
+    	
+		double max = Double.POSITIVE_INFINITY;
+    
+    	IRegion minRegion = null;
+    	
+    	for(Map.Entry<IRegion, Position> tmp : bm.getKtoV().entrySet())	{ 
+      		double abstand = Math.abs(Math.sqrt(Math.abs((tmp.getValue().getX()%cardSize) - realX) + Math.abs((tmp.getValue().getY()%cardSize) - realY)));
+    		
+    		if(abstand < max){
+    			max = abstand;
+    			minRegion = tmp.getKey();
+    		}
+    	}
+    	return minRegion;
     }
     
     public void placeStartCard()	{
     	Position pos = new Position(grid/2, grid/2);
-    	currentCard = inController.cardOnHand();
-		cardMatrix[pos.getX()][pos.getY()].setIcon(skale(getImage(currentCard)));
-		cardsOnField.put(pos, picture);
+		cardMatrix[pos.getX()][pos.getY()].setIcon(skaleCard(getImage(controller.cardOnHand())));
+		objectList.add(pos, cardMatrix[grid/2][grid/2], targetPicture);
     }
     
-    public void redrawCardCard()	{
+    public void redrawCard()	{
 		for(Position p : redrawCard){
 			cardMatrix[p.getX()][p.getY()].setIcon(backImage);
 		}
 		redrawCard.removeAll(redrawCard);
     }
     
-    public void redrawCardRegion()	{
-		for(Position p : redrawCard){
-			cardMatrix[p.getX()][p.getY()].setIcon(backImage);
+    public void redrawRegion()	{
+		for(IRegion r : redrawRegion){
+			bm.getKtoT().get(r).setVisible(false);
 		}
-		redrawCard.removeAll(redrawCard);
+		redrawRegion.removeAll(redrawRegion);
     }
     
     public Map<String, Position> flipP(Map<Position, String> ps)	{
@@ -683,18 +740,18 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     }
     
     public void rotateCardToLeft()	{
-    	picture = rotateImage(picture, -90.0);
-    	inController.rotateCardLeft();
-    	picLabel.setIcon(new ImageIcon(picture));
-    	mainImage = skale(picture);
+    	targetPicture = rotateImage(targetPicture, -90.0);
+    	controller.rotateCardLeft();
+    	picLabel.setIcon(new ImageIcon(targetPicture));
+    	targetImage = skaleCard(targetPicture);
     }
     
     public void rotateCardToRight()	{
-    	picture = rotateImage(picture, 90.0);
-    	inController.rotateCardRight(); 
-    	leftImage = new ImageIcon(picture);
+    	targetPicture = rotateImage(targetPicture, 90.0);
+    	controller.rotateCardRight(); 
+    	leftImage = new ImageIcon(targetPicture);
     	picLabel.setIcon(leftImage);
-    	mainImage = skale(picture);
+    	targetImage = skaleCard(targetPicture);
     }
     
     private static BufferedImage rotateImage(BufferedImage src, double degrees) {
@@ -725,60 +782,92 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
     }
     
     public void newField()	{
-    	backImage = skale(getImage("rueckseite"));
+    	backImage = skaleCard(backPicture);
     	for(int i = 0; i  < cardMatrix.length; i++)	{
     		for(int j = 0; j < cardMatrix[i].length;j++){
     			cardMatrix[i][j] = new JLabel();
     			cardMatrix[i][j].setIcon(backImage);
     			cardMatrix[i][j].setVisible(true);
     			gamePanel.add(cardMatrix[i][j]);
-    			gamePanelLayout.putConstraint(SpringLayout.WEST, cardMatrix[i][j], i * karte, SpringLayout.WEST, contentPane);
-    			gamePanelLayout.putConstraint(SpringLayout.NORTH, cardMatrix[i][j], j * karte, SpringLayout.NORTH, contentPane);
+    			gamePanelLayout.putConstraint(SpringLayout.WEST, cardMatrix[i][j], i * cardSize, SpringLayout.WEST, contentPane);
+    			gamePanelLayout.putConstraint(SpringLayout.NORTH, cardMatrix[i][j], j * cardSize, SpringLayout.NORTH, contentPane);
     		}
     	}
+    }
+    
+    public void newView()	{
+    	importPictures();
+		objectList = new BigMap<>();
+		regionStringMap = new HashMap<>();
+		positionStringCardList = new HashMap<>();
+		controller.addPlayer(player1);
+		controller.addPlayer(player2);	
+    	removeAllJLabel(cardMatrix);
+    	cardMatrix = new JLabel[grid][grid];
+    	newField();
+    	placeStartCard();
     }
     
     public void resizeView()	{
     	JLabel[][] oldMatrix = cardMatrix; 
     	
-    	for(int i = 0; i  < oldMatrix.length; i++)	{
-    		for(int j = 0; j < oldMatrix[i].length;j++){
-    			gamePanel.remove(oldMatrix[i][j]);
-    		}
-    	}
-    	
-    	gamePanel.updateUI();
+    	removeAllJLabel(oldMatrix);
 
     	grid = grid + 2;
-    	karte = spielfeld/grid;
+    	cardSize = spielfeld/grid;
+    	meepleSize = cardSize/7;
         
     	cardMatrix = new JLabel[grid][grid];
     	
     	newField();
     	
-    	Map<Position, Image> cardsOnFieldTmp = new HashMap<>();
+    	BigMap<Position, JLabel, BufferedImage> objectsOnField = new BigMap<>();
     	
-    	for(Map.Entry<Position, Image> card : cardsOnField.entrySet())	{		
-    		int newX = card.getKey().getX() + 1;
-    		int newY = card.getKey().getY() + 1;
-    		Image tmpImage = card.getValue();
+    	for(Map.Entry<Position, BufferedImage> object : objectList.getTtoV().entrySet())	{		
+    		int newX = object.getKey().getX() + 1;
+    		int newY = object.getKey().getY() + 1;
     		
-    		cardMatrix[newX][newY].setIcon(skale(card.getValue()));
-    		cardsOnField.remove(card);
-    		cardsOnFieldTmp.put(new Position(newX, newY), tmpImage);
+    		cardMatrix[newX][newY].setIcon(skaleCard(object.getValue()));
+    		objectList.removeTandV(object);
+    		objectsOnField.add(new Position(newX,  newY), cardMatrix[newX][newY], object.getValue());
     	}
-    	cardsOnField = cardsOnFieldTmp;
+    	
+    	objectList.getTtoV().putAll(objectsOnField.getTtoV());
+    	
+//    	for(Map.Entry<Position, JLabel> object : objectList.getTtoK().entrySet())	{
+//    		int newX = object.getKey().getX() + cardSize;
+//    		int newY = object.getKey().getY() + cardSize;
+//    
+//    		object.getValue().setIcon(skaleMeeple(objectList.getKtoV().get(object.getValue()), 1));
+//
+//			gamePanelLayout.putConstraint(SpringLayout.WEST, object.getValue(), newX, SpringLayout.WEST, contentPane);
+//			gamePanelLayout.putConstraint(SpringLayout.NORTH, object.getValue(), newY, SpringLayout.NORTH, contentPane);
+//
+//    		objectList.removeTandK(object);
+//    		objectsOnField.add(new Position(newX, newY), object.getValue(), meeplePicture1);
+//    	}
+    }
+    
+    public void removeAllJLabel(JLabel[][] labelMatrix)	{    	
+    	if(labelMatrix != null)	{
+	    	for(int i = 0; i  < labelMatrix.length; i++)	{
+	    		for(int j = 0; j < labelMatrix[i].length;j++){
+	    			gamePanel.remove(labelMatrix[i][j]);
+	    		}
+	    	}
+    	}
+    	gamePanel.updateUI();
     }
     
     static class KeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    		    textField.setText(inController.getStatusMessage());
+    		    textField.setText(controller.getStatusMessage());
             } else if(e.getKeyCode() == KeyEvent.VK_LEFT)	{
-    			textField.setText(inController.getStatusMessage());
+    			textField.setText(controller.getStatusMessage());
             } else if(e.getKeyCode() == KeyEvent.VK_RIGHT)	{
-    			textField.setText(inController.getStatusMessage());
+    			textField.setText(controller.getStatusMessage());
             }
         }
     }
@@ -794,15 +883,18 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
 		} else if(source == this.finishRound || source == this.finishRoundItem)	{
-			inController.finishRound();
-			currentCard = inController.cardOnHand();
+			controller.finishRound();
+
+			redrawRegion();
+			
+			cardMatrix[x][y].setBorder(null);
 			
 	    	printCardLeftPanel();
 			printCardPossibilities();
 			
-	    	mainImage = skale(getImage(currentCard));
+	    	targetImage = skaleCard(getImage(controller.cardOnHand()));
 			
-		    textField.setText(status.getStatusMessage(inController.getStatus()));
+		    textField.setText(status.getStatusMessage(controller.getStatus()));
 		    
 		} else if(source == this.turnLeft || source == this.rotateLeftItem){	
 			this.rotateCardToLeft();
@@ -813,66 +905,65 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 			textField.setText("Card turned to the right!");
 			
 		} else if(source == this.newGame)	{
-			inController.create();
-			cardsOnField = new HashMap<>();
+			controller.create();
 			
-			inController.addPlayer(player1);
-			inController.addPlayer(player2);	
-	
-			newField();
-			placeStartCard();
-		    textField.setText(status.getStatusMessage(inController.getStatus()));
+			newView();
+			
+		    textField.setText(status.getStatusMessage(controller.getStatus()));
 		}
 	}
 	
-	public static void main(String[] args)	{
-		ICarcassonneController controller = new CarcassonneController(150, 150);
-		new GraficUI(controller);
-	}
-
 	@Override
 	public void mousePressed(MouseEvent arg0) {	
-		int x = (int) (arg0.getPoint().getX()/karte);
-		int y = (int) (arg0.getPoint().getY()/karte);
+		x = (int) (arg0.getPoint().getX()/cardSize);
+		y = (int) (arg0.getPoint().getY()/cardSize);
 		int realX = 0;
 		int realY = 0;
 		
-		if(inController.getStatus() == GameStatus.ROUND_START)	{
+		if(controller.getStatus() == GameStatus.ROUND_START)	{
 			
 			realX = ((x-(grid/2))) + 75;
 			realY = ((y-(grid/2))) + 75;
 			
 			Position p = new Position(realX, realY);
+						
+			controller.placeCard(controller.cardOnHand(), positionStringCardList.get(p));
 			
-			inController.placeCard(currentCard, psCardList.get(p));
-			
-			if(inController.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
+			if(controller.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
 				
-				cardsOnField.put(new Position(x, y), picture);
+				objectList.add(new Position(x, y), cardMatrix[x][y], targetPicture);
 				
-				cardMatrix[x][y].setIcon(mainImage);
+				cardMatrix[x][y].setIcon(targetImage);
+				cardMatrix[x][y].setBorder(redLine);
 				
-				printRegions(karte*x, karte*y);
+				printRegionPossibilities(cardSize*x, cardSize*y);
 				
 				redrawCard.remove(new Position(x,y));
-				//redrawRegion.remove();
-				redrawCardCard();
+				redrawCard();
 				
-				
-				
-				if((Math.abs(realX - inController.getDimensionX()/2) >= grid/2) || (Math.abs(realY - inController.getDimensionY()/2) >= grid/2))	{
+				if((Math.abs(realX - controller.getDimensionX()/2) >= grid/2) || (Math.abs(realY - controller.getDimensionY()/2) >= grid/2))	{
 					resizeView();
 				}
 				
-			} else if(inController.getStatus() == GameStatus.CARD_SET_FAIL)	{
-				inController.setStatus(GameStatus.ROUND_START);
+			} else if(controller.getStatus() == GameStatus.CARD_SET_FAIL)	{
+		    	controller.setStatus(GameStatus.ROUND_START);
 			}
+		} else if(controller.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
+			IRegion r = getRegionPosition(arg0);
+			
+			if(controller.getCurrentPlayer().toString().equals(player1))	{
+				placeMeeple(r, meeplePicture1);
+			} else	{
+				placeMeeple(r,meeplePicture2);
+			}
+
+			redrawRegion.add(r);
+			
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -892,6 +983,11 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void main(String[] args)	{
+		ICarcassonneController controller = new CarcassonneController(150, 150);
+		new GraficUI(controller, 5);
 	}
 
 }
