@@ -23,6 +23,7 @@ public class ScoreCalculusTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Stock.getInstance().resetStock();
 		pa = new Player("A");
 		pb = new Player("B");
 		pc = new Player("C");
