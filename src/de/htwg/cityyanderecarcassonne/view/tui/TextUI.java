@@ -71,7 +71,7 @@ public class TextUI implements IObserver {
 			if (tsPrinter == null)
 				tsPrinter = new TownsquarePrinter(controller.getTownsquare());
 			
-			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
+			if (status == GameStatus.ROUND_START || status == GameStatus.CARD_ROTATED || status == GameStatus.CARD_SET_FAIL) {
 				card = controller.cardOnHand();
 				printOutln(tsPrinter.printCardPossibilitiesTownsquare(controller.getCardPossibilitiesMap(card)));
 			} else if ( status == GameStatus.CARD_SET_SUCCESS || status == GameStatus.MEEPLE_SET_FAIL) {
@@ -88,7 +88,7 @@ public class TextUI implements IObserver {
 		if (player != null)
 			printOutln("Current Player: " + player + " --> Remaining Meeples: " + player.getSumMeeples() + " --> Score: " + player.getScore());
 		printOutln();
-		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_SET_FAIL) {
+		if (status == GameStatus.ROUND_START || status == GameStatus.CARD_ROTATED || status == GameStatus.CARD_SET_FAIL) {
 			card = controller.cardOnHand();
 			printOutln("Actual card to place:");
 			printOutln(CardPrinter.printCard(card));
