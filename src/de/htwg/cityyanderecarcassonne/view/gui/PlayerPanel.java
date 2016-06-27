@@ -19,7 +19,7 @@ public class PlayerPanel extends JPanel {
 	JLabel playerName;
 	JLabel playerScore;
 
-	public PlayerPanel(ICarcassonneController controller, Container contentPane)	{
+	public PlayerPanel(ICarcassonneController controller, Container contentPane, Color color)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
 		
@@ -46,12 +46,11 @@ public class PlayerPanel extends JPanel {
 	    
 	    playerLayout = new SpringLayout();
 	    playerLayout.putConstraint(SpringLayout.WEST, meepleCount, 35, SpringLayout.WEST, contentPane);
-	    playerLayout.putConstraint(SpringLayout.NORTH, meepleCount, 100, SpringLayout.NORTH, contentPane);   
+	    playerLayout.putConstraint(SpringLayout.NORTH, meepleCount, 25, SpringLayout.NORTH, contentPane);   
 	    playerLayout.putConstraint(SpringLayout.WEST, playerName, 85, SpringLayout.WEST, contentPane);
-	    playerLayout.putConstraint(SpringLayout.NORTH, playerName, 100, SpringLayout.NORTH, contentPane); 
+	    playerLayout.putConstraint(SpringLayout.NORTH, playerName, 25, SpringLayout.NORTH, contentPane); 
 	    playerLayout.putConstraint(SpringLayout.WEST, playerScore, 215, SpringLayout.WEST, contentPane);
-	    playerLayout.putConstraint(SpringLayout.NORTH, playerScore, 100, SpringLayout.NORTH, contentPane);
-	    this.revalidate();
+	    playerLayout.putConstraint(SpringLayout.NORTH, playerScore, 25, SpringLayout.NORTH, contentPane);
 	    this.setLayout(playerLayout);
 		
 		this.add(meepleCount);
@@ -59,8 +58,7 @@ public class PlayerPanel extends JPanel {
 		this.add(playerScore);
 		
 	    this.setPreferredSize(new Dimension(300,100));
-	    this.setBackground(Color.GRAY.darker());
+	    this.setBackground(color);
 	    this.setVisible(true);
-	    revalidate();
 	}
 }

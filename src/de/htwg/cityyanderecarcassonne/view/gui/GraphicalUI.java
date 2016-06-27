@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,21 +34,17 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 		contentPane = this.getContentPane();
 		
 		menuBar = new MenuBar(this.controller);
-		menuBar.revalidate();
-		
-		rightPanel = new RightPanel(this.controller, contentPane);
-		rightPanel.revalidate();
-		
+		rightPanel = new RightPanel(this.controller, contentPane);	
 		gamePane = new GamePane(this.controller);
-		gamePane.revalidate();
 		
 	    mainLayout = new SpringLayout();    
 	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1200, SpringLayout.WEST, contentPane);
 	    mainLayout.putConstraint(SpringLayout.NORTH, rightPanel, 30, SpringLayout.NORTH, contentPane); 
 	    mainLayout.putConstraint(SpringLayout.WEST	, gamePane, 0, SpringLayout.WEST, contentPane);
 	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 30, SpringLayout.NORTH, contentPane);
-	    this.revalidate();
 	    this.setLayout(mainLayout);
+	    
+	    this.validate();
 	    
 		this.add(gamePane);
 	    this.add(rightPanel);
@@ -59,7 +56,6 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	    this.pack();
 	    this.setResizable(false);
 	    this.setVisible(true);
-	    revalidate();
 	}
 
 	@Override
