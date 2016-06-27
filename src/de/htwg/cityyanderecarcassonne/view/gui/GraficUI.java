@@ -38,6 +38,8 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 	Map<Position, String> positionStringCardList;
 	Map<IRegion, String> regionStringMap;
 	
+	Map<Position, BufferedImage> cardsOnField;
+	
 	BigMap<Position, JLabel, BufferedImage> objectList;
 	BigMap<JLabel, IRegion, Position> bm;
 	
@@ -705,8 +707,8 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
     
     public void placeStartCard()	{
     	Position pos = new Position(grid/2, grid/2);
-		cardMatrix[pos.getX()][pos.getY()].setIcon(skaleCard(getImage(controller.cardOnHand())));
-		objectList.add(pos, cardMatrix[grid/2][grid/2], targetPicture);
+		cardMatrix[pos.getX()][pos.getY()].setIcon(skaleCard(getImage(controller.cardOnHand())));		
+		cardsOnField.put(pos, targetPicture);
     }
     
     public void redrawCard()	{
@@ -806,11 +808,15 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
     	importPictures();
     	
 		objectList = new BigMap<>();
+		cardsOnField = new HashMap<>();
 		regionStringMap = new HashMap<>();
 		positionStringCardList = new HashMap<>();
 		
 		controller.addPlayer(player1);
 		controller.addPlayer(player2);	
+		
+		controllerX = controller.getDimensionX()/2;
+		controllerY = controller.getDimensionY()/2;
 		
     	removeAllJLabel(cardMatrix);
     	cardMatrix = new JLabel[grid][grid];
@@ -831,31 +837,35 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
     	
     	newField();
     	
-    	BigMap<Position, JLabel, BufferedImage> objectsOnField = new BigMap<>();
+    	Map<Position, BufferedImage> cardsOnFieldTmp = new HashMap<>();
+    	//BigMap<Position, JLabel, BufferedImage> cardsOnField = new BigMap<>();
     	
-    	for(Map.Entry<Position, BufferedImage> object : objectList.getTtoV().entrySet())	{		
+    	for(Map.Entry<Position, BufferedImage> object : cardsOnField.entrySet())	{		
     		int newX = object.getKey().getX() + 1;
     		int newY = object.getKey().getY() + 1;
     		
+    		System.out.println(newX);
+    		System.out.println(newY);
+    		
     		cardMatrix[newX][newY].setIcon(skaleCard(object.getValue()));
-    		objectList.removeTandV(object);
-    		objectsOnField.add(new Position(newX,  newY), cardMatrix[newX][newY], object.getValue());
+    		cardsOnField.remove(object);
+    		cardsOnFieldTmp.put(new Position(newX,  newY), object.getValue());
     	}
     	
-    	objectList.getTtoV().putAll(objectsOnField.getTtoV());
+    	cardsOnField = cardsOnFieldTmp;
     	
-    	for(Map.Entry<Position, JLabel> object : objectList.getTtoK().entrySet())	{
-    		int newX = object.getKey().getX() + cardSize;
-    		int newY = object.getKey().getY() + cardSize;
-    
-    		object.getValue().setIcon(skaleMeeple(objectList.getKtoV().get(object.getValue()), 1));
-
-			gamePanelLayout.putConstraint(SpringLayout.WEST, object.getValue(), newX, SpringLayout.WEST, contentPane);
-			gamePanelLayout.putConstraint(SpringLayout.NORTH, object.getValue(), newY, SpringLayout.NORTH, contentPane);
-
-    		objectList.removeTandK(object);
-    		objectsOnField.add(new Position(newX, newY), object.getValue(), meeplePicture1);
-    	}
+//    	for(Map.Entry<Position, JLabel> object : objectList.getTtoK().entrySet())	{
+//    		int newX = object.getKey().getX() + cardSize;
+//    		int newY = object.getKey().getY() + cardSize;
+//    
+//    		object.getValue().setIcon(skaleMeeple(objectList.getKtoV().get(object.getValue()), 1));
+//
+//			gamePanelLayout.putConstraint(SpringLayout.WEST, object.getValue(), newX, SpringLayout.WEST, contentPane);
+//			gamePanelLayout.putConstraint(SpringLayout.NORTH, object.getValue(), newY, SpringLayout.NORTH, contentPane);
+//
+//    		objectList.removeTandK(object);
+//    		objectsOnField.add(new Position(newX, newY), object.getValue(), meeplePicture1);
+//    	}
     }
     
     public void removeAllJLabel(JLabel[][] labelMatrix)	{    	
@@ -912,22 +922,10 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 		gridY = (int) (arg0.getPoint().getY()/cardSize);
 		
 		if(controller.getStatus() == GameStatus.ROUND_START)	{
-			int controllerX = ((gridX-(grid/2))) + 75;
-			int controllerY = ((gridY-(grid/2))) + 75;
+			controllerX = ((gridX-(grid/2))) + 75;
+			controllerY = ((gridY-(grid/2))) + 75;
 			
 			controller.placeCard(controller.cardOnHand(), positionStringCardList.get(new Position(controllerX, controllerY)));
-			
-			if(controller.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
-				objectList.add(new Position(gridX, gridY), cardMatrix[gridX][gridY], targetPicture);
-				cardMatrix[gridX][gridY].setIcon(skaleCard(targetPicture));
-				cardMatrix[gridX][gridY].setBorder(redLine);
-				printRegionPossibilities(cardSize*gridX, cardSize*gridY);
-				redrawCard.remove(new Position(gridX,gridY));
-				
-				if((Math.abs(controllerX - controller.getDimensionX()/2) >= grid/2) || (Math.abs(controllerY - controller.getDimensionY()/2) >= grid/2))	{
-					resizeView();
-				}
-			}
 			
 		} else if(controller.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
 			if(controller.getCurrentPlayer().toString().equals(player1))	{
@@ -938,7 +936,6 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 		}
 	}
 	
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
@@ -975,10 +972,15 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 			
 			redrawRegion();
 			redrawCard();
+			
 		    textField.setText(status.getStatusMessage(controller.getStatus()));
 		    
 		} else if(controller.getStatus() == GameStatus.ROUND_START)	{
 			System.out.println("ROUND_START");
+			
+			if((Math.abs(controllerX - controller.getDimensionX()/2) >= (grid/2) - 1) || (Math.abs(controllerY - controller.getDimensionY()/2) >= (grid/2) - 1))	{
+				resizeView();
+			}
 			
 			targetPicture = getImage(controller.cardOnHand());
 	    	targetImage = new ImageIcon(targetPicture);
@@ -1011,6 +1013,11 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 		} else if(controller.getStatus() == GameStatus.CARD_SET_SUCCESS)	{
 			System.out.println("CARD_SET_SUCCESS");
 			
+			cardsOnField.put(new Position(gridX, gridY), targetPicture);
+			cardMatrix[gridX][gridY].setIcon(skaleCard(targetPicture));
+			cardMatrix[gridX][gridY].setBorder(redLine);
+			printRegionPossibilities(cardSize*gridX, cardSize*gridY);
+			redrawCard.remove(new Position(gridX,gridY));
 			
 		} else if(controller.getStatus() == GameStatus.CARD_SET_FAIL)	{
 			System.out.println("CARD_SET_FAIL");
