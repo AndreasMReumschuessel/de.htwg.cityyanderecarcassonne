@@ -27,6 +27,18 @@ public class TextUITest {
 	@Test
 	public void processInputTest() {
 		assertFalse(tui.processInput("q"));
+		assertTrue(tui.processInput("h"));
+		assertTrue(tui.processInput("pAmex"));
+		assertTrue(tui.processInput("pKotnascher"));
+		assertTrue(tui.processInput("c"));
+		assertTrue(tui.processInput("sr"));
+		assertTrue(tui.processInput("sA"));
+		assertTrue(tui.processInput("mA"));
+		assertTrue(tui.processInput("rr"));
+		assertTrue(tui.processInput("rl"));
+		assertTrue(tui.processInput("np"));
+		assertTrue(tui.processInput("fr"));
+		assertTrue(tui.processInput("lol"));
 	}
 
 	@Test
