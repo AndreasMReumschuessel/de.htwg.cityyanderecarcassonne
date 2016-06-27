@@ -141,7 +141,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		}
 		mPossGen = false;
 		notifyObservers();
-		//finishRound();
+		finishRound();
 	}
 	
 	@Override
@@ -194,14 +194,14 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void rotateCardLeft() {
 		currentCard.rotateLeft();
-		this.setStatus(GameStatus.CARD_TURNED_LEFT);
+		//this.setStatus(GameStatus.CARD_TURNED_LEFT);
 		notifyObservers();
 	}
 	
 	@Override
 	public void rotateCardRight() {
 		currentCard.rotateRight();
-		this.setStatus(GameStatus.CARD_TURNED_RIGHT);
+		//this.setStatus(GameStatus.CARD_TURNED_RIGHT);
 		notifyObservers();
 	}
 	

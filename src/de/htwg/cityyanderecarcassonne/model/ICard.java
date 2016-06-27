@@ -37,4 +37,6 @@ public interface ICard {
 	public ICard rotateRight();
 	
 	public List<IRegion> getRegionPossibilities();
+
+	int getOrientation();
 }
