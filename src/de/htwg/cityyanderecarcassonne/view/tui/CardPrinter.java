@@ -5,7 +5,7 @@ import java.util.Map;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 
-public abstract class CardPrinter {
+public class CardPrinter {
 	
 	private CardPrinter() {
 		throw new UnsupportedOperationException();
