@@ -990,7 +990,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 			cardMatrix[gridX][gridY].setBorder(null);
 		    textField.setText(status.getStatusMessage(controller.getStatus()));
 		    
-		} else if(controller.getStatus() == GameStatus.CARD_TURNED_RIGHT)	{
+		/*} else if(controller.getStatus() == GameStatus.CARD_TURNED_RIGHT)	{
 			System.out.println("CARD_TURNED_RIGHT");
 			
 	    	printCardLeftPanel();
@@ -1004,7 +1004,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 	    	controller.setStatus(GameStatus.ROUND_START);
 			textField.setText("Card turned to the left!");
 			
-		} else if(controller.getStatus() == GameStatus.PLAYER_ADDED)	{
+		*/} else if(controller.getStatus() == GameStatus.PLAYER_ADDED)	{
 			System.out.println("PLAYER_ADDED");
 			
 		} else if(controller.getStatus() == GameStatus.PLAYER_CHANGED)	{
@@ -1022,7 +1022,7 @@ public class GraficUI extends JFrame implements ActionListener, MouseListener, I
 		} else if(controller.getStatus() == GameStatus.CARD_SET_FAIL)	{
 			System.out.println("CARD_SET_FAIL");
 			
-			controller.setStatus(GameStatus.ROUND_START);
+			//controller.setStatus(GameStatus.ROUND_START);
 			
 		} else if(controller.getStatus() == GameStatus.MEEPLE_SET_SUCCESS)	{
 			System.out.println("MEEPLE_SET_SUCCESS");
