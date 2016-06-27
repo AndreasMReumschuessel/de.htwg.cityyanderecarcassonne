@@ -18,6 +18,7 @@ public class StockTest {
 	public void setUp() throws Exception {
 		cardStock = Stock.getInstance();
 		singletonStock = Stock.getInstance();
+		Stock.getInstance().resetStock();
 	}
 	
 	@Test
@@ -50,7 +51,6 @@ public class StockTest {
 	@Test
 	public void getSizeOfStockTest()	{
 		assertEquals(72,cardStock.getSizeOfStock());
-		// Should be 72, but tests affect each other
 	}
 	
 	@Test

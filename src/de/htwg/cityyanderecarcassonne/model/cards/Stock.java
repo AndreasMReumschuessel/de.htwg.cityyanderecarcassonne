@@ -194,4 +194,29 @@ public class Stock {
 		cardStock.remove(8);
 		return startCard;
 	}
+	
+	public void resetStock() {
+		cardStock = new LinkedList<>();
+		cardCountA = 2;
+		cardCountB = 4;
+		cardCountC = 1;
+		cardCountD = 4;
+		cardCountE = 5;
+		cardCountFG = 3;
+		cardCountH = 3;
+		
+		cardCountI = 2;
+		cardCountJ = 3;
+		cardCountK = 3;
+		cardCountL = 3;
+		cardCountMN = 5;
+		cardCountOP = 5;
+		cardCountQR = 4;
+		cardCountST = 3;
+		cardCountU = 8;
+		cardCountV = 9;
+		cardCountW = 4;
+		cardCountX = 1;
+		this.importCards();
+	}
 }

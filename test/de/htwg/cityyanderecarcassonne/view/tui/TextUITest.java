@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.cards.Stock;
 
 public class TextUITest {
 	
@@ -16,6 +17,7 @@ public class TextUITest {
 	public void setUp() throws Exception {
 		controller = new CarcassonneController(10, 10);
 		tui = new TextUI(controller);
+		Stock.getInstance().resetStock();
 	}
 
 	@Test
