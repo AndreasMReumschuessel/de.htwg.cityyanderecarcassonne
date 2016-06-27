@@ -260,8 +260,7 @@ public abstract class MasterCard implements ICard {
 	
 	@Override
 	public int getOrientation() {
-		int result = ((orientation % 360) + 360) % 360;
-		return result;
+		return ((orientation % 360) + 360) % 360;
 	}
 	
 	@Override
