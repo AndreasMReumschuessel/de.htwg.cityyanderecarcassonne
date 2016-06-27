@@ -71,9 +71,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return townsquare.getDimY();
 	}
 	
-	@Override
-    public void setStatus(GameStatus status) {
-    	// No need for it.
+    private void setStatus(GameStatus status) {
         this.status = status;
     }
     
@@ -241,8 +239,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		 return em;
 	}
 
-	@Override
-	public String generateLetter(int ascii) {
+	private String generateLetter(int ascii) {
 		StringBuilder sb = new StringBuilder();
 		int input = ascii + 65;
 		

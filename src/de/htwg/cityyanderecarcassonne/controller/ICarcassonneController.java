@@ -34,14 +34,10 @@ public interface ICarcassonneController {
 
     public void finishRound();
 
-    public void setStatus(GameStatus status);
-
     public Townsquare getTownsquare();
 	
     public Map<Position, String> getCardPossibilitiesMap(ICard card);
 	
-    public String generateLetter(int ascii);
-
 	void placeCard(ICard c, String poss);
 
 	void addPlayer(String name);

@@ -6,12 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.cards.*;
 
 public class CarcassonneControllerTest {
 	
-	private CarcassonneController ctrl;
+	private ICarcassonneController ctrl;
 
 	@Before
 	public void setUp() throws Exception {
@@ -23,7 +24,7 @@ public class CarcassonneControllerTest {
 	public void testGetTownsquare() {
 		ctrl.getTownsquare();
 	}
-
+	
 	@Test
 	public void testGetDimensionX() {
 		assertEquals(100, ctrl.getDimensionX());
@@ -33,7 +34,7 @@ public class CarcassonneControllerTest {
 	public void testGetDimensionY() {
 		assertEquals(110, ctrl.getDimensionY());
 	}
-
+	*/
 	@Test
 	public void testGetStatusMessage() {
 		ctrl.addPlayer("Bob");
@@ -45,10 +46,9 @@ public class CarcassonneControllerTest {
 
 	@Test
 	public void testGetStatus() {
-		ctrl.setStatus(GameStatus.CREATE);
-		assertEquals(GameStatus.CREATE,ctrl.getStatus());
+		assertEquals(GameStatus.WELCOME, ctrl.getStatus());
 	}
-
+	/*
 	@Test
 	public void testPlaceCard() {
 		ICard card = new CardA();
@@ -70,8 +70,8 @@ public class CarcassonneControllerTest {
 		ctrl.addPlayer("Hatsune");
 		ctrl.startRound();
 		assertEquals(67, ctrl.getRemainingCards());
-	}*/
-
+	}
+	
 	@Test
 	public void testPlaceMeeple() {
 		//fail("Not yet implemented");
@@ -116,17 +116,15 @@ public class CarcassonneControllerTest {
 	public void testGetCardPossibilitiesMap() {
 		//fail("Not yet implemented");
 	}
-
-	@Test
-	public void testGenerateLetter() {
-		//fail("Not yet implemented");
-	}
-
+	*/
 	@Test
 	public void testAddPlayer() {
+		ctrl.addPlayer("Arschklampe");
+		ctrl.addPlayer("Socar");
 		//fail("Not yet implemented");
 	}
 
+	/*
 	@Test
 	public void testNextPlayer() {
 		//fail("Not yet implemented");
@@ -136,5 +134,5 @@ public class CarcassonneControllerTest {
 	public void testGetCurrentPlayer() {
 		//fail("Not yet implemented");
 	}
-
+	*/
 }
