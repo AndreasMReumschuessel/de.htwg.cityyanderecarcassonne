@@ -31,16 +31,22 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	public GraphicalUI(ICarcassonneController controller)	{
 		this.controller = controller;
 		contentPane = this.getContentPane();
-
+		
 		menuBar = new MenuBar(this.controller);
+		menuBar.revalidate();
+		
 		rightPanel = new RightPanel(this.controller, contentPane);
+		rightPanel.revalidate();
+		
 		gamePane = new GamePane(this.controller);
-	    
+		gamePane.revalidate();
+		
 	    mainLayout = new SpringLayout();    
-	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1250, SpringLayout.WEST, contentPane);
-	    mainLayout.putConstraint(SpringLayout.NORTH, rightPanel, 0, SpringLayout.NORTH, contentPane); 
+	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1200, SpringLayout.WEST, contentPane);
+	    mainLayout.putConstraint(SpringLayout.NORTH, rightPanel, 30, SpringLayout.NORTH, contentPane); 
 	    mainLayout.putConstraint(SpringLayout.WEST	, gamePane, 0, SpringLayout.WEST, contentPane);
-	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 30, SpringLayout.NORTH, contentPane); 
+	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 30, SpringLayout.NORTH, contentPane);
+	    this.revalidate();
 	    this.setLayout(mainLayout);
 	    
 		this.add(gamePane);
@@ -49,11 +55,11 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	    
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setTitle("Yandere Carcassonne");
-	    this.setBackground(Color.GREEN);
 		this.setPreferredSize(new Dimension(1500,1000));
 	    this.pack();
 	    this.setResizable(false);
 	    this.setVisible(true);
+	    revalidate();
 	}
 
 	@Override

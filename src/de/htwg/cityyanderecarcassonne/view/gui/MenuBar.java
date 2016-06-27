@@ -24,7 +24,7 @@ public class MenuBar extends JMenuBar {
 		this.controller = controller;
 		
 		this.setOpaque(true);
-		this.setBackground(Color.CYAN);
+		this.setBackground(Color.GRAY);
 		this.setPreferredSize(new Dimension(1500, 30));
 		
 	    menu = new JMenu("Datei");

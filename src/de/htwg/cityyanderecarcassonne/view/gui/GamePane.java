@@ -2,15 +2,12 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 
 public class GamePane extends JScrollPane implements ChangeListener {
@@ -23,8 +20,9 @@ public class GamePane extends JScrollPane implements ChangeListener {
 	
 	public GamePane(ICarcassonneController controller)	{
 		this.controller = controller;
-		this.createGamePicture();
-		createGamePicture();
+		this.setVisible(true);
+		this.setSize(1000, 1000);
+		this.setBackground(Color.GREEN);
 	}
 	
 	@Override
@@ -37,10 +35,11 @@ public class GamePane extends JScrollPane implements ChangeListener {
     private BufferedImage getScaledImage(double scale) {
 		return null;
     }
-	
-	public void createGamePicture()	{
-		Graphics2D g2 = image.createGraphics();
-		g2.drawString("Hello World?", 250, 250);
+    
+    @Override
+	public void paint(Graphics g)	{
+    	System.out.println("Marke");
+		g.drawString("Hello", 250, 250);
 	}
 	
     private JSlider getControl() {

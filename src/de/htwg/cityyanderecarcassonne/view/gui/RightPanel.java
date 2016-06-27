@@ -15,15 +15,28 @@ public class RightPanel extends JPanel {
 	private ICarcassonneController controller;
 	
 	Container contentPane;
-	JPanel rightPanel;
+	JPanel playerPanel;
     SpringLayout rightPanelLayout;
     Border blackline;
 
 	public RightPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
+		this.contentPane = contentPane;
 		
-	    this.setPreferredSize(new Dimension(250,1000));
-	    this.setBackground(Color.RED);
+		playerPanel = new PlayerPanel(this.controller, contentPane);
+		playerPanel.revalidate();
+		
+		rightPanelLayout = new SpringLayout();
+		rightPanelLayout.putConstraint(SpringLayout.WEST, playerPanel, 35, SpringLayout.WEST, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, playerPanel, 65, SpringLayout.NORTH, contentPane);
+	    this.revalidate();
+		this.setLayout(rightPanelLayout);
+		
+	    this.add(playerPanel);
 	    
+	    this.setPreferredSize(new Dimension(300,970));
+	    this.setBackground(Color.GRAY.darker());
+	    this.setVisible(true);
+	    revalidate();
 	}
 }
