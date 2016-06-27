@@ -2,21 +2,29 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.cityyanderecarcassonne.model.cards.CardD;
+import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.cards.*;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class TownsquarePrinterTest {
 	
 	private TownsquarePrinter tsp;
+	private ICard dCard;
 
 	@Before
 	public void setUp() throws Exception {
 		Townsquare ts = new Townsquare(10, 10);
+		dCard = new CardD();
 		tsp = new TownsquarePrinter(ts);
-		ts.setCard(new CardD(), 5, 5);
+		ts.setCard(dCard, 5, 5);
 	}
 
 	@Test
@@ -50,8 +58,66 @@ public class TownsquarePrinterTest {
 
 	@Test
 	public void printCardPossibilitiesTownsquareTest() {
-		// tsp.printCardPossibilitiesTownsquare(null);
-		assertTrue(true);
+		Map<Position, String> possibilities = new HashMap<>();
+		possibilities.put(new Position(4,5), "G");
+		
+		String ts = tsp.printCardPossibilitiesTownsquare(possibilities);
+		
+		String tsr = "                                          \n" +
+					 "                                          \n" +
+					 "                                          \n" +
+					 "                                          \n" +
+					 "                                          \n" +
+					 "                                          \n" +
+					 "                                          \n" +
+					 " ############  ------------               \n" +
+					 "#            #|  L  S  L   |              \n" +
+					 "#            #|L         B |              \n" +
+					 "#     G      #|L    S    B |              \n" +
+					 "#            #|L         B |              \n" +
+					 "#            #|  L  S  L   |              \n" +
+					 " ############  ------------               \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n" +
+				  	 "                                          \n";
+		
+		assertEquals(tsr, ts);
 	}
-
+	
+	@Test
+	public void printMeeplePossibilitiesTownsquare() {
+		ICard card = dCard;
+		Map<IRegion, String> possList = new HashMap<>();
+		possList.put(card.getBelowMiddle(), "C");
+		possList.put(card.getLeftMiddle(), "W");
+		
+		String ts = tsp.printMeeplePossibilitiesTownsquare(card, possList);
+		String tsr = "                                          \n" +
+				 "                                          \n" +
+				 "                                          \n" +
+				 "                                          \n" +
+				 "                                          \n" +
+				 "                                          \n" +
+				 "                                          \n" +
+				 "               ############               \n" +
+				 "              #  L  S  L   #              \n" +
+				 "              #L         B #              \n" +
+				 "              #LW   S    B #              \n" +
+				 "              #L         B #              \n" +
+				 "              #  L  SC L   #              \n" +
+				 "               ############               \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n" +
+			  	 "                                          \n";
+	
+		assertEquals(tsr, ts);
+	}
 }
