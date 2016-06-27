@@ -16,10 +16,11 @@ public class CarcassonneControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Stock.getInstance().resetStock();
 		ctrl = new CarcassonneController(100, 110);
-		//ctrl.create();
+		ctrl.create();
 	}
-	/*
+	
 	@Test
 	public void testGetTownsquare() {
 		ctrl.getTownsquare();
@@ -34,7 +35,7 @@ public class CarcassonneControllerTest {
 	public void testGetDimensionY() {
 		assertEquals(110, ctrl.getDimensionY());
 	}
-	*/
+	
 	@Test
 	public void testGetStatusMessage() {
 		ctrl.addPlayer("Bob");
@@ -46,9 +47,9 @@ public class CarcassonneControllerTest {
 
 	@Test
 	public void testGetStatus() {
-		assertEquals(GameStatus.WELCOME, ctrl.getStatus());
+		assertEquals(GameStatus.CREATE, ctrl.getStatus());
 	}
-	/*
+	
 	@Test
 	public void testPlaceCard() {
 		ICard card = new CardA();
@@ -69,7 +70,7 @@ public class CarcassonneControllerTest {
 	public void testGetRemainingCards() {
 		ctrl.addPlayer("Hatsune");
 		ctrl.startRound();
-		assertEquals(67, ctrl.getRemainingCards());
+		assertEquals(70, ctrl.getRemainingCards());
 	}
 	
 	@Test
@@ -89,7 +90,7 @@ public class CarcassonneControllerTest {
 
 	@Test
 	public void testFinish() {
-		//fail("Not yet implemented");
+		ctrl.finish();
 	}
 
 	@Test
@@ -116,7 +117,7 @@ public class CarcassonneControllerTest {
 	public void testGetCardPossibilitiesMap() {
 		//fail("Not yet implemented");
 	}
-	*/
+	
 	@Test
 	public void testAddPlayer() {
 		ctrl.addPlayer("Arschklampe");
