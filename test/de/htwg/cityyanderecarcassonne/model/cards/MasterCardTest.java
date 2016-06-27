@@ -109,7 +109,7 @@ public class MasterCardTest {
 	}
 	
 	@Test
-	public void getRegionPossibilities() {
+	public void getRegionPossibilitiesTest() {
 		IDManager.setPlayer(card.getBelowLeft().getID(), new Player("Stefan"));
 		
 		ICard card2 = new CardW();
@@ -121,6 +121,14 @@ public class MasterCardTest {
 	public void toStringTest() {
 		String wish = "Card name: CardA";
 		assertEquals(wish, card.toString());
+	}
+	
+	@Test
+	public void getOrientationTest() {
+		card.rotateLeft();
+		assertEquals(270, card.getOrientation());
+		card.rotateRight().rotateRight().rotateRight();
+		assertEquals(180, card.getOrientation());
 	}
 
 }

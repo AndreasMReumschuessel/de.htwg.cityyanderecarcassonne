@@ -32,8 +32,11 @@ public abstract class MasterCard implements ICard {
 	
 	private IGraph<IRegion> cardGraph;
 	
+	private int orientation;
+	
 	protected MasterCard() {
 		super();
+		this.orientation = 0;
 	}
 	
 	protected void genCardGraph() {
@@ -154,12 +157,14 @@ public abstract class MasterCard implements ICard {
 	@Override
 	public ICard rotateLeft() {
 		rotate("left");
+		orientation -= 90;
 		return this;
 	}
 	
 	@Override
 	public ICard rotateRight() {
 		rotate("right");
+		orientation += 90;
 		return this;
 	}
 	
@@ -251,6 +256,12 @@ public abstract class MasterCard implements ICard {
 		rP.add(rightBelow);
 		
 		return rP;
+	}
+	
+	@Override
+	public int getOrientation() {
+		int result = ((orientation % 360) + 360) % 360;
+		return result;
 	}
 	
 	@Override

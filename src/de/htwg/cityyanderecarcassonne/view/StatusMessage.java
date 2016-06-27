@@ -14,6 +14,7 @@ public class StatusMessage {
         text.put(GameStatus.PLAYER_ADDED,"Nice to meet you, ");
         text.put(GameStatus.PLAYER_CHANGED,"It's your turn, ");
         text.put(GameStatus.CREATE,"Empty Townquare created!");
+        text.put(GameStatus.CARD_ROTATED,"Card rotated!");
         text.put(GameStatus.CARD_SET_SUCCESS,"The card was placed successfully. ");
         text.put(GameStatus.CARD_SET_FAIL, "You can't place this card there. ");
         text.put(GameStatus.MEEPLE_SET_SUCCESS,"Your meeple was placed successfully. ");

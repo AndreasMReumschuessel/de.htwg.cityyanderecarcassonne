@@ -20,6 +20,7 @@ public class GameStatusTest {
 				"PLAYER_ADDED",
 				"PLAYER_CHANGED",
 			    "CREATE",
+			    "CARD_ROTATED",
 			    "CARD_SET_SUCCESS",
 			    "CARD_SET_FAIL",
 			    "MEEPLE_SET_SUCCESS",
