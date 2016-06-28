@@ -4,11 +4,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.util.observer.Event;
@@ -25,7 +28,7 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
     SpringLayout mainLayout;
 	JMenuBar menuBar;
 	
-	public GraphicalUI(ICarcassonneController controller)	{
+	public GraphicalUI(ICarcassonneController controller) throws IOException	{
 		this.controller = controller;
 		contentPane = this.getContentPane();
 		
@@ -66,7 +69,7 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 		
 	}
 	
-	public static void main(String[] args)	{
+	public static void main(String[] args) throws IOException	{
 		CarcassonneController controller = new CarcassonneController(150, 150);
 		new GraphicalUI(controller);
 	}

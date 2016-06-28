@@ -7,7 +7,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -31,37 +34,33 @@ public class GamePanel extends JPanel implements ChangeListener {
     JScrollPane scrollPane;
     BoxLayout boxLayout;
     JLabel label;
+    Graphics2D g;
     int DimX = 0;
     int DimY = 0;
-    Graphics2D g;
 	
-	public GamePanel(ICarcassonneController controller, Container contentPane)	{
+	public GamePanel(ICarcassonneController controller, Container contentPane) throws IOException	{
 		this.controller = controller;
 		this.contentPane = contentPane;
 		
 		DimX = 1240;
 		DimY = 980;
 		
-		this.getBackgroundImage();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		label = getContent();
-		jSlider = getSlider();
+		getBackgroundImage();
+		label = new JLabel(new ImageIcon(image));
+        label.setHorizontalAlignment(JLabel.CENTER);
 		
-		scrollPane = new JScrollPane();
+        JScrollPane scrollPane = new JScrollPane(label);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setPreferredSize(new Dimension(DimX,DimY));
-		
-		boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-		this.setLayout(boxLayout);
-		
-		validate();
-		
+		scrollPane.setPreferredSize(new Dimension(DimX,DimY - 50));
 		this.add(scrollPane);
+		
+		jSlider = getSlider();
 		this.add(jSlider);
 		
-		this.setVisible(true);
-		this.setPreferredSize(new Dimension(DimX,DimY));
+		validate();
 	}
 	
 	@Override
@@ -86,17 +85,17 @@ public class GamePanel extends JPanel implements ChangeListener {
         return bi;
     }
     
-    private JLabel getContent() {
+    private JLabel getContent() throws IOException {
     	getBackgroundImage();
         label = new JLabel(new ImageIcon(image));
         label.setHorizontalAlignment(JLabel.CENTER);
-    	addImage();
         return label;
     }
 	
     private JSlider getSlider() {
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 50, 200, 100);
         slider.setMajorTickSpacing(50);
+        slider.setPreferredSize(new Dimension(DimX, 50));
         slider.setMinorTickSpacing(10);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
@@ -104,20 +103,15 @@ public class GamePanel extends JPanel implements ChangeListener {
         return slider;        
     }
     
-	private void getBackgroundImage()	{
-		int type = BufferedImage.TYPE_INT_RGB;
-        image = new BufferedImage(DimX*2, DimY*2, type);
+	private void getBackgroundImage() throws IOException	{
+		
+        try {
+        	image = ImageIO.read(new File("./data/background.png"));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
         g = image.createGraphics();
-        g.setPaint(new Color(204, 102, 0));
-        g.fillRect(0, 0, DimX*2, DimY*2);
-	}
-	
-	private void addImage()	{
-		int type = BufferedImage.TYPE_INT_RGB;
-        image1 = new BufferedImage(DimX/2, DimY/2, type);
-        Graphics2D g2 = image1.createGraphics();
-        g2.setPaint(new Color(24, 12, 100));
-        g2.fillRect(0, 0, DimX/2, DimY/2);
-        //g.drawImage(image1, DimX/2, DimY/2, this);
+        g.drawImage(image, DimX, DimY, this);
 	}
 }
