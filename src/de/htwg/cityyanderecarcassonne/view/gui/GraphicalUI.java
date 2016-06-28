@@ -21,7 +21,7 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	
 	Container contentPane;
 	JPanel rightPanel;
-	JScrollPane gamePane;
+	JPanel gamePanel;
     SpringLayout mainLayout;
 	JMenuBar menuBar;
 	
@@ -31,18 +31,18 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 		
 		menuBar = new MenuBar(this.controller);
 		rightPanel = new RightPanel(this.controller, this.contentPane);	
-		gamePane = new GamePane(this.controller, this.contentPane);
+		gamePanel = new GamePanel(this.controller, this.contentPane);
 		
 	    mainLayout = new SpringLayout();    
 	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1250, SpringLayout.WEST, contentPane);
 	    mainLayout.putConstraint(SpringLayout.NORTH, rightPanel, 30, SpringLayout.NORTH, contentPane); 
-	    mainLayout.putConstraint(SpringLayout.WEST	, gamePane, 50, SpringLayout.WEST, contentPane);
-	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 50, SpringLayout.NORTH, contentPane);
+	    mainLayout.putConstraint(SpringLayout.WEST	, gamePanel, 5, SpringLayout.WEST, contentPane);
+	    mainLayout.putConstraint(SpringLayout.NORTH, gamePanel, 35, SpringLayout.NORTH, contentPane);
 	    this.setLayout(mainLayout);
 	    
-	    contentPane.revalidate();
+	    contentPane.validate();
 	    
-		this.add(gamePane);
+		this.add(gamePanel);
 	    this.add(rightPanel);
 		this.add(menuBar);
 	    

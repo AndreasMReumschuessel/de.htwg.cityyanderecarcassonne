@@ -1,62 +1,67 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.ScrollPane;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 
-public class GamePane extends JScrollPane implements ChangeListener {
+public class GamePanel extends JPanel implements ChangeListener {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
 	Container contentPane;
     BufferedImage image;
+    BufferedImage image1;
     BufferedImage scaled;
-    JSlider js;
-    SpringLayout paneLayout;
-    ScrollPaneLayout scrollpane;
+    JSlider jSlider;
+    JScrollPane scrollPane;
+    BoxLayout boxLayout;
     JLabel label;
+    int DimX = 0;
+    int DimY = 0;
+    Graphics2D g;
 	
-	public GamePane(ICarcassonneController controller, Container contentPane)	{
+	public GamePanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
 		
-		this.getImage();
+		DimX = 1240;
+		DimY = 980;
+		
+		this.getBackgroundImage();
+		
 		label = getContent();
-		js = getControl();
+		jSlider = getSlider();
 		
-//		scrollpane = new ScrollPaneLayout();
-//		this.setLayout(scrollpane);
-//		
-////		paneLayout = new SpringLayout();
-////		paneLayout.putConstraint(SpringLayout.WEST, js, 1490, SpringLayout.WEST, contentPane);
-////		paneLayout.putConstraint(SpringLayout.NORTH, js, 1000, SpringLayout.NORTH, contentPane);
-////		this.setLayout(paneLayout);
-	    contentPane.revalidate();
+		scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setPreferredSize(new Dimension(DimX,DimY));
 		
-		contentPane.add(getContent());
-		contentPane.add(getControl());
+		boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+		this.setLayout(boxLayout);
+		
+		validate();
+		
+		this.add(scrollPane);
+		this.add(jSlider);
 		
 		this.setVisible(true);
-		this.setPreferredSize(new Dimension(1050,850));
-		contentPane.revalidate();
+		this.setPreferredSize(new Dimension(DimX,DimY));
 	}
 	
 	@Override
@@ -82,13 +87,14 @@ public class GamePane extends JScrollPane implements ChangeListener {
     }
     
     private JLabel getContent() {
-    	getImage();
+    	getBackgroundImage();
         label = new JLabel(new ImageIcon(image));
         label.setHorizontalAlignment(JLabel.CENTER);
+    	addImage();
         return label;
     }
 	
-    private JSlider getControl() {
+    private JSlider getSlider() {
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 50, 200, 100);
         slider.setMajorTickSpacing(50);
         slider.setMinorTickSpacing(10);
@@ -98,11 +104,20 @@ public class GamePane extends JScrollPane implements ChangeListener {
         return slider;        
     }
     
-	private void getImage()	{
-        try {
-        	image =  ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
-         } catch (IOException ex) {
-              // handle exception...
-         }
+	private void getBackgroundImage()	{
+		int type = BufferedImage.TYPE_INT_RGB;
+        image = new BufferedImage(DimX*2, DimY*2, type);
+        g = image.createGraphics();
+        g.setPaint(new Color(204, 102, 0));
+        g.fillRect(0, 0, DimX*2, DimY*2);
+	}
+	
+	private void addImage()	{
+		int type = BufferedImage.TYPE_INT_RGB;
+        image1 = new BufferedImage(DimX/2, DimY/2, type);
+        Graphics2D g2 = image1.createGraphics();
+        g2.setPaint(new Color(24, 12, 100));
+        g2.fillRect(0, 0, DimX/2, DimY/2);
+        //g.drawImage(image1, DimX/2, DimY/2, this);
 	}
 }
