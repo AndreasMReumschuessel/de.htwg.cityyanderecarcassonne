@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.guitwo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -10,6 +11,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -23,6 +26,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.cards.CardA;
+import de.htwg.cityyanderecarcassonne.view.gui.CardPrinterGUI;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
@@ -71,12 +78,14 @@ public class PicturePanel extends JPanel implements ChangeListener, IObserver {
 	}
 	
 	private void createAnImage() {
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File("./data/rueckseite_start.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		CardPrinterGUI cpg = CardPrinterGUI.getInstance();
+		Map<IRegion, String> map = new HashMap<>();
+		ICard card = new CardA().rotateRight();
+		map.put(card.getBelowLeft(), "A");
+		map.put(card.getCenterMiddle(), "A");
+		map.put(card.getLeftTop(), "A");
+		map.put(card.getRightMiddle(), "A");
+		BufferedImage img = CardPrinterGUI.printCardPoss(card, map);
 		
         int w = 500;
         int h = 500;
