@@ -73,7 +73,7 @@ public class PicturePanel extends JPanel implements ChangeListener, IObserver {
 	private void createAnImage() {
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("./src/de/htwg/cityyanderecarcassonne/view/gui/rueckseite_start.png"));
+			img = ImageIO.read(new File("./data/rueckseite_start.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
