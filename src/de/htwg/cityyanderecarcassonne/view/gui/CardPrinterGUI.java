@@ -30,10 +30,28 @@ public class CardPrinterGUI {
 	
 	public static BufferedImage printCard(ICard card) {
 		BufferedImage cardImg = null;
+		//Color playerColor = new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
 		try {
 			cardImg = ImageIO.read(new File("./data/" + card.getClass().getSimpleName() + ".png"));
 			cardImg = rotateImage(cardImg, card.getOrientation());
 			cardImg = scaleImage(cardImg, 200);
+			
+			int w = 200;
+	        int h = 200;
+	        int pSize = 20;
+	        int type = BufferedImage.TYPE_INT_RGB;
+	        BufferedImage tmpImg = new BufferedImage(w, h, type);
+	        Graphics2D g2 = tmpImg.createGraphics();
+	        g2.drawImage(cardImg, 0, 0, null);
+	        g2.setPaint(Color.YELLOW);
+	        
+	        markLeft(card, g2, pSize);
+	        markBelow(card, g2, pSize);
+	        markCenter(card, g2, pSize);
+	        markTop(card, g2, pSize);
+	        markRight(card, g2, pSize);
+	        
+	        cardImg = tmpImg;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
