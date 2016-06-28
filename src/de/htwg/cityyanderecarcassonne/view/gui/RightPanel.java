@@ -5,8 +5,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -17,55 +15,40 @@ import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
 public class RightPanel extends JPanel implements ActionListener, IObserver {
-	
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
-	Queue<Color> meepleColor;
 	
 	Container contentPane;
-	JPanel playerPanel1;
-	JPanel playerPanel2;
-	JPanel playerPanel3;
     SpringLayout rightPanelLayout;
+    JPanel teammatesPanel;
+    JPanel cardPanel;
+    JPanel yanderePanel;
     Border blackline;
 
 	public RightPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
-		insertColors();
 		
-		playerPanel1 = new PlayerPanel(this.controller, contentPane, meepleColor.poll());
-		playerPanel2 = new PlayerPanel(this.controller, contentPane, meepleColor.poll());
-		playerPanel3 = new PlayerPanel(this.controller, contentPane, meepleColor.poll());
-		
+		teammatesPanel = new TeammatesPanel(this.controller, this.contentPane);
+		cardPanel = new CardPanel(this.controller, this.contentPane);
+		yanderePanel = new YanderePanel(this.controller, this.contentPane);
+
 		rightPanelLayout = new SpringLayout();
-		rightPanelLayout.putConstraint(SpringLayout.WEST, playerPanel1, 0, SpringLayout.WEST, contentPane);
-		rightPanelLayout.putConstraint(SpringLayout.NORTH, playerPanel1, 500, SpringLayout.NORTH, contentPane);
-		
-		rightPanelLayout.putConstraint(SpringLayout.WEST, playerPanel2, 0, SpringLayout.WEST, contentPane);
-		rightPanelLayout.putConstraint(SpringLayout.NORTH, playerPanel2, 650, SpringLayout.NORTH, contentPane);
-		
-		rightPanelLayout.putConstraint(SpringLayout.WEST, playerPanel3, 0, SpringLayout.WEST, contentPane);
-		rightPanelLayout.putConstraint(SpringLayout.NORTH, playerPanel3, 800, SpringLayout.NORTH, contentPane);
-		
+		rightPanelLayout.putConstraint(SpringLayout.WEST, cardPanel, 0, SpringLayout.WEST, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, cardPanel, 0, SpringLayout.NORTH, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.WEST, teammatesPanel, 0, SpringLayout.WEST, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, teammatesPanel, 350, SpringLayout.NORTH, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.WEST, yanderePanel, 0, SpringLayout.WEST, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, yanderePanel, 675, SpringLayout.NORTH, contentPane);
 		this.setLayout(rightPanelLayout);
-		
-	    this.add(playerPanel1);
-	    this.add(playerPanel2);
-	    this.add(playerPanel3);
+
+		this.add(cardPanel);
+		this.add(teammatesPanel);
+		this.add(yanderePanel);
 	    
-	    this.setPreferredSize(new Dimension(300,970));
+	    this.setPreferredSize(new Dimension(250,1000));
 	    this.setBackground(Color.GRAY.darker());
 	    this.setVisible(true);
-	}
-	
-	public void insertColors()	{
-		 meepleColor = new LinkedList<>();
-		 meepleColor.add(Color.BLUE);
-		 meepleColor.add(Color.RED);
-		 meepleColor.add(Color.GREEN);
-		 meepleColor.add(Color.YELLOW);
-		 meepleColor.add(Color.BLACK);
 	}
 
 	@Override

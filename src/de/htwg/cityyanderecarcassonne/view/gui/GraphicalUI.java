@@ -1,18 +1,14 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.util.observer.Event;
@@ -34,17 +30,17 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 		contentPane = this.getContentPane();
 		
 		menuBar = new MenuBar(this.controller);
-		rightPanel = new RightPanel(this.controller, contentPane);	
-		gamePane = new GamePane(this.controller);
+		rightPanel = new RightPanel(this.controller, this.contentPane);	
+		gamePane = new GamePane(this.controller, this.contentPane);
 		
 	    mainLayout = new SpringLayout();    
-	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1200, SpringLayout.WEST, contentPane);
+	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1250, SpringLayout.WEST, contentPane);
 	    mainLayout.putConstraint(SpringLayout.NORTH, rightPanel, 30, SpringLayout.NORTH, contentPane); 
-	    mainLayout.putConstraint(SpringLayout.WEST	, gamePane, 0, SpringLayout.WEST, contentPane);
-	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 30, SpringLayout.NORTH, contentPane);
+	    mainLayout.putConstraint(SpringLayout.WEST	, gamePane, 50, SpringLayout.WEST, contentPane);
+	    mainLayout.putConstraint(SpringLayout.NORTH, gamePane, 50, SpringLayout.NORTH, contentPane);
 	    this.setLayout(mainLayout);
 	    
-	    this.validate();
+	    contentPane.revalidate();
 	    
 		this.add(gamePane);
 	    this.add(rightPanel);
@@ -52,7 +48,7 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	    
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setTitle("Yandere Carcassonne");
-		this.setPreferredSize(new Dimension(1500,1000));
+		this.setPreferredSize(new Dimension(1510,1050));
 	    this.pack();
 	    this.setResizable(false);
 	    this.setVisible(true);
