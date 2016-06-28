@@ -21,8 +21,8 @@ public class CardPrinterGUI {
 		
 	}
 	
-	public static CardPrinterGUI getInstance()	{
-		if(instance == null)	{
+	public static CardPrinterGUI getInstance() {
+		if(instance == null) {
 			instance = new CardPrinterGUI();
 		}
 		return instance;
@@ -51,7 +51,7 @@ public class CardPrinterGUI {
 			int w = 200;
 	        int h = 200;
 	        int pSize = 20;
-	        int type = BufferedImage.TYPE_INT_RGB; // many options
+	        int type = BufferedImage.TYPE_INT_RGB;
 	        tmpImg = new BufferedImage(w, h, type);
 	        Graphics2D g2 = tmpImg.createGraphics();
 	        g2.drawImage(cardImg, 0, 0, null);
@@ -116,6 +116,17 @@ public class CardPrinterGUI {
 		
 		if (possList.containsKey(card.getRightBelow()))
 			g2.fillOval(175, 150, pSize, pSize);
+	}
+	
+	public static BufferedImage pseudoCard() {
+		BufferedImage cardImg = null;
+		try {
+			cardImg = ImageIO.read(new File("./data/possibilities.png"));
+			cardImg = scaleImage(cardImg, 200);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return cardImg;
 	}
 
 	private static BufferedImage rotateImage(BufferedImage img, int degree) {
