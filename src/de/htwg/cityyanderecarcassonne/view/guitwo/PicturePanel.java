@@ -86,6 +86,7 @@ public class PicturePanel extends JPanel implements ChangeListener, IObserver {
 		map.put(card.getLeftTop(), "A");
 		map.put(card.getRightMiddle(), "A");
 		BufferedImage img = CardPrinterGUI.printCardPoss(card, map);
+		//BufferedImage img = CardPrinterGUI.pseudoCard();
 		
         int w = 500;
         int h = 500;

@@ -42,7 +42,6 @@ public class CardPrinterGUI {
 
 	public static BufferedImage printCardPoss(ICard card, Map<IRegion, String> possList) {
 		BufferedImage cardImg = null;
-		BufferedImage tmpImg = null;
 		try {
 			cardImg = ImageIO.read(new File("./data/" + card.getClass().getSimpleName() + ".png"));
 			cardImg = rotateImage(cardImg, card.getOrientation());
@@ -52,7 +51,7 @@ public class CardPrinterGUI {
 	        int h = 200;
 	        int pSize = 20;
 	        int type = BufferedImage.TYPE_INT_RGB;
-	        tmpImg = new BufferedImage(w, h, type);
+	        BufferedImage tmpImg = new BufferedImage(w, h, type);
 	        Graphics2D g2 = tmpImg.createGraphics();
 	        g2.drawImage(cardImg, 0, 0, null);
 	        g2.setPaint(Color.YELLOW);
@@ -63,10 +62,12 @@ public class CardPrinterGUI {
 	        markTop(card, possList, g2, pSize);
 	        markRight(card, possList, g2, pSize);
 	        
+	        cardImg = tmpImg;
+	        
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return tmpImg;
+		return cardImg;
 	}
 
 	private static void markLeft(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {

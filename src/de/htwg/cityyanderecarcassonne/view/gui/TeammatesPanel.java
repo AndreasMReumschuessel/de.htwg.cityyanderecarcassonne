@@ -62,7 +62,8 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 		if(playerCount < 5)	{
 			
 			String name = JOptionPane.showInputDialog(this, "What's your name?");
-			playerPanel = new PlayerPanel(this.controller, contentPane, meepleColor.poll(), name);
+			Color playerColor = new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
+			playerPanel = new PlayerPanel(this.controller, contentPane, playerColor /*meepleColor.poll()*/, name);
 			controller.addPlayer(name);
 			
 			teammatesLayout.putConstraint(SpringLayout.WEST, playerPanel, 0, SpringLayout.WEST, contentPane);
