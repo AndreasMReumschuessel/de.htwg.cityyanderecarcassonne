@@ -17,7 +17,8 @@ public class GraphicalUI extends JFrame {
 		this.setTitle("City Yandere Carcassonne");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel pp = new PlayerPanel(controller, "Anmax");
+		//JPanel pp = new PlayerPanel(controller, "Anmax");
+		JPanel pp = new PicturePanel(controller);
 		this.add(pp);
 		
 		this.pack();
