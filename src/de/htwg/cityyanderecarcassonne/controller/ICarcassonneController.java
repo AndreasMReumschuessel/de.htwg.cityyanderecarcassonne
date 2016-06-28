@@ -7,8 +7,9 @@ import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.util.observer.IObservable;
 
-public interface ICarcassonneController {
+public interface ICarcassonneController extends IObservable {
 	
 	public int getDimensionX();
 	

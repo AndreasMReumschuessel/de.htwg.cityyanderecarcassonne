@@ -1,16 +1,12 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,9 +16,13 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.util.observer.Event;
+import de.htwg.util.observer.IObserver;
 
-public class GamePanel extends JPanel implements ChangeListener {
+public class GamePanel extends JPanel implements ChangeListener, IObserver {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
@@ -37,18 +37,20 @@ public class GamePanel extends JPanel implements ChangeListener {
     Graphics2D g;
     int DimX = 0;
     int DimY = 0;
+    TownsquareVisual tv;
 	
-	public GamePanel(ICarcassonneController controller, Container contentPane) throws IOException	{
+	public GamePanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
+		controller.addObserver(this);
 		
 		DimX = 1240;
 		DimY = 980;
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		getBackgroundImage();
-		label = new JLabel(new ImageIcon(image));
+		
+		label = new JLabel();
         label.setHorizontalAlignment(JLabel.CENTER);
 		
         JScrollPane scrollPane = new JScrollPane(label);
@@ -69,7 +71,7 @@ public class GamePanel extends JPanel implements ChangeListener {
         double scale = value/100.0;
         BufferedImage scaled = getScaledImage(scale);
         label.setIcon(new ImageIcon(scaled));
-        label.revalidate();  // signal scrollpane
+        label.revalidate();
 	}
 	
     private BufferedImage getScaledImage(double scale) {
@@ -84,13 +86,6 @@ public class GamePanel extends JPanel implements ChangeListener {
         g2.dispose();
         return bi;
     }
-    
-    private JLabel getContent() throws IOException {
-    	getBackgroundImage();
-        label = new JLabel(new ImageIcon(image));
-        label.setHorizontalAlignment(JLabel.CENTER);
-        return label;
-    }
 	
     private JSlider getSlider() {
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 50, 200, 100);
@@ -102,16 +97,21 @@ public class GamePanel extends JPanel implements ChangeListener {
         slider.addChangeListener(this);
         return slider;        
     }
-    
-	private void getBackgroundImage() throws IOException	{
-		
-        try {
-        	image = ImageIO.read(new File("./data/background.png"));
-         } catch (IOException ex) {
-              // handle exception...
-         }
-        
-        g = image.createGraphics();
-        g.drawImage(image, DimX, DimY, this);
+
+	@Override
+	public void update(Event e) {
+		if(controller.getStatus().equals(GameStatus.CREATE)){
+			tv = new TownsquareVisual(controller.getTownsquare());
+			image = tv.normalTownsquareVisual();
+			label.setIcon(new ImageIcon(image));
+		} else if(!controller.getStatus().equals(GameStatus.WELCOME)) {
+			if(controller.getStatus().equals(GameStatus.ROUND_START)) {
+				image = tv.possTownsquareVisual(controller.getCardPossibilitiesMap(controller.cardOnHand()));
+				label.setIcon(new ImageIcon(image));
+			} else if(controller.getStatus().equals(GameStatus.CARD_SET_SUCCESS)) {
+				image = tv.meepleTownsquareVisual(controller.cardOnHand(), controller.getRegionPossibilitiesMap(controller.cardOnHand()));
+				label.setIcon(new ImageIcon(image));
+			}
+		}
 	}
 }

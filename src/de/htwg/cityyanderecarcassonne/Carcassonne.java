@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
@@ -12,19 +13,21 @@ public final class Carcassonne {
 	private static TextUI tui;
 	private static Scanner in;
 	
-	private static GraphicalUI gui;
+	//private static GraphicalUI gui;
+	private static de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI gui2;
 	
 	private Carcassonne() {
 		
 	}
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) throws IOException {		
 		
-		controller = new CarcassonneController(150, 150);
+		controller = new CarcassonneController(10, 10);
 		tui = new TextUI(controller);
 		tui.printTUI();
 		
-		gui = new GraphicalUI(controller);
+		//gui = new GraphicalUI(controller);
+		gui2 = new de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI(controller);
 		
 		boolean continu = true;
         in = new Scanner(System.in);

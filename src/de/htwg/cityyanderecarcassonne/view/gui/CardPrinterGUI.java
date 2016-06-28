@@ -2,6 +2,7 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import javax.imageio.ImageIO;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Player;
 
 public class CardPrinterGUI {
 	private static CardPrinterGUI instance = null;
@@ -45,17 +47,75 @@ public class CardPrinterGUI {
 	        g2.drawImage(cardImg, 0, 0, null);
 	        g2.setPaint(Color.YELLOW);
 	        
-	        markLeft(card, g2, pSize);
-	        markBelow(card, g2, pSize);
-	        markCenter(card, g2, pSize);
-	        markTop(card, g2, pSize);
-	        markRight(card, g2, pSize);
+	        checkLeft(card, g2, pSize);
+	        checkBelow(card, g2, pSize);
+	        checkCenter(card, g2, pSize);
+	        checkTop(card, g2, pSize);
+	        checkRight(card, g2, pSize);
 	        
 	        cardImg = tmpImg;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return cardImg;
+	}
+
+	private static void checkLeft(ICard card, Graphics2D g2, int pSize) {
+		if (card.getLeftTop().getPlayer() != null) {
+    		g2.setPaint(calcColor(card.getLeftTop().getPlayer()));
+			g2.fillOval(5, 30, pSize, pSize);
+		}
+    
+	    if (card.getLeftMiddle().getPlayer() != null) {
+	    	g2.setPaint(calcColor(card.getLeftMiddle().getPlayer()));
+	    	g2.fillOval(5, 90, pSize, pSize);
+	    }
+	    
+	    if (card.getLeftBelow().getPlayer() != null) {
+	    	g2.setPaint(calcColor(card.getLeftBelow().getPlayer()));
+	    	g2.fillOval(5, 150, pSize, pSize);
+	    }
+	}
+
+	private static void checkBelow(ICard card, Graphics2D g2, int pSize) {
+		if (card.getBelowLeft().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getBelowLeft().getPlayer()));
+			g2.fillOval(30, 175, pSize, pSize);
+		}
+		
+		if (card.getBelowMiddle().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getBelowMiddle().getPlayer()));
+			g2.fillOval(90, 175, pSize, pSize);
+		}
+		
+		if (card.getBelowRight().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getBelowRight().getPlayer()));
+			g2.fillOval(150, 175, pSize, pSize);
+		}
+		
+	}
+
+	private static void checkCenter(ICard card, Graphics2D g2, int pSize) {
+		if (card.getCenterMiddle().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getCenterMiddle().getPlayer()));
+			g2.fillOval(90, 90, pSize, pSize);
+		}
+		
+	}
+
+	private static void checkTop(ICard card, Graphics2D g2, int pSize) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void checkRight(ICard card, Graphics2D g2, int pSize) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private static Paint calcColor(Player player) {
+		String name = player.getName();
+		return new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
 	}
 
 	public static BufferedImage printCardPoss(ICard card, Map<IRegion, String> possList) {

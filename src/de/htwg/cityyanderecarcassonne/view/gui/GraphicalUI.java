@@ -28,7 +28,7 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
     SpringLayout mainLayout;
 	JMenuBar menuBar;
 	
-	public GraphicalUI(ICarcassonneController controller) throws IOException	{
+	public GraphicalUI(ICarcassonneController controller)	{
 		this.controller = controller;
 		contentPane = this.getContentPane();
 		
