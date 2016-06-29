@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
-import de.htwg.cityyanderecarcassonne.view.guitwo.GraphicalUI;
 import de.htwg.cityyanderecarcassonne.view.tui.TextUI;
 
 public final class Carcassonne {
@@ -13,7 +12,6 @@ public final class Carcassonne {
 	private static TextUI tui;
 	private static Scanner in;
 	
-	//private static GraphicalUI gui;
 	private static de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI gui2;
 	
 	private Carcassonne() {
@@ -26,7 +24,6 @@ public final class Carcassonne {
 		tui = new TextUI(controller);
 		tui.printTUI();
 		
-		//gui = new GraphicalUI(controller);
 		gui2 = new de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI(controller);
 		
 		boolean continu = true;
