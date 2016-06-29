@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.util.observer.Event;
@@ -78,8 +79,15 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		GameStatus status = controller.getStatus();
+		
 		if(e.getSource() == this.finishRound)	{
-			controller.finishRound();
+			if(status.equals(GameStatus.CREATE)) {
+				controller.startRound();
+			} else  {
+				controller.finishRound();
+			}
 		} else if(e.getSource() == this.rotateRight){
 			controller.rotateCardRight();
 		} else if(e.getSource() == this.rotateLeft){

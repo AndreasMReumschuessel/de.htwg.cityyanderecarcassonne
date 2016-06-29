@@ -84,13 +84,17 @@ public class PlayerPanel extends JPanel implements IObserver {
 	
 	@Override
 	public void update(Event e) {
-		System.out.println(controller.getStatus());
-		if(controller.getStatus().equals(GameStatus.PLAYER_CHANGED)) {
+		
+		GameStatus status = controller.getStatus();
+		
+		if(status.equals(GameStatus.PLAYER_CHANGED)) {
 			if(controller.getCurrentPlayer().toString().equals(name)) {
 				this.setBorder(redline);
 			} else {
 				this.setBorder(normalline);
 			}
+		} else if(status.equals(GameStatus.ROUND_START) || status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
+			playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
 		}
 	}
 }
