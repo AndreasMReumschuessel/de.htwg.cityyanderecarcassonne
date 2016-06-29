@@ -109,11 +109,9 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 			if(controller.getStatus().equals(GameStatus.ROUND_START)) {
 				image = tv.possTownsquareVisual(controller.getCardPossibilitiesMap(controller.cardOnHand()));
 				label.setIcon(new ImageIcon(image));
-				jSlider.setValue(0);
 			} else if(controller.getStatus().equals(GameStatus.CARD_SET_SUCCESS)) {
 				image = tv.meepleTownsquareVisual(controller.cardOnHand(), controller.getRegionPossibilitiesMap(controller.cardOnHand()));
 				label.setIcon(new ImageIcon(image));
-				jSlider.setValue(0);
 			}
 		}
 	}

@@ -5,17 +5,25 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.util.observer.Event;
+import de.htwg.util.observer.IObserver;
 
-public class TeammatesPanel extends JPanel implements ActionListener {
+public class TeammatesPanel extends JPanel implements ActionListener, IObserver {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	Queue<Color> meepleColor;
@@ -30,6 +38,7 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 	public TeammatesPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
+		
 		insertColors();
 		playerCount = 0;
 		
@@ -84,6 +93,11 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 			this.addPlayer();
 		}
 		
+	}
+
+	@Override
+	public void update(Event e) {
+
 	}
 }
 
