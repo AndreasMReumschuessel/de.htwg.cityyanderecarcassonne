@@ -104,13 +104,37 @@ public class CardPrinterGUI {
 	}
 
 	private static void checkTop(ICard card, Graphics2D g2, int pSize) {
-		// TODO Auto-generated method stub
+		if (card.getTopLeft().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getTopLeft().getPlayer()));
+			g2.fillOval(30, 5, pSize, pSize);
+		}
 		
+		if (card.getTopMiddle().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getTopMiddle().getPlayer()));
+			g2.fillOval(90, 5, pSize, pSize);
+		}
+		
+		if (card.getTopRight().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getTopRight().getPlayer()));
+			g2.fillOval(150, 5, pSize, pSize);
+		}
 	}
 
 	private static void checkRight(ICard card, Graphics2D g2, int pSize) {
-		// TODO Auto-generated method stub
+		if (card.getRightTop().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getRightTop().getPlayer()));
+			g2.fillOval(175, 30, pSize, pSize);
+		}
 		
+		if (card.getRightMiddle().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getRightMiddle().getPlayer()));
+			g2.fillOval(175, 90, pSize, pSize);
+		}
+		
+		if (card.getRightBelow().getPlayer() != null) {
+			g2.setPaint(calcColor(card.getRightBelow().getPlayer()));
+			g2.fillOval(175, 150, pSize, pSize);
+		}
 	}
 	
 	private static Paint calcColor(Player player) {
