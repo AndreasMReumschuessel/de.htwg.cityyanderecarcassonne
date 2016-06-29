@@ -48,5 +48,4 @@ public class TextUITest {
 		tui.printTUI();
 		assertTrue(true);
 	}
-
 }
