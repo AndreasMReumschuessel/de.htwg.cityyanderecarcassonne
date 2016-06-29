@@ -48,7 +48,7 @@ public class CardPrinterTest {
 						"#L         B #\n" +
 						"#S    CG   B #\n" +
 						"#L         B #\n" +
-						"#  LA S  LA  #\n" +
+						"#  LA S  L   #\n" +
 						" ############ \n";
 		
 		assertEquals(card1r, card1);
