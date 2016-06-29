@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -53,7 +54,7 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 		label = new JLabel();
         label.setHorizontalAlignment(JLabel.CENTER);
 		
-        JScrollPane scrollPane = new JScrollPane(label);
+        scrollPane = new JScrollPane(label);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(DimX,DimY - 50));
@@ -68,7 +69,11 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 	@Override
 	public void stateChanged(ChangeEvent e) {
         int value = ((JSlider)e.getSource()).getValue();
-        double scale = value/100.0;
+        rescaleStateChanged(value);
+	}
+	
+	private void rescaleStateChanged(int value) {
+		double scale = value/100.0;
         BufferedImage scaled = getScaledImage(scale);
         label.setIcon(new ImageIcon(scaled));
         label.revalidate();
@@ -103,16 +108,27 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 		if(controller.getStatus().equals(GameStatus.CREATE)){
 			tv = new TownsquareVisual(controller.getTownsquare());
 			image = tv.normalTownsquareVisual();
-			label.setIcon(new ImageIcon(image));
-			jSlider.setValue(0);
+			autoSizeView();
 		} else if(!controller.getStatus().equals(GameStatus.WELCOME)) {
 			if(controller.getStatus().equals(GameStatus.ROUND_START)) {
 				image = tv.possTownsquareVisual(controller.getCardPossibilitiesMap(controller.cardOnHand()));
-				label.setIcon(new ImageIcon(image));
+				autoSizeView();
 			} else if(controller.getStatus().equals(GameStatus.CARD_SET_SUCCESS)) {
 				image = tv.meepleTownsquareVisual(controller.cardOnHand(), controller.getRegionPossibilitiesMap(controller.cardOnHand()));
-				label.setIcon(new ImageIcon(image));
+				autoSizeView();
 			}
 		}
+	}
+	
+	private void autoSizeView() {
+		label.setIcon(new ImageIcon(image));
+		int zoom = 200;
+		jSlider.setValue(zoom);
+		rescaleStateChanged(zoom);
+		scrollPane.setAutoscrolls(true);
+		//scrollPane.getVerticalScrollBar().setValue((scrollPane.getVerticalScrollBar().getVisibleAmount() / 2) + (image.getHeight() / 2));
+		//Rectangle r = new Rectangle(4000, 4000, 2000, 2000);
+		//scrollPane.scrollRectToVisible(r);
+		System.out.println(scrollPane.getVerticalScrollBar().getValue() + scrollPane.getVerticalScrollBar().getVisibleAmount());
 	}
 }
