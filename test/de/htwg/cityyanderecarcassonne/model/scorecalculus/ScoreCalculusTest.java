@@ -141,7 +141,7 @@ public class ScoreCalculusTest {
 	public final void refreshScoreRunningGameTest() {
 		IScoreCalculus sc = new CalculusRunningGame(ts);
 		sc.refreshScore();
-		//assertEquals(17, pa.getScore());
+		assertEquals(17, pa.getScore());
 		assertEquals(15, pb.getScore());
 		assertEquals(11, pc.getScore());
 		assertEquals(0, pd.getScore());

@@ -219,7 +219,7 @@ public class CardPrinterGUI {
 		return img;
 	}
 	
-	private static BufferedImage scaleImage(BufferedImage img, int targetSize) {
+	public static BufferedImage scaleImage(BufferedImage img, int targetSize) {
 		double scaleFactor = (double) targetSize / img.getHeight();
 		
 		AffineTransform at = new AffineTransform();
