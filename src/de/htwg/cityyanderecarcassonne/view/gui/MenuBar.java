@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 
 public class MenuBar extends JMenuBar implements ActionListener {
@@ -101,12 +102,23 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		Object source = e.getSource();
+		GameStatus status = controller.getStatus();
 		
 		if(source == this.close){
 			System.exit(0);
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());
+		} else if(source.equals(newGame))	{
+			controller.create();
+		}
+		
+		if(status == GameStatus.ROUND_START || status == GameStatus.CARD_ROTATED || status == GameStatus.CARD_SET_FAIL){
+			if(source.equals(rotateLeftItem))	{
+				controller.rotateCardLeft();
+			} else if(source.equals(rotateRightItem))	{
+				controller.rotateCardRight();
+			}
 		}
 	}
 }

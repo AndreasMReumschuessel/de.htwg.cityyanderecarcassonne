@@ -40,6 +40,8 @@ public class TownsquareVisual {
         	 ex.printStackTrace();
          }
         
+        image = CardPrinterGUI.scaleImage(image, dimX * 200);
+        
         g = imageTS.createGraphics();
         g.drawImage(image, 0, 0, null);
 	}
