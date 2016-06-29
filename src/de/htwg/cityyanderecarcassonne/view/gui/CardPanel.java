@@ -40,9 +40,10 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		card.setVisible(true);
 		card.setOpaque(true);
 		
-		finishRound = new JButton("Next Round");
+		finishRound = new JButton("Start Round");
 		finishRound.setPreferredSize(new Dimension(250, 50));
 		finishRound.addActionListener(this);
+		finishRound.setEnabled(false);
 		
 		rotateLeft = new JButton("Rotate Left");
 		rotateLeft.setPreferredSize(new Dimension(125, 50));
@@ -65,7 +66,7 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		cardLayout.putConstraint(SpringLayout.WEST, rotateRight, 125, SpringLayout.WEST, contentPane);
 		cardLayout.putConstraint(SpringLayout.NORTH, rotateRight, 300, SpringLayout.NORTH, contentPane);
 		this.setLayout(cardLayout);
-	    contentPane.revalidate();
+	    validate();
 	    
 		this.add(card);
 		this.add(finishRound);
@@ -82,15 +83,15 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		
 		GameStatus status = controller.getStatus();
 		
-		if(e.getSource() == this.finishRound)	{
+		if(e.getSource() == this.finishRound) {
 			if(status.equals(GameStatus.CREATE)) {
 				controller.startRound();
-			} else  {
+			} else {
 				controller.finishRound();
 			}
-		} else if(e.getSource() == this.rotateRight){
+		} else if(e.getSource() == this.rotateRight) {
 			controller.rotateCardRight();
-		} else if(e.getSource() == this.rotateLeft){
+		} else if(e.getSource() == this.rotateLeft) {
 			controller.rotateCardLeft();
 		}
 	}
@@ -98,8 +99,24 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 	@Override
 	public void update(Event e) {
 		ICard currentCard = controller.cardOnHand();
-		if(currentCard != null)	{
+		GameStatus status = controller.getStatus();
+		
+		if(currentCard != null) {
 			card.setIcon(new ImageIcon(CardPrinterGUI.printCard(currentCard)));
 		}
+		
+		System.out.println(status);
+		
+		if(status.equals(GameStatus.CREATE)) {
+			finishRound.setText("Start round");
+			finishRound.setEnabled(true);
+		} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {
+			finishRound.setText("Finish round");
+			finishRound.setEnabled(true);
+		} else if(status.equals(GameStatus.FINISH)) {
+			finishRound.setText("Game finished!");
+			finishRound.setEnabled(false);
+		}
+	    validate();
 	}	
 }

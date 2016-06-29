@@ -93,7 +93,7 @@ public class PlayerPanel extends JPanel implements IObserver {
 			} else {
 				this.setBorder(normalline);
 			}
-		} else if(status.equals(GameStatus.ROUND_START) || status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
+		} else if(status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
 			playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
 		}
 	}
