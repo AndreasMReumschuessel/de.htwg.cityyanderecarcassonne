@@ -36,8 +36,8 @@ public class YanderePanel extends JPanel implements IObserver {
 		scrollPane.setPreferredSize(new Dimension(250,150));
 		
 		yandereLayout = new SpringLayout();
-		yandereLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, contentPane);
-		yandereLayout.putConstraint(SpringLayout.NORTH, textArea, 50, SpringLayout.NORTH, contentPane);
+		yandereLayout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, contentPane);
+		yandereLayout.putConstraint(SpringLayout.NORTH, scrollPane, 50, SpringLayout.NORTH, contentPane);
 		this.setLayout(yandereLayout);
 	    contentPane.revalidate();
 	    
