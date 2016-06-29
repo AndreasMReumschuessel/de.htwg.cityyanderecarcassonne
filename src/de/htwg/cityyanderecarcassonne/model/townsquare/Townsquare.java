@@ -164,6 +164,62 @@ public class Townsquare implements ITownsquare {
 	public String toString() {
 		return "Townsquare, Dim(X|Y): (" + dimX + "|" + dimY + "), Size: " + size;
 	}
+	
+	@Override
+	public int getXMin() {
+		int min = dimX;
+		for (int y = 0; y < dimY; y++) {
+			for (int x = 0; x < dimX; x++) {
+				if (getCard(x, y) != null)
+					min = Math.min(min, x);
+			}
+		}
+		if (min - 1 < 0)
+			return 0;
+		else
+			return min - 1;
+	}
+	
+	@Override
+	public int getXMax() {
+		int max = 0;
+		for (int y = 0; y < dimY; y++) {
+			for (int x = 0; x < dimX; x++) {
+				if (getCard(x, y) != null)
+					max = Math.max(max, x);
+			}
+		}
+		if (max + 1 >= dimX)
+			return max;
+		return max + 1;
+	}
+	
+	@Override
+	public int getYMin() {
+		for (int y = 0; y < dimY; y++) {
+			for (int x = 0; x < dimX; x++) {
+				if (getCard(x, y) != null && y - 1 >= 0)
+					return y - 1;
+				else if (getCard(x, y) != null && y - 1 < 0)
+					return 0;
+			}
+		}
+		return 0;
+	}
+	
+	@Override
+	public int getYMax() {
+		int max = 0;
+		for (int y = 0; y < dimY; y++) {
+			for (int x = 0; x < dimX; x++) {
+				if (getCard(x, y) != null)
+					max = Math.max(max, y);
+			}
+		}
+		if (max + 1 >= dimX)
+			return max;
+		return max + 1;
+	}
 
 	@Override
 	public boolean placeMeepleOnRegion(Player player, IRegion region) {

@@ -18,5 +18,13 @@ public interface ITownsquare {
 	
 	public int getDimY();
 	
+	int getXMin();
+
+	int getXMax();
+
+	int getYMin();
+
+	int getYMax();
+	
 	public boolean placeMeepleOnRegion(Player player, IRegion region);
 }

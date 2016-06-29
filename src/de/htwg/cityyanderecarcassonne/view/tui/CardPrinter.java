@@ -24,7 +24,7 @@ public class CardPrinter {
 		sb.append(lrBorder).append(regionToChar(card.getLeftTop()) + "        " + regionToChar(card.getRightTop())).append(lrBorder).append('\n');
 		sb.append(lrBorder).append(regionToChar(card.getLeftMiddle()) + "   " + regionToChar(card.getCenterMiddle()) + "   " + regionToChar(card.getRightMiddle())).append(lrBorder).append('\n');
 		sb.append(lrBorder).append(regionToChar(card.getLeftBelow()) + "        " + regionToChar(card.getRightBelow())).append(lrBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToChar(card.getBelowLeft()) + " " + regionToChar(card.getBelowMiddle()) + " " + regionToChar(card.getBelowLeft()) + "  ").append(lrBorder).append('\n');		
+		sb.append(lrBorder).append("  " + regionToChar(card.getBelowLeft()) + " " + regionToChar(card.getBelowMiddle()) + " " + regionToChar(card.getBelowRight()) + "  ").append(lrBorder).append('\n');		
 		sb.append(tbBorder).append('\n');
 		
 		return sb.toString();
@@ -54,7 +54,7 @@ public class CardPrinter {
 		sb.append(lrBorder).append(regionToCharPoss(card.getLeftTop(), possList) + "        " + regionToCharPoss(card.getRightTop(), possList)).append(lrBorder).append('\n');
 		sb.append(lrBorder).append(regionToCharPoss(card.getLeftMiddle(), possList) + "   " + regionToCharPoss(card.getCenterMiddle(), possList) + "   " + regionToCharPoss(card.getRightMiddle(), possList)).append(lrBorder).append('\n');
 		sb.append(lrBorder).append(regionToCharPoss(card.getLeftBelow(), possList) + "        " + regionToCharPoss(card.getRightBelow(), possList)).append(lrBorder).append('\n');
-		sb.append(lrBorder).append("  " + regionToCharPoss(card.getBelowLeft(), possList) + " " + regionToCharPoss(card.getBelowMiddle(), possList) + " " + regionToCharPoss(card.getBelowLeft(), possList) + "  ").append(lrBorder).append('\n');		
+		sb.append(lrBorder).append("  " + regionToCharPoss(card.getBelowLeft(), possList) + " " + regionToCharPoss(card.getBelowMiddle(), possList) + " " + regionToCharPoss(card.getBelowRight(), possList) + "  ").append(lrBorder).append('\n');		
 		sb.append(tbBorder).append('\n');
 		
 		return sb.toString();

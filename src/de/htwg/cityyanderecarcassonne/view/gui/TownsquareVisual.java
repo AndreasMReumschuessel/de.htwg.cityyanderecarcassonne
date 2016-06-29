@@ -49,10 +49,10 @@ public class TownsquareVisual {
 	public BufferedImage normalTownsquareVisual() {
 		backgroundImageVisual();
 		
-		int xMin = getXMin();
-		int xMax = getXMax();
-		int yMin = getYMin();
-		int yMax = getYMax();
+		int xMin = ts.getXMin();
+		int xMax = ts.getXMax();
+		int yMin = ts.getYMin();
+		int yMax = ts.getYMax();
 		
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -77,10 +77,10 @@ public class TownsquareVisual {
 	
 	public BufferedImage possTownsquareVisual(Map<Position, String> possibilities)	{
 		backgroundImageVisual();
-	int xMin = getXMin();
-	int xMax = getXMax();
-	int yMin = getYMin();
-	int yMax = getYMax();
+	int xMin = ts.getXMin();
+	int xMax = ts.getXMax();
+	int yMin = ts.getYMin();
+	int yMax = ts.getYMax();
 	
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -108,10 +108,10 @@ public class TownsquareVisual {
 		
 	public BufferedImage meepleTownsquareVisual(ICard card, Map<IRegion, String> possList)	{
 		backgroundImageVisual();
-		int xMin = getXMin();
-		int xMax = getXMax();
-		int yMin = getYMin();
-		int yMax = getYMax();
+		int xMin = ts.getXMin();
+		int xMax = ts.getXMax();
+		int yMin = ts.getYMin();
+		int yMax = ts.getYMax();
 		
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -135,57 +135,5 @@ public class TownsquareVisual {
 				this.performNormalVisual(pos.getX(), pos.getY(), cx);
 			}
 		}
-	}
-	
-	private int getXMin() {
-		int min = dimX;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					min = Math.min(min, x);
-			}
-		}
-		if (min - 1 < 0)
-			return 0;
-		else
-			return min - 1;
-	}
-	
-	private int getXMax() {
-		int max = 0;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					max = Math.max(max, x);
-			}
-		}
-		if (max + 1 >= dimX)
-			return max;
-		return max + 1;
-	}
-	
-	private int getYMin() {
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null && y - 1 >= 0)
-					return y - 1;
-				else if (ts.getCard(x, y) != null && y - 1 < 0)
-					return 0;
-			}
-		}
-		return 0;
-	}
-	
-	private int getYMax() {
-		int max = 0;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					max = Math.max(max, y);
-			}
-		}
-		if (max + 1 >= dimX)
-			return max;
-		return max + 1;
 	}
 }

@@ -9,22 +9,18 @@ import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 public final class TownsquarePrinter {
 	
 	private Townsquare ts;
-	private int dimX;
-	private int dimY;
 	
 	public TownsquarePrinter(Townsquare ts) {
 		this.ts = ts;
-		this.dimX = ts.getDimX();
-		this.dimY = ts.getDimY();
 	}
 	
 	public String printNormalTownsquare() {
 		StringBuilder sb = new StringBuilder();
 		
-		int xMin = getXMin();
-		int xMax = getXMax();
-		int yMin = getYMin();
-		int yMax = getYMax();
+		int xMin = ts.getXMin();
+		int xMax = ts.getXMax();
+		int yMin = ts.getYMin();
+		int yMax = ts.getYMax();
 		
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -48,10 +44,10 @@ public final class TownsquarePrinter {
 	public String printCardPossibilitiesTownsquare(Map<Position, String> possibilities) {
 		StringBuilder sb = new StringBuilder();
 		
-		int xMin = getXMin();
-		int xMax = getXMax();
-		int yMin = getYMin();
-		int yMax = getYMax();
+		int xMin = ts.getXMin();
+		int xMax = ts.getXMax();
+		int yMin = ts.getYMin();
+		int yMax = ts.getYMax();
 		
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -80,10 +76,10 @@ public final class TownsquarePrinter {
 	public String printMeeplePossibilitiesTownsquare(ICard card, Map<IRegion, String> possList) {
 		StringBuilder sb = new StringBuilder();
 		
-		int xMin = getXMin();
-		int xMax = getXMax();
-		int yMin = getYMin();
-		int yMax = getYMax();
+		int xMin = ts.getXMin();
+		int xMax = ts.getXMax();
+		int yMin = ts.getYMin();
+		int yMax = ts.getYMax();
 		
 		for (int y = yMin; y < yMax + 1; y++) {
 			for (int l = 0; l < 7; l++) {
@@ -110,58 +106,6 @@ public final class TownsquarePrinter {
 	private String mlToSl(int ln, String multi) {
 		String[] sl = multi.split("\n");
 		return sl[ln];
-	}
-	
-	private int getXMin() {
-		int min = dimX;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					min = Math.min(min, x);
-			}
-		}
-		if (min - 1 < 0)
-			return 0;
-		else
-			return min - 1;
-	}
-	
-	private int getXMax() {
-		int max = 0;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					max = Math.max(max, x);
-			}
-		}
-		if (max + 1 >= dimX)
-			return max;
-		return max + 1;
-	}
-	
-	private int getYMin() {
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null && y - 1 >= 0)
-					return y - 1;
-				else if (ts.getCard(x, y) != null && y - 1 < 0)
-					return 0;
-			}
-		}
-		return 0;
-	}
-	
-	private int getYMax() {
-		int max = 0;
-		for (int y = 0; y < dimY; y++) {
-			for (int x = 0; x < dimX; x++) {
-				if (ts.getCard(x, y) != null)
-					max = Math.max(max, y);
-			}
-		}
-		if (max + 1 >= dimX)
-			return max;
-		return max + 1;
 	}
 	
 	private String pseudoCard(String identifier) {
