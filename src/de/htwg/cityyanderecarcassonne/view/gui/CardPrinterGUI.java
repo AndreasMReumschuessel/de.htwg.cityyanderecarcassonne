@@ -32,7 +32,7 @@ public class CardPrinterGUI {
 	
 	public static BufferedImage printCard(ICard card) {
 		BufferedImage cardImg = null;
-		//Color playerColor = new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
+
 		try {
 			cardImg = ImageIO.read(new File("./data/" + card.getClass().getSimpleName() + ".png"));
 			cardImg = rotateImage(cardImg, card.getOrientation());
@@ -45,7 +45,6 @@ public class CardPrinterGUI {
 	        BufferedImage tmpImg = new BufferedImage(w, h, type);
 	        Graphics2D g2 = tmpImg.createGraphics();
 	        g2.drawImage(cardImg, 0, 0, null);
-	        g2.setPaint(Color.YELLOW);
 	        
 	        checkLeft(card, g2, pSize);
 	        checkBelow(card, g2, pSize);
@@ -233,17 +232,19 @@ public class CardPrinterGUI {
 	}
 
 	private static BufferedImage rotateImage(BufferedImage img, int degree) {
+		BufferedImage resultImg = null;
 		double radiant = degree * Math.PI / 180;
 		AffineTransform at = new AffineTransform();
 		
-		at.rotate(radiant, img.getWidth() / 2, img.getHeight() / 2);
+		at.rotate(radiant, (double) img.getWidth() / 2, (double) img.getHeight() / 2);
 		
 		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-	    img = op.filter(img, null);
-		return img;
+		resultImg = op.filter(img, null);
+		return resultImg;
 	}
 	
 	public static BufferedImage scaleImage(BufferedImage img, int targetSize) {
+		BufferedImage resultImg = null;
 		double scaleFactor = (double) targetSize / img.getHeight();
 		
 		AffineTransform at = new AffineTransform();
@@ -251,8 +252,8 @@ public class CardPrinterGUI {
 		at.scale(scaleFactor, scaleFactor);
 		
 		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-	    img = op.filter(img, null);
-		return img;
+		resultImg = op.filter(img, null);
+		return resultImg;
 	}
 
 }

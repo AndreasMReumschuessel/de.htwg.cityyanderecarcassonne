@@ -5,9 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,17 +22,19 @@ import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 public class MenuBar extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
+	private JFrame frame;
 	
-    JMenu menu;
-    JMenuItem newGame;
-    JMenuItem info;
-    JMenuItem close;
-    JMenuItem finishRoundItem;
-    JMenuItem rotateLeftItem;
-    JMenuItem rotateRightItem;
+	private JMenu menu;
+	private JMenuItem newGame;
+	private JMenuItem info;
+	private JMenuItem close;
+	private JMenuItem finishRoundItem;
+	private JMenuItem rotateLeftItem;
+	private JMenuItem rotateRightItem;
 	
-	public MenuBar(ICarcassonneController controller)	{
+	public MenuBar(ICarcassonneController controller, JFrame frame)	{
 		this.controller = controller;
+		this.frame = frame;
 		
 		this.setOpaque(true);
 		this.setBackground(Color.GRAY);
@@ -87,12 +90,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
     public String infoPrint()	{
     	StringBuilder sb = new StringBuilder();
     	
-    	sb.append("Yandere City Carcassonne!\n")
-    	.append("Info...\n")
+    	sb.append("City Yandere Carcassonne!\n")
+    	.append("Created in 2016\n")
        	.append("Info...\n")
     	.append("Info...\n\n")
-    	.append("Developer\n ")
-    	.append("Andreas M. Reumschüssel\n")
+    	.append("Developers:\n")
+    	.append("Andreas M. Reumschuessel\n")
     	.append("Henning Krause");
     	
     	return sb.toString();
@@ -105,7 +108,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		GameStatus status = controller.getStatus();
 		
 		if(source == this.close){
-			System.exit(0);
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		} else if(source == this.info)	{
 			UIManager.put("OptionPane.minimumSize",new Dimension(500,250)); 
 			JOptionPane.showMessageDialog(this,this.infoPrint());

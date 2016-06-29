@@ -2,39 +2,30 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
-import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
-import de.htwg.util.observer.Event;
-import de.htwg.util.observer.IObserver;
 
-public class GraphicalUI extends JFrame implements ActionListener, IObserver {
+public class GraphicalUI extends JFrame {
 
-	private ICarcassonneController controller;
 	private static final long serialVersionUID = 1L;
 	
-	Container contentPane;
-	JPanel rightPanel;
-	JPanel gamePanel;
-    SpringLayout mainLayout;
-	JMenuBar menuBar;
+	private Container contentPane;
+	private JPanel rightPanel;
+	private JPanel gamePanel;
+	private SpringLayout mainLayout;
+	private JMenuBar menuBar;
 	
 	public GraphicalUI(ICarcassonneController controller)	{
-		this.controller = controller;
 		contentPane = this.getContentPane();
 		
-		menuBar = new MenuBar(this.controller);
-		rightPanel = new RightPanel(this.controller, this.contentPane);	
-		gamePanel = new GamePanel(this.controller, this.contentPane);
+		menuBar = new MenuBar(controller, this);
+		rightPanel = new RightPanel(controller, this.contentPane);	
+		gamePanel = new GamePanel(controller, this.contentPane);
 		
 	    mainLayout = new SpringLayout();    
 	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1250, SpringLayout.WEST, contentPane);
@@ -56,31 +47,4 @@ public class GraphicalUI extends JFrame implements ActionListener, IObserver {
 	    this.setResizable(false);
 	    this.setVisible(true);
 	}
-
-	@Override
-	public void update(Event e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public static void main(String[] args) throws IOException	{
-		CarcassonneController controller = new CarcassonneController(150, 150);
-		new GraphicalUI(controller);
-	}
-	
 }
-
-
-
-
-
-
-
-
-

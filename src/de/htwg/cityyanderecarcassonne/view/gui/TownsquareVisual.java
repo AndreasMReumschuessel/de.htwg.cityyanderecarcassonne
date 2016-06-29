@@ -188,9 +188,4 @@ public class TownsquareVisual {
 			return max;
 		return max + 1;
 	}
-	
-	private BufferedImage graphicsToImage(Graphics2D graphic) {
-		return null;
-	}
-	
 }

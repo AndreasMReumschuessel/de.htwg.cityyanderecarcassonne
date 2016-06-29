@@ -5,35 +5,27 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import javax.swing.border.Border;
 
-import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.util.observer.Event;
-import de.htwg.util.observer.IObserver;
 
-public class TeammatesPanel extends JPanel implements ActionListener, IObserver {
+public class TeammatesPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
-	Queue<Color> meepleColor;
+	private Queue<Color> meepleColor;
 	
-	Container contentPane;
-	SpringLayout teammatesLayout;
-	JPanel playerPanel;
-	JButton addPlayer;
-	int y = 0;
-	int playerCount;
+	private Container contentPane;
+	private SpringLayout teammatesLayout;
+	private JPanel playerPanel;
+	private JButton addPlayer;
+	private int y = 0;
+	private int playerCount;
 
 	public TeammatesPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
@@ -72,7 +64,7 @@ public class TeammatesPanel extends JPanel implements ActionListener, IObserver 
 			
 			String name = JOptionPane.showInputDialog(this, "What's your name?");
 			Color playerColor = new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
-			playerPanel = new PlayerPanel(this.controller, contentPane, playerColor /*meepleColor.poll()*/, name);
+			playerPanel = new PlayerPanel(controller, contentPane, playerColor /*meepleColor.poll()*/, name);
 			controller.addPlayer(name);
 			
 			teammatesLayout.putConstraint(SpringLayout.WEST, playerPanel, 0, SpringLayout.WEST, contentPane);
@@ -81,23 +73,18 @@ public class TeammatesPanel extends JPanel implements ActionListener, IObserver 
 			y = y + 60;
 			playerCount++;
 			
-		    this.add(playerPanel);
-			this.setLayout(teammatesLayout);
+		    add(playerPanel);
+			setLayout(teammatesLayout);
 		    contentPane.revalidate();
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == this.addPlayer)	{
-			this.addPlayer();
+		if(e.getSource() == addPlayer)	{
+			addPlayer();
 		}
 		
-	}
-
-	@Override
-	public void update(Event e) {
-
 	}
 }
 

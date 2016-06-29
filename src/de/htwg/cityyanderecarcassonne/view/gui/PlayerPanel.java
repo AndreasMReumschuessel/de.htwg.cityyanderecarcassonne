@@ -21,27 +21,27 @@ public class PlayerPanel extends JPanel implements IObserver {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
-	Container contentPane;
-	SpringLayout playerLayout;
-	JLabel meepleCount;
-	JLabel playerName;
-	JLabel playerScore;
-	Border redline;
-	Border normalline;
-	String name;
+	private SpringLayout playerLayout;
+	private JLabel meepleCount;
+	private JLabel playerName;
+	private JLabel playerScore;
+	private Border redline;
+	private Border normalline;
+	private String name;
 
 	public PlayerPanel(ICarcassonneController controller, Container contentPane, Color color, String name) {
 		this.controller = controller;
-		this.contentPane = contentPane;
 		controller.addObserver(this);
 		this.name = name;
+		
+		Font font = new Font("Arial", Font.PLAIN, 20);
 		
 		redline = BorderFactory.createLineBorder(Color.RED, 5);
 		normalline = BorderFactory.createLineBorder(color, 5);
 		
 	    meepleCount = new JLabel();
 	    meepleCount.setText("0");
-	    meepleCount.setFont(new Font("Arial", Font.PLAIN, 25));
+	    meepleCount.setFont(font);
 	    meepleCount.setPreferredSize(new Dimension(40, 40));
 	    meepleCount.setBackground(Color.WHITE);
 	    meepleCount.setOpaque(true);
@@ -49,7 +49,7 @@ public class PlayerPanel extends JPanel implements IObserver {
 	    
 	    playerName = new JLabel();
 	    playerName.setText(name);
-	    playerName.setFont(new Font("Arial", Font.PLAIN, 20));
+	    playerName.setFont(font);
 	    playerName.setPreferredSize(new Dimension(130, 40));
 	    playerName.setBackground(Color.GRAY.brighter());
 	    playerName.setOpaque(true);
@@ -57,7 +57,7 @@ public class PlayerPanel extends JPanel implements IObserver {
 	    
 	    playerScore = new JLabel();
 	    playerScore.setText("0");
-	    playerScore.setFont(new Font("Arial", Font.PLAIN, 25));
+	    playerScore.setFont(font);
 	    playerScore.setPreferredSize(new Dimension(40, 40));
 	    playerScore.setBackground(Color.WHITE);
 	    playerScore.setOpaque(true);

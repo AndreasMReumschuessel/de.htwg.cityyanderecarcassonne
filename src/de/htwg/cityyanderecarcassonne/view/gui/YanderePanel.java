@@ -19,13 +19,11 @@ public class YanderePanel extends JPanel implements IObserver {
 	private ICarcassonneController controller;
 	private StatusMessage sm;
 	
-	Container contentPane;
-	SpringLayout yandereLayout;
-	JTextArea textArea;
+	private SpringLayout yandereLayout;
+	private JTextArea textArea;
 	
 	public YanderePanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
-		this.contentPane = contentPane;
 		this.sm = new StatusMessage();
 		controller.addObserver(this);
 		

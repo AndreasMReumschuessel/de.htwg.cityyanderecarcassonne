@@ -22,16 +22,14 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
-	Container contentPane;
-	JLabel card;
-	JButton finishRound;
-	JButton rotateLeft;
-	JButton rotateRight;
-	SpringLayout cardLayout;
+	private JLabel card;
+	private JButton finishRound;
+	private JButton rotateLeft;
+	private JButton rotateRight;
+	private SpringLayout cardLayout;
 	
 	public CardPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
-		this.contentPane = contentPane;
 		controller.addObserver(this);
 
 		card = new JLabel();
@@ -104,8 +102,6 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		if(currentCard != null) {
 			card.setIcon(new ImageIcon(CardPrinterGUI.printCard(currentCard)));
 		}
-		
-		System.out.println(status);
 		
 		if(status.equals(GameStatus.CREATE)) {
 			finishRound.setText("Start round");
