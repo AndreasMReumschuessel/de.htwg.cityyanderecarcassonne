@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 
@@ -26,6 +28,7 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 	private JButton addPlayer;
 	private int y = 0;
 	private int playerCount;
+	private Border blackline;
 
 	public TeammatesPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
@@ -33,6 +36,7 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 		
 		insertColors();
 		playerCount = 0;
+		blackline = BorderFactory.createLineBorder(Color.BLACK, 1);
 		
 		addPlayer = new JButton("Add Player");
 		addPlayer.setSize(150, 50);
@@ -44,9 +48,10 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 		
 		this.setLayout(teammatesLayout);
 		
+		this.setBorder(blackline);
 		this.add(addPlayer);
 	    this.setPreferredSize(new Dimension(250,325));
-	    this.setBackground(Color.CYAN);
+	    this.setBackground(Color.GRAY);
 	    this.setVisible(true);
 	}
 	

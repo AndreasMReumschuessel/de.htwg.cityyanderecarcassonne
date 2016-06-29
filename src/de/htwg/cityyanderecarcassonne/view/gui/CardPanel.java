@@ -6,11 +6,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
@@ -27,6 +29,7 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 	private JButton rotateLeft;
 	private JButton rotateRight;
 	private SpringLayout cardLayout;
+	private Border blackline;
 	
 	public CardPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
@@ -34,11 +37,13 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 
 		card = new JLabel();
 		card.setPreferredSize(new Dimension(200, 200));
-		card.setBackground(Color.MAGENTA);
+		card.setBackground(Color.GRAY.brighter());
 		card.setVisible(true);
 		card.setOpaque(true);
+		blackline = BorderFactory.createLineBorder(Color.BLACK, 1);
+		card.setBorder(blackline);
 		
-		finishRound = new JButton("Start Round");
+		finishRound = new JButton("Start Game");
 		finishRound.setPreferredSize(new Dimension(250, 50));
 		finishRound.addActionListener(this);
 		finishRound.setEnabled(false);
@@ -72,7 +77,7 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		this.add(rotateRight);
 		
 	    this.setPreferredSize(new Dimension(250,350));
-	    this.setBackground(Color.ORANGE);
+	    this.setBackground(Color.GRAY);
 	    this.setVisible(true);
 	}
 
@@ -106,6 +111,9 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		if(status.equals(GameStatus.CREATE)) {
 			finishRound.setText("Start round");
 			finishRound.setEnabled(true);
+		} else if(status.equals(GameStatus.ROUND_START)) {
+			finishRound.setText("Place card");
+			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {
 			finishRound.setText("Finish round");
 			finishRound.setEnabled(true);
@@ -113,6 +121,6 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 			finishRound.setText("Game finished!");
 			finishRound.setEnabled(false);
 		}
-	    validate();
-	}	
+		validate();
+	}
 }

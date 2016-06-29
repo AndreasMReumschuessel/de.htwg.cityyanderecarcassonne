@@ -3,14 +3,17 @@ package de.htwg.cityyanderecarcassonne.view.gui;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -19,11 +22,10 @@ import javax.swing.event.ChangeListener;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
-import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
-public class GamePanel extends JPanel implements ChangeListener, IObserver {
+public class GamePanel extends JPanel implements ChangeListener, IObserver, MouseListener {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
@@ -63,6 +65,7 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 		jSlider = getSlider();
 		this.add(jSlider);
 		
+		scrollPane.addMouseListener(this);
 		validate();
 	}
 	
@@ -80,8 +83,15 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 	}
 	
     private BufferedImage getScaledImage(double scale) {
+    	
+    	System.out.println("Unskaled " + image.getWidth() + " , " + image.getWidth());
+    	
         int w = (int)(scale*image.getWidth());
         int h = (int)(scale*image.getHeight());
+        
+    	System.out.println("Skale " + scale + " , " + w + " , " + h);
+    	System.out.println();
+        
         BufferedImage bi = new BufferedImage(w, h, image.getType());
         Graphics2D g2 = bi.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
@@ -122,13 +132,71 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver {
 	
 	private void autoSizeView() {
 		label.setIcon(new ImageIcon(image));
-		int zoom = 200;
+		int zoom = 50;
 		jSlider.setValue(zoom);
 		rescaleStateChanged(zoom);
 		scrollPane.setAutoscrolls(true);
 		//scrollPane.getVerticalScrollBar().setValue((scrollPane.getVerticalScrollBar().getVisibleAmount() / 2) + (image.getHeight() / 2));
 		//Rectangle r = new Rectangle(4000, 4000, 2000, 2000);
 		//scrollPane.scrollRectToVisible(r);
-		System.out.println(scrollPane.getVerticalScrollBar().getValue() + scrollPane.getVerticalScrollBar().getVisibleAmount());
+		//System.out.println(scrollPane.getVerticalScrollBar().getValue() + scrollPane.getVerticalScrollBar().getVisibleAmount());
+	}
+	
+    public Point toImageContext(Point p) {
+        Point imgLocation = getImageLocation();
+        Point relative = new Point(p);
+        relative.x -= imgLocation.x;
+        relative.y -= imgLocation.y;  
+        return relative;
+    }
+    
+    protected Point getImageLocation() {
+        Point p = null;
+        if (image != null) {
+            int x = (getWidth() - image.getWidth()) / 2;
+            int y = (getHeight() - image.getHeight()) / 2;
+            p = new Point(x, y);
+        }
+        return p;
+    }
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+//		int x = (int) arg0.getPoint().getX();
+//		int y = (int) arg0.getPoint().getY();
+//		
+//		JOptionPane.showMessageDialog(this, x + " , " + y);
+		
+
+		
+//        Point panelPoint = arg0.getPoint();
+//        Point imgContext = this.toImageContext(panelPoint);
+//		
+//		JOptionPane.showMessageDialog(this,"Click at " + panelPoint + " which is relative to the image " + imgContext);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

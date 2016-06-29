@@ -42,7 +42,7 @@ public class YanderePanel extends JPanel implements IObserver {
 	    this.add(scrollPane);
 		
 	    this.setPreferredSize(new Dimension(250,350));
-	    this.setBackground(Color.PINK);
+	    this.setBackground(Color.GRAY);
 	    this.setVisible(true);
 	}
 
