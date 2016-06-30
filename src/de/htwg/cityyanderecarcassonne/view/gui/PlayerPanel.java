@@ -89,22 +89,24 @@ public class PlayerPanel extends JPanel implements IObserver {
 		
 		//Commit
 		
-		if(status.equals(GameStatus.PLAYER_CHANGED)) {
-			if(controller.getCurrentPlayer().toString().equals(name)) {
-				this.setBorder(redline);
-			} else {
-				this.setBorder(normalline);
-			}
-		}	
-		
-		if(status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
-			if(controller.getCurrentPlayer().toString().equals(name)) {
-				playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
-				meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
-			}
-		} else if(status.equals(GameStatus.MEEPLE_SET_SUCCESS) || status.equals(GameStatus.ROUND_END)) {
-			if(controller.getCurrentPlayer().toString().equals(name)) {
-				meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
+		if(controller.getCurrentPlayer() != null) {	
+			if(status.equals(GameStatus.PLAYER_CHANGED)) {
+				if(controller.getCurrentPlayer().toString().equals(name)) {
+					this.setBorder(redline);
+				} else {
+					this.setBorder(normalline);
+				}
+			}	
+			
+			if((status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH))) {
+				if(controller.getCurrentPlayer().toString().equals(name)) {
+					playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
+					meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
+				}
+			} else if(status.equals(GameStatus.MEEPLE_SET_SUCCESS) || status.equals(GameStatus.ROUND_END)) {
+				if(controller.getCurrentPlayer().toString().equals(name)) {
+					meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
+				}
 			}
 		}
 	}
