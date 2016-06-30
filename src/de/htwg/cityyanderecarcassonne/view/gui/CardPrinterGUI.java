@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -61,78 +62,65 @@ public class CardPrinterGUI {
 
 	private static void checkLeft(ICard card, Graphics2D g2, int pSize) {
 		if (card.getLeftTop().getPlayer() != null) {
-    		g2.setPaint(calcColor(card.getLeftTop().getPlayer()));
-			g2.fillOval(5, 30, pSize, pSize);
+    		drawMeeple(g2, 5, 30, pSize, (Color) calcColor(card.getLeftTop().getPlayer()));
 		}
     
 	    if (card.getLeftMiddle().getPlayer() != null) {
-	    	g2.setPaint(calcColor(card.getLeftMiddle().getPlayer()));
-	    	g2.fillOval(5, 90, pSize, pSize);
+	    	drawMeeple(g2, 5, 90, pSize, (Color) calcColor(card.getLeftMiddle().getPlayer()));
 	    }
 	    
 	    if (card.getLeftBelow().getPlayer() != null) {
-	    	g2.setPaint(calcColor(card.getLeftBelow().getPlayer()));
-	    	g2.fillOval(5, 150, pSize, pSize);
+	    	drawMeeple(g2, 5, 150, pSize, (Color) calcColor(card.getLeftBelow().getPlayer()));
 	    }
 	}
 
 	private static void checkBelow(ICard card, Graphics2D g2, int pSize) {
 		if (card.getBelowLeft().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getBelowLeft().getPlayer()));
-			g2.fillOval(30, 175, pSize, pSize);
+			drawMeeple(g2, 30, 175, pSize, (Color) calcColor(card.getBelowLeft().getPlayer()));
 		}
 		
 		if (card.getBelowMiddle().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getBelowMiddle().getPlayer()));
-			g2.fillOval(90, 175, pSize, pSize);
+			drawMeeple(g2, 90, 175, pSize, (Color) calcColor(card.getBelowMiddle().getPlayer()));
 		}
 		
 		if (card.getBelowRight().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getBelowRight().getPlayer()));
-			g2.fillOval(150, 175, pSize, pSize);
+			drawMeeple(g2, 150, 175, pSize, (Color) calcColor(card.getBelowRight().getPlayer()));
 		}
 		
 	}
 
 	private static void checkCenter(ICard card, Graphics2D g2, int pSize) {
 		if (card.getCenterMiddle().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getCenterMiddle().getPlayer()));
-			g2.fillOval(90, 90, pSize, pSize);
+			drawMeeple(g2, 90, 90, pSize, (Color) calcColor(card.getCenterMiddle().getPlayer()));
 		}
 		
 	}
 
 	private static void checkTop(ICard card, Graphics2D g2, int pSize) {
 		if (card.getTopLeft().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getTopLeft().getPlayer()));
-			g2.fillOval(30, 5, pSize, pSize);
+			drawMeeple(g2, 30, 5, pSize, (Color) calcColor(card.getTopLeft().getPlayer()));
 		}
 		
 		if (card.getTopMiddle().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getTopMiddle().getPlayer()));
-			g2.fillOval(90, 5, pSize, pSize);
+			drawMeeple(g2, 90, 5, pSize, (Color) calcColor(card.getTopMiddle().getPlayer()));
 		}
 		
 		if (card.getTopRight().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getTopRight().getPlayer()));
-			g2.fillOval(150, 5, pSize, pSize);
+			drawMeeple(g2, 150, 5, pSize, (Color) calcColor(card.getTopRight().getPlayer()));
 		}
 	}
 
 	private static void checkRight(ICard card, Graphics2D g2, int pSize) {
 		if (card.getRightTop().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getRightTop().getPlayer()));
-			g2.fillOval(175, 30, pSize, pSize);
+			drawMeeple(g2, 175, 30, pSize, (Color) calcColor(card.getRightTop().getPlayer()));
 		}
 		
 		if (card.getRightMiddle().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getRightMiddle().getPlayer()));
-			g2.fillOval(175, 90, pSize, pSize);
+			drawMeeple(g2, 175, 90, pSize, (Color) calcColor(card.getRightMiddle().getPlayer()));
 		}
 		
 		if (card.getRightBelow().getPlayer() != null) {
-			g2.setPaint(calcColor(card.getRightBelow().getPlayer()));
-			g2.fillOval(175, 150, pSize, pSize);
+			drawMeeple(g2, 175, 150, pSize, (Color) calcColor(card.getRightBelow().getPlayer()));
 		}
 	}
 	
@@ -155,13 +143,14 @@ public class CardPrinterGUI {
 	        BufferedImage tmpImg = new BufferedImage(w, h, type);
 	        Graphics2D g2 = tmpImg.createGraphics();
 	        g2.drawImage(cardImg, 0, 0, null);
-	        g2.setPaint(Color.YELLOW);
+	        Color color = Color.YELLOW;
+	        g2.setStroke(new BasicStroke(1));
 	        
-	        markLeft(card, possList, g2, pSize);
-	        markBelow(card, possList, g2, pSize);
-	        markCenter(card, possList, g2, pSize);
-	        markTop(card, possList, g2, pSize);
-	        markRight(card, possList, g2, pSize);
+	        markLeft(card, possList, g2, pSize, color);
+	        markBelow(card, possList, g2, pSize, color);
+	        markCenter(card, possList, g2, pSize, color);
+	        markTop(card, possList, g2, pSize, color);
+	        markRight(card, possList, g2, pSize, color);
 	        
 	        cardImg = tmpImg;
 	        
@@ -171,53 +160,60 @@ public class CardPrinterGUI {
 		return cardImg;
 	}
 
-	private static void markLeft(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {
+	private static void markLeft(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize, Color color) {
 		if (possList.containsKey(card.getLeftTop()))
-    		g2.fillOval(5, 30, pSize, pSize);
+			drawMeeple(g2, 5, 30, pSize, color);
     
 	    if (possList.containsKey(card.getLeftMiddle()))
-	    	g2.fillOval(5, 90, pSize, pSize);
+	    	drawMeeple(g2, 5, 90, pSize, color);
 	    
 	    if (possList.containsKey(card.getLeftBelow()))
-	    	g2.fillOval(5, 150, pSize, pSize);
+	    	drawMeeple(g2, 5, 150, pSize, color);
 	}
-	
-	private static void markBelow(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {
+
+	private static void markBelow(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize, Color color) {
 		if (possList.containsKey(card.getBelowLeft()))
-			g2.fillOval(30, 175, pSize, pSize);
+			drawMeeple(g2, 30, 175, pSize, color);
 		
 		if (possList.containsKey(card.getBelowMiddle()))
-			g2.fillOval(90, 175, pSize, pSize);
+			drawMeeple(g2, 90, 175, pSize, color);
 		
 		if (possList.containsKey(card.getBelowRight()))
-			g2.fillOval(150, 175, pSize, pSize);
+			drawMeeple(g2, 150, 175, pSize, color);
 	}
 
-	private static void markCenter(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {
+	private static void markCenter(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize, Color color) {
 		if (possList.containsKey(card.getCenterMiddle()))
-			g2.fillOval(90, 90, pSize, pSize);
+			drawMeeple(g2, 90, 90, pSize, color);
 	}
 
-	private static void markTop(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {
+	private static void markTop(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize, Color color) {
 		if (possList.containsKey(card.getTopLeft()))
-			g2.fillOval(30, 5, pSize, pSize);
+			drawMeeple(g2, 30, 5, pSize, color);
 		
 		if (possList.containsKey(card.getTopMiddle()))
-			g2.fillOval(90, 5, pSize, pSize);
+			drawMeeple(g2, 90, 5, pSize, color);
 		
 		if (possList.containsKey(card.getTopRight()))
-			g2.fillOval(150, 5, pSize, pSize);
+			drawMeeple(g2, 150, 5, pSize, color);
 	}
 
-	private static void markRight(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize) {
+	private static void markRight(ICard card, Map<IRegion, String> possList, Graphics2D g2, int pSize, Color color) {
 		if (possList.containsKey(card.getRightTop()))
-			g2.fillOval(175, 30, pSize, pSize);
+			drawMeeple(g2, 175, 30, pSize, color);
 		
 		if (possList.containsKey(card.getRightMiddle()))
-			g2.fillOval(175, 90, pSize, pSize);
+			drawMeeple(g2, 175, 90, pSize, color);
 		
 		if (possList.containsKey(card.getRightBelow()))
-			g2.fillOval(175, 150, pSize, pSize);
+			drawMeeple(g2, 175, 150, pSize, color);
+	}
+	
+	private static void drawMeeple(Graphics2D g2, int x, int y, int pSize, Color color) {
+		g2.setPaint(color);
+		g2.fillOval(x, y, pSize, pSize);
+		g2.setPaint(Color.BLACK);
+		g2.drawOval(x, y, pSize, pSize);
 	}
 	
 	public static BufferedImage pseudoCard() {
