@@ -3,13 +3,14 @@ package de.htwg.cityyanderecarcassonne;
 import java.io.IOException;
 import java.util.Scanner;
 
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
 import de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI;
 import de.htwg.cityyanderecarcassonne.view.tui.TextUI;
 
 public final class Carcassonne {
 	
-	private static CarcassonneController controller;
+	private static ICarcassonneController controller;
 	private static TextUI tui;
 	private static Scanner in;
 	

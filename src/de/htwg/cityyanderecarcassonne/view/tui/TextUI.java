@@ -1,7 +1,7 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
-import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.view.StatusMessage;
@@ -10,14 +10,14 @@ import de.htwg.util.observer.IObserver;
 
 public class TextUI implements IObserver {
 	
-	private CarcassonneController controller;
+	private ICarcassonneController controller;
 	private StatusMessage sm;
 	private TownsquarePrinter tsPrinter;
 	private ICard card;
 	
-	public TextUI (CarcassonneController controller) {
-		this.controller = controller;
-		controller.addObserver(this);
+	public TextUI (ICarcassonneController controller2) {
+		this.controller = controller2;
+		controller2.addObserver(this);
 		sm = new StatusMessage();
 	}
 
