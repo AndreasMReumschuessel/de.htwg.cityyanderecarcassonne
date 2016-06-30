@@ -154,8 +154,8 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 		Point panelPoint = arg0.getPoint();
         Point imgContext = imgPanel.toImageContext(panelPoint);
         
-        placeCardOnPosition(imgContext.getX(), imgContext.getY());
         placeMeepleOnPosition(imgContext.getX(), imgContext.getY());
+        placeCardOnPosition(imgContext.getX(), imgContext.getY());
 	}
 
 	private void placeCardOnPosition(double x, double y) {

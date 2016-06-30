@@ -59,10 +59,12 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		rotateLeft = new JButton("Rotate left");
 		rotateLeft.setPreferredSize(new Dimension(125, 50));
 		rotateLeft.addActionListener(this);
+		rotateLeft.setEnabled(false);
 		
 		rotateRight = new JButton("Rotate right");
 		rotateRight.setPreferredSize(new Dimension(125, 50));
 		rotateRight.addActionListener(this);
+		rotateRight.setEnabled(false);
 		
 		cardLayout = new SpringLayout();
 		cardLayout.putConstraint(SpringLayout.WEST, card, 25, SpringLayout.WEST, contentPane);
@@ -116,8 +118,6 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		ICard currentCard = controller.cardOnHand();
 		GameStatus status = controller.getStatus();
 		
-		//Commit
-		
 		if(currentCard != null) {
 			card.setIcon(new ImageIcon(CardPrinterGUI.printCard(currentCard)));
 		}
@@ -125,12 +125,18 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		if(status.equals(GameStatus.CREATE)) {
 			finishRound.setText("Start game");
 			finishRound.setEnabled(true);
+			rotateLeft.setEnabled(true);
+			rotateRight.setEnabled(true);
 		} else if(status.equals(GameStatus.ROUND_START)) {
 			finishRound.setText("Finish round");
 			cardsRemaining.setText("Cards remaining: " + controller.getRemainingCards());
 			finishRound.setEnabled(true);
+			rotateLeft.setEnabled(true);
+			rotateRight.setEnabled(true);
 		} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {
 			finishRound.setText("Finish round");
+			rotateLeft.setEnabled(false);
+			rotateRight.setEnabled(false);
 			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.FINISH)) {
 			finishRound.setText("Game finished!");

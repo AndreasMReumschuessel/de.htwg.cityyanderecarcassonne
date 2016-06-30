@@ -191,16 +191,20 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
 	@Override
 	public void rotateCardLeft() {
-		currentCard.rotateLeft();
-		this.setStatus(GameStatus.CARD_ROTATED);
-		notifyObservers();
+		if(status.equals(GameStatus.ROUND_START) || status.equals(GameStatus.CARD_SET_FAIL) || status.equals(GameStatus.CARD_ROTATED)) {
+			currentCard.rotateLeft();
+			this.setStatus(GameStatus.CARD_ROTATED);
+			notifyObservers();
+		}	
 	}
 	
 	@Override
 	public void rotateCardRight() {
-		currentCard.rotateRight();
-		this.setStatus(GameStatus.CARD_ROTATED);
-		notifyObservers();
+		if(status.equals(GameStatus.ROUND_START) || status.equals(GameStatus.CARD_SET_FAIL) || status.equals(GameStatus.CARD_ROTATED)) {
+			currentCard.rotateRight();
+			this.setStatus(GameStatus.CARD_ROTATED);
+			notifyObservers();
+		}
 	}
 	
 	private ICard takeCard() {

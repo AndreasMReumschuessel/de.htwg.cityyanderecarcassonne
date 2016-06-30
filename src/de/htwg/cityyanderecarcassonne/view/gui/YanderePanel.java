@@ -30,6 +30,7 @@ public class YanderePanel extends JPanel implements IObserver {
 		textArea = new JTextArea(5, 5);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
+		textArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(250,150));
 		

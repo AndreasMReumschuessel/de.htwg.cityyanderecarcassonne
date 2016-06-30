@@ -22,7 +22,7 @@ public final class Carcassonne {
 
 	public static void main(String[] args) throws IOException {		
 		
-		controller = new CarcassonneController(10, 10);
+		controller = new CarcassonneController(150, 150);
 		tui = new TextUI(controller);
 		tui.printTUI();
 		

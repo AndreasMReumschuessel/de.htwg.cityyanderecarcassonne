@@ -98,13 +98,9 @@ public class PlayerPanel extends JPanel implements IObserver {
 				}
 			}	
 			
-			if((status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH))) {
+			if(!status.equals(GameStatus.WELCOME) || !status.equals(GameStatus.CREATE)) {
 				if(controller.getCurrentPlayer().toString().equals(name)) {
 					playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
-					meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
-				}
-			} else if(status.equals(GameStatus.MEEPLE_SET_SUCCESS) || status.equals(GameStatus.ROUND_END)) {
-				if(controller.getCurrentPlayer().toString().equals(name)) {
 					meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
 				}
 			}

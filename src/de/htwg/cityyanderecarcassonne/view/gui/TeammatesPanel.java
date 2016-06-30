@@ -15,9 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.util.observer.Event;
+import de.htwg.util.observer.IObserver;
 
-public class TeammatesPanel extends JPanel implements ActionListener {
+public class TeammatesPanel extends JPanel implements ActionListener, IObserver {
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	private Queue<Color> meepleColor;
@@ -33,6 +36,7 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 	public TeammatesPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		this.contentPane = contentPane;
+		controller.addObserver(this);
 		
 		insertColors();
 		playerCount = 0;
@@ -65,9 +69,15 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 	}
 	
 	public void addPlayer()	{
-		if(playerCount < 5)	{
+		
+		String name = JOptionPane.showInputDialog(this, "What's your name?");
+		
+		if(playerCount >= 4) {
+			addPlayer.setEnabled(false);
+		}
+		
+		if(playerCount < 5 && name != null && !name.isEmpty())	{
 			
-			String name = JOptionPane.showInputDialog(this, "What's your name?");
 			Color playerColor = new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
 			playerPanel = new PlayerPanel(controller, contentPane, playerColor /*meepleColor.poll()*/, name);
 			controller.addPlayer(name);
@@ -90,6 +100,18 @@ public class TeammatesPanel extends JPanel implements ActionListener {
 			addPlayer();
 		}
 		
+	}
+
+	@Override
+	public void update(Event e) {
+		
+		GameStatus status = controller.getStatus();
+		
+		if(status.equals(GameStatus.WELCOME) || status.equals(GameStatus.PLAYER_ADDED)) {
+			addPlayer.setEnabled(true);
+		} else {
+			addPlayer.setEnabled(false);
+		}
 	}
 }
 
