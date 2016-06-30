@@ -161,8 +161,8 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 		double relation = 200 * scaleFactor;
 		if (cardPoss != null) {
 			for (Position p : cardPoss.keySet()) {
-				if ((x >= p.getX() * relation && x <= p.getX() * relation + 200 * relation) && 
-					(y >= p.getY() * relation && y <= p.getY() * relation + 200 * relation)) {
+				if ((x >= p.getX() * relation && x <= p.getX() * relation + 200 * scaleFactor) && 
+					(y >= p.getY() * relation && y <= p.getY() * relation + 200 * scaleFactor)) {
 					cardXOff = p.getX();
 					cardYOff = p.getY();
 					Position tmppos = new Position(cardXOff, cardYOff);
@@ -184,20 +184,20 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 
 	private void checkLeft(double x, double y, double relation) {
 		if (meeplePoss != null) {
-			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5 + 20) &&
-				(y >= cardYOff * relation + 30 && y <= cardYOff * relation + 30 + 20))
+			if ((x >= cardXOff * relation + 5 * scaleFactor && x <= cardXOff * relation + 5 * scaleFactor + 20 * scaleFactor) &&
+				(y >= cardYOff * relation + 30 * scaleFactor && y <= cardYOff * relation + 30 * scaleFactor + 20 * scaleFactor))
 				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftTop()));
 		}
 		
 		if (meeplePoss != null) {
-			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5 + 20) &&
-				(y >= cardYOff * relation + 90 && y <= cardYOff * relation + 90 + 20))
+			if ((x >= cardXOff * relation + 5 * scaleFactor && x <= cardXOff * relation + 5 * scaleFactor + 20 * scaleFactor) &&
+				(y >= cardYOff * relation + 90 * scaleFactor && y <= cardYOff * relation + 90 * scaleFactor + 20 * scaleFactor))
 				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftMiddle()));
 		}
 		
 		if (meeplePoss != null) {
-			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5) &&
-				(y >= cardYOff * relation + 150 && y <= cardYOff * relation + 150 + 20))
+			if ((x >= cardXOff * relation + 5 * scaleFactor && x <= cardXOff * relation + 5 * scaleFactor) &&
+				(y >= cardYOff * relation + 150 * scaleFactor && y <= cardYOff * relation + 150 * scaleFactor + 20 * scaleFactor))
 				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftBelow()));
 		}
 	}
