@@ -116,6 +116,8 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		ICard currentCard = controller.cardOnHand();
 		GameStatus status = controller.getStatus();
 		
+		//Commit
+		
 		if(currentCard != null) {
 			card.setIcon(new ImageIcon(CardPrinterGUI.printCard(currentCard)));
 		}

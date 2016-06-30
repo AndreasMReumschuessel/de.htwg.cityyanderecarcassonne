@@ -121,9 +121,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private void placeMeeple(Player player, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
-			
+			mPossGen = false;
 		} else	{
 			setStatus(GameStatus.MEEPLE_SET_FAIL);
+			mPossGen = true;
 		}
 		statusMessage = "Meeple from Player " + currentPlayer;
 	}
@@ -137,8 +138,6 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			
 			placeMeeple(player, map.get(poss));
 		}
-		// TODO ???
-		mPossGen = false;
 		notifyObservers();
 		finishRound();
 	}

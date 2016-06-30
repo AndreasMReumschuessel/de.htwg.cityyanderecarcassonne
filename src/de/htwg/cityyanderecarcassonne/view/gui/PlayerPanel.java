@@ -87,6 +87,8 @@ public class PlayerPanel extends JPanel implements IObserver {
 		
 		GameStatus status = controller.getStatus();
 		
+		//Commit
+		
 		if(status.equals(GameStatus.PLAYER_CHANGED)) {
 			if(controller.getCurrentPlayer().toString().equals(name)) {
 				this.setBorder(redline);
