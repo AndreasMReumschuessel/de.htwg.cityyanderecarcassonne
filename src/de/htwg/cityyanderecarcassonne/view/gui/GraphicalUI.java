@@ -25,7 +25,7 @@ public class GraphicalUI extends JFrame {
 		
 		menuBar = new MenuBar(controller, this);
 		rightPanel = new RightPanel(controller, this.contentPane);	
-		gamePanel = new GamePanel(controller, this.contentPane);
+		gamePanel = new GamePanel(controller);
 		
 	    mainLayout = new SpringLayout();    
 	    mainLayout.putConstraint(SpringLayout.WEST	, rightPanel, 1250, SpringLayout.WEST, contentPane);

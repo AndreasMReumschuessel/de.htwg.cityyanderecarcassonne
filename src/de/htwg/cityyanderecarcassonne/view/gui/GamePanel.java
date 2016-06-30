@@ -1,6 +1,5 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,11 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -22,6 +19,8 @@ import javax.swing.event.ChangeListener;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
@@ -29,22 +28,21 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 	private static final long serialVersionUID = 1L;
 	private ICarcassonneController controller;
 	
-	Container contentPane;
-    BufferedImage image;
-    BufferedImage image1;
-    BufferedImage scaled;
-    JSlider jSlider;
-    JScrollPane scrollPane;
-    BoxLayout boxLayout;
-    JLabel label;
-    Graphics2D g;
+	private BufferedImage image;
+	private JSlider jSlider;
+	private JScrollPane scrollPane;
+	private ImagePanel imgPanel;
     int DimX = 0;
     int DimY = 0;
-    TownsquareVisual tv;
+    private TownsquareVisual tv;
+    
+	private Map<Position, String> cardPoss;
+	private double scaleFactor;
+	private int cardXOff, cardYOff;
+	private Map<IRegion, String> meeplePoss;
 	
-	public GamePanel(ICarcassonneController controller, Container contentPane)	{
+	public GamePanel(ICarcassonneController controller)	{
 		this.controller = controller;
-		this.contentPane = contentPane;
 		controller.addObserver(this);
 		
 		DimX = 1240;
@@ -52,20 +50,19 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
+		imgPanel = new ImagePanel(null);
 		
-		label = new JLabel();
-        label.setHorizontalAlignment(JLabel.CENTER);
-		
-        scrollPane = new JScrollPane(label);
+		scrollPane = new JScrollPane(imgPanel);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(DimX,DimY - 50));
 		this.add(scrollPane);
 		
 		jSlider = getSlider();
+		jSlider.setEnabled(false);
 		this.add(jSlider);
 		
-		scrollPane.addMouseListener(this);
+		imgPanel.addMouseListener(this);
 		validate();
 	}
 	
@@ -76,21 +73,15 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 	}
 	
 	private void rescaleStateChanged(int value) {
-		double scale = value/100.0;
-        BufferedImage scaled = getScaledImage(scale);
-        label.setIcon(new ImageIcon(scaled));
-        label.revalidate();
+		scaleFactor = value/100.0;
+        BufferedImage scaled = getScaledImage(scaleFactor);
+        imgPanel.setImage(scaled);
+        imgPanel.revalidate();
 	}
 	
     private BufferedImage getScaledImage(double scale) {
-    	
-    	System.out.println("Unskaled " + image.getWidth() + " , " + image.getWidth());
-    	
         int w = (int)(scale*image.getWidth());
         int h = (int)(scale*image.getHeight());
-        
-    	System.out.println("Skale " + scale + " , " + w + " , " + h);
-    	System.out.println();
         
         BufferedImage bi = new BufferedImage(w, h, image.getType());
         Graphics2D g2 = bi.createGraphics();
@@ -115,24 +106,39 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 
 	@Override
 	public void update(Event e) {
-		if(controller.getStatus().equals(GameStatus.CREATE)){
+		GameStatus status = controller.getStatus();
+		
+		if (status.equals(GameStatus.CARD_SET_SUCCESS))
+			cardPoss = null;
+		
+		if (status.equals(GameStatus.MEEPLE_SET_SUCCESS) || status.equals(GameStatus.ROUND_END)) {
+			meeplePoss = null;
+			cardXOff = 0;
+			cardYOff = 0;
+		}
+		
+		if(status.equals(GameStatus.CREATE)){
 			tv = new TownsquareVisual(controller.getTownsquare());
+			jSlider.setEnabled(true);
 			image = tv.normalTownsquareVisual();
 			autoSizeView();
-		} else if(!controller.getStatus().equals(GameStatus.WELCOME)) {
-			if(controller.getStatus().equals(GameStatus.ROUND_START)) {
-				image = tv.possTownsquareVisual(controller.getCardPossibilitiesMap(controller.cardOnHand()));
+		} else if(!status.equals(GameStatus.WELCOME)) {
+			if(status.equals(GameStatus.ROUND_START)) {
+				cardPoss = controller.getCardPossibilitiesMap(controller.cardOnHand());
+				image = tv.possTownsquareVisual(cardPoss);
 				autoSizeView();
-			} else if(controller.getStatus().equals(GameStatus.CARD_SET_SUCCESS)) {
-				image = tv.meepleTownsquareVisual(controller.cardOnHand(), controller.getRegionPossibilitiesMap(controller.cardOnHand()));
+			} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {
+				meeplePoss = controller.getRegionPossibilitiesMap(controller.cardOnHand());
+				image = tv.meepleTownsquareVisual(controller.cardOnHand(), meeplePoss);
 				autoSizeView();
 			}
 		}
 	}
 	
 	private void autoSizeView() {
-		label.setIcon(new ImageIcon(image));
-		int zoom = 50;
+		imgPanel.setImage(image);
+		imgPanel.revalidate();
+		int zoom = jSlider.getValue();
 		jSlider.setValue(zoom);
 		rescaleStateChanged(zoom);
 		scrollPane.setAutoscrolls(true);
@@ -141,39 +147,127 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 		//scrollPane.scrollRectToVisible(r);
 		//System.out.println(scrollPane.getVerticalScrollBar().getValue() + scrollPane.getVerticalScrollBar().getVisibleAmount());
 	}
-	
-    public Point toImageContext(Point p) {
-        Point imgLocation = getImageLocation();
-        Point relative = new Point(p);
-        relative.x -= imgLocation.x;
-        relative.y -= imgLocation.y;  
-        return relative;
-    }
-    
-    protected Point getImageLocation() {
-        Point p = null;
-        if (image != null) {
-            int x = (getWidth() - image.getWidth()) / 2;
-            int y = (getHeight() - image.getHeight()) / 2;
-            p = new Point(x, y);
-        }
-        return p;
-    }
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		
-//		int x = (int) arg0.getPoint().getX();
-//		int y = (int) arg0.getPoint().getY();
-//		
-//		JOptionPane.showMessageDialog(this, x + " , " + y);
-		
+		Point panelPoint = arg0.getPoint();
+        Point imgContext = imgPanel.toImageContext(panelPoint);
+        
+        placeCardOnPosition(imgContext.getX(), imgContext.getY());
+        placeMeepleOnPosition(imgContext.getX(), imgContext.getY());
+	}
 
+	private void placeCardOnPosition(double x, double y) {
+		double relation = 200 * scaleFactor;
+		if (cardPoss != null) {
+			for (Position p : cardPoss.keySet()) {
+				if ((x >= p.getX() * relation && x <= p.getX() * relation + 200 * relation) && 
+					(y >= p.getY() * relation && y <= p.getY() * relation + 200 * relation)) {
+					cardXOff = p.getX();
+					cardYOff = p.getY();
+					Position tmppos = new Position(cardXOff, cardYOff);
+					controller.placeCard(controller.cardOnHand(), cardPoss.get(tmppos));
+				}
+					
+			}
+		}
+	}
+	
+	private void placeMeepleOnPosition(double x, double y) {
+		double relation = 200 * scaleFactor;
+		checkLeft(x, y, relation);
+		checkBelow(x, y, relation);
+		checkCenter(x, y, relation);
+		checkTop(x, y, relation);
+		checkRight(x, y, relation);
+	}
+
+	private void checkLeft(double x, double y, double relation) {
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5 + 20) &&
+				(y >= cardYOff * relation + 30 && y <= cardYOff * relation + 30 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftTop()));
+		}
 		
-//        Point panelPoint = arg0.getPoint();
-//        Point imgContext = this.toImageContext(panelPoint);
-//		
-//		JOptionPane.showMessageDialog(this,"Click at " + panelPoint + " which is relative to the image " + imgContext);
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5 + 20) &&
+				(y >= cardYOff * relation + 90 && y <= cardYOff * relation + 90 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftMiddle()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 5 && x <= cardXOff * relation + 5) &&
+				(y >= cardYOff * relation + 150 && y <= cardYOff * relation + 150 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftBelow()));
+		}
+	}
+
+	private void checkBelow(double x, double y, double relation) {
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 30 && x <= cardXOff * relation + 30 + 20) &&
+				(y >= cardYOff * relation + 175 && y <= cardYOff * relation + 175 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getBelowLeft()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 90 && x <= cardXOff * relation + 90 + 20) &&
+				(y >= cardYOff * relation + 175 && y <= cardYOff * relation + 175 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getBelowMiddle()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 150 && x <= cardXOff * relation + 150 + 20) &&
+				(y >= cardYOff * relation + 175 && y <= cardYOff * relation + 175 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getBelowRight()));
+		}
+	}
+
+	private void checkCenter(double x, double y, double relation) {
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 90 && x <= cardXOff * relation + 90 + 20) &&
+				(y >= cardYOff * relation + 90 && y <= cardYOff * relation + 90 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getCenterMiddle()));
+		}
+	}
+
+	private void checkTop(double x, double y, double relation) {
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 30 && x <= cardXOff * relation + 30 + 20) &&
+				(y >= cardYOff * relation + 5 && y <= cardYOff * relation + 5 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getTopLeft()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 90 && x <= cardXOff * relation + 90 + 20) &&
+				(y >= cardYOff * relation + 5 && y <= cardYOff * relation + 5 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getTopMiddle()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 150 && x <= cardXOff * relation + 150 + 20) &&
+				(y >= cardYOff * relation + 5 && y <= cardYOff * relation + 5 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getTopRight()));
+		}
+	}
+	
+	private void checkRight(double x, double y, double relation) {
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 175 && x <= cardXOff * relation + 175 + 20) &&
+				(y >= cardYOff * relation + 30 && y <= cardYOff * relation + 30 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftTop()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 175 && x <= cardXOff * relation + 175 + 20) &&
+				(y >= cardYOff * relation + 90 && y <= cardYOff * relation + 90 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftMiddle()));
+		}
+		
+		if (meeplePoss != null) {
+			if ((x >= cardXOff * relation + 175 && x <= cardXOff * relation + 175 + 20) &&
+				(y >= cardYOff * relation + 150 && y <= cardYOff * relation + 150 + 20))
+				controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), meeplePoss.get(controller.cardOnHand().getLeftBelow()));
+		}
 	}
 
 	@Override
