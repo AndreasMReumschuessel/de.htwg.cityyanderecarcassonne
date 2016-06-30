@@ -137,6 +137,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 			
 			placeMeeple(player, map.get(poss));
 		}
+		// TODO ???
 		mPossGen = false;
 		notifyObservers();
 		finishRound();

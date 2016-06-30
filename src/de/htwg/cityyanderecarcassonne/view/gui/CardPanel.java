@@ -51,16 +51,16 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		cardsRemaining.setOpaque(true);
 		cardsRemaining.setBorder(blackline);
 		
-		finishRound = new JButton("Start Game");
+		finishRound = new JButton("Start game");
 		finishRound.setPreferredSize(new Dimension(250, 50));
 		finishRound.addActionListener(this);
 		finishRound.setEnabled(false);
 		
-		rotateLeft = new JButton("Rotate Left");
+		rotateLeft = new JButton("Rotate left");
 		rotateLeft.setPreferredSize(new Dimension(125, 50));
 		rotateLeft.addActionListener(this);
 		
-		rotateRight = new JButton("Rotate Right");
+		rotateRight = new JButton("Rotate right");
 		rotateRight.setPreferredSize(new Dimension(125, 50));
 		rotateRight.addActionListener(this);
 		
@@ -121,10 +121,10 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		}
 		
 		if(status.equals(GameStatus.CREATE)) {
-			finishRound.setText("Start round");
+			finishRound.setText("Start game");
 			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.ROUND_START)) {
-			finishRound.setText("Place card");
+			finishRound.setText("Finish round");
 			cardsRemaining.setText("Cards remaining: " + controller.getRemainingCards());
 			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {

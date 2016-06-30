@@ -40,14 +40,14 @@ public class PlayerPanel extends JPanel implements IObserver {
 		normalline = BorderFactory.createLineBorder(color, 5);
 		
 	    meepleCount = new JLabel();
-	    meepleCount.setText("0");
+	    meepleCount.setText(" 8 ");
 	    meepleCount.setFont(font);
 	    meepleCount.setPreferredSize(new Dimension(40, 40));
 	    meepleCount.setBackground(Color.WHITE);
 	    meepleCount.setOpaque(true);
 	    meepleCount.setHorizontalAlignment(SwingConstants.CENTER);
 	    
-	    playerName = new JLabel();
+	    playerName = new JLabel(" - ");
 	    playerName.setText(name);
 	    playerName.setFont(font);
 	    playerName.setPreferredSize(new Dimension(130, 40));
@@ -56,7 +56,7 @@ public class PlayerPanel extends JPanel implements IObserver {
 	    playerName.setHorizontalAlignment(SwingConstants.CENTER);
 	    
 	    playerScore = new JLabel();
-	    playerScore.setText("0");
+	    playerScore.setText(" 0 ");
 	    playerScore.setFont(font);
 	    playerScore.setPreferredSize(new Dimension(40, 40));
 	    playerScore.setBackground(Color.WHITE);
@@ -93,8 +93,17 @@ public class PlayerPanel extends JPanel implements IObserver {
 			} else {
 				this.setBorder(normalline);
 			}
-		} else if(status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
-			playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
+		}	
+		
+		if(status.equals(GameStatus.ROUND_END) || status.equals(GameStatus.FINISH)) {
+			if(controller.getCurrentPlayer().toString().equals(name)) {
+				playerScore.setText(Integer.toString(controller.getCurrentPlayer().getScore()));
+				meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
+			}
+		} else if(status.equals(GameStatus.MEEPLE_SET_SUCCESS) || status.equals(GameStatus.ROUND_END)) {
+			if(controller.getCurrentPlayer().toString().equals(name)) {
+				meepleCount.setText(Integer.toString(controller.getCurrentPlayer().getSumMeeples()));
+			}
 		}
 	}
 }
