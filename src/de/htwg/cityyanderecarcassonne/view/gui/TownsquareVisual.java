@@ -35,7 +35,7 @@ public class TownsquareVisual {
 		BufferedImage image = null;
 		
         try {
-        	image = ImageIO.read(new File("./data/background.png"));
+        	image = ImageIO.read(new File("./data/blueprint.jpg"));
          } catch (IOException ex) {
         	 ex.printStackTrace();
          }
