@@ -27,9 +27,9 @@ public class RightPanel extends JPanel {
 		rightPanelLayout.putConstraint(SpringLayout.WEST, cardPanel, 0, SpringLayout.WEST, contentPane);
 		rightPanelLayout.putConstraint(SpringLayout.NORTH, cardPanel, 0, SpringLayout.NORTH, contentPane);
 		rightPanelLayout.putConstraint(SpringLayout.WEST, teammatesPanel, 0, SpringLayout.WEST, contentPane);
-		rightPanelLayout.putConstraint(SpringLayout.NORTH, teammatesPanel, 350, SpringLayout.NORTH, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, teammatesPanel, 400, SpringLayout.NORTH, contentPane);
 		rightPanelLayout.putConstraint(SpringLayout.WEST, yanderePanel, 0, SpringLayout.WEST, contentPane);
-		rightPanelLayout.putConstraint(SpringLayout.NORTH, yanderePanel, 675, SpringLayout.NORTH, contentPane);
+		rightPanelLayout.putConstraint(SpringLayout.NORTH, yanderePanel, 725, SpringLayout.NORTH, contentPane);
 		this.setLayout(rightPanelLayout);
 
 		this.add(cardPanel);

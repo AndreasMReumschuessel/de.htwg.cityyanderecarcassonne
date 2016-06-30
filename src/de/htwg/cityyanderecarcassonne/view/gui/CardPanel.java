@@ -25,6 +25,7 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 	private ICarcassonneController controller;
 	
 	private JLabel card;
+	private JLabel cardsRemaining;
 	private JButton finishRound;
 	private JButton rotateLeft;
 	private JButton rotateRight;
@@ -34,14 +35,21 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 	public CardPanel(ICarcassonneController controller, Container contentPane)	{
 		this.controller = controller;
 		controller.addObserver(this);
+		blackline = BorderFactory.createLineBorder(Color.BLACK, 1);
 
 		card = new JLabel();
 		card.setPreferredSize(new Dimension(200, 200));
 		card.setBackground(Color.GRAY.brighter());
 		card.setVisible(true);
 		card.setOpaque(true);
-		blackline = BorderFactory.createLineBorder(Color.BLACK, 1);
 		card.setBorder(blackline);
+		
+		cardsRemaining = new JLabel("Cards remaining: - ", JLabel.CENTER);
+		cardsRemaining.setPreferredSize(new Dimension(250, 50));
+		cardsRemaining.setBackground(Color.GRAY.brighter());
+		cardsRemaining.setVisible(true);
+		cardsRemaining.setOpaque(true);
+		cardsRemaining.setBorder(blackline);
 		
 		finishRound = new JButton("Start Game");
 		finishRound.setPreferredSize(new Dimension(250, 50));
@@ -60,23 +68,27 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 		cardLayout.putConstraint(SpringLayout.WEST, card, 25, SpringLayout.WEST, contentPane);
 		cardLayout.putConstraint(SpringLayout.NORTH, card, 25, SpringLayout.NORTH, contentPane);
 		
+		cardLayout.putConstraint(SpringLayout.WEST, cardsRemaining, 0, SpringLayout.WEST, contentPane);
+		cardLayout.putConstraint(SpringLayout.NORTH, cardsRemaining, 250, SpringLayout.NORTH, contentPane);
+		
 		cardLayout.putConstraint(SpringLayout.WEST, finishRound, 0, SpringLayout.WEST, contentPane);
-		cardLayout.putConstraint(SpringLayout.NORTH, finishRound, 250, SpringLayout.NORTH, contentPane);
+		cardLayout.putConstraint(SpringLayout.NORTH, finishRound, 300, SpringLayout.NORTH, contentPane);
 		
 		cardLayout.putConstraint(SpringLayout.WEST, rotateLeft, 0, SpringLayout.WEST, contentPane);
-		cardLayout.putConstraint(SpringLayout.NORTH, rotateLeft, 300, SpringLayout.NORTH, contentPane);
+		cardLayout.putConstraint(SpringLayout.NORTH, rotateLeft, 350, SpringLayout.NORTH, contentPane);
 		
 		cardLayout.putConstraint(SpringLayout.WEST, rotateRight, 125, SpringLayout.WEST, contentPane);
-		cardLayout.putConstraint(SpringLayout.NORTH, rotateRight, 300, SpringLayout.NORTH, contentPane);
+		cardLayout.putConstraint(SpringLayout.NORTH, rotateRight, 350, SpringLayout.NORTH, contentPane);
 		this.setLayout(cardLayout);
 	    validate();
 	    
 		this.add(card);
+		this.add(cardsRemaining);
 		this.add(finishRound);
 		this.add(rotateLeft);
 		this.add(rotateRight);
 		
-	    this.setPreferredSize(new Dimension(250,350));
+	    this.setPreferredSize(new Dimension(250,400));
 	    this.setBackground(Color.GRAY);
 	    this.setVisible(true);
 	}
@@ -113,6 +125,7 @@ public class CardPanel extends JPanel implements ActionListener, IObserver {
 			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.ROUND_START)) {
 			finishRound.setText("Place card");
+			cardsRemaining.setText("Cards remaining: " + controller.getRemainingCards());
 			finishRound.setEnabled(true);
 		} else if(status.equals(GameStatus.CARD_SET_SUCCESS)) {
 			finishRound.setText("Finish round");
