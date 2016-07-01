@@ -1,10 +1,11 @@
 package de.htwg.cityyanderecarcassonne.model;
 
+
 public interface IRegion {
 	
-	void setPlayer(Player player);
+	void setPlayer(IPlayer player);
 	
-	Player getPlayer();
+	IPlayer getPlayer();
 	
 	void setID(int id);
 	

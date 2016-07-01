@@ -1,6 +1,6 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Position;
-import de.htwg.cityyanderecarcassonne.model.cards.*;
+import de.htwg.cityyanderecarcassonne.model.cards.CardD;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class TownsquarePrinterTest {
@@ -58,7 +59,7 @@ public class TownsquarePrinterTest {
 
 	@Test
 	public void printCardPossibilitiesTownsquareTest() {
-		Map<Position, String> possibilities = new HashMap<>();
+		Map<IPosition, String> possibilities = new HashMap<>();
 		possibilities.put(new Position(4,5), "G");
 		
 		String ts = tsp.printCardPossibilitiesTownsquare(possibilities);

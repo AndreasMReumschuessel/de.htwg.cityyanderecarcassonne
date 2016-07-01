@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import de.htwg.cityyanderecarcassonne.model.IGraph;
-import de.htwg.cityyanderecarcassonne.model.Edge;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
+import de.htwg.cityyanderecarcassonne.model.IEdge;
+import de.htwg.cityyanderecarcassonne.model.IGraph;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.graph.AdjacencyListUndirectedGraph;
 
@@ -33,7 +33,7 @@ public final class TownsquareGraph {
 		for (IRegion v : cardGraph.getVertexList())
 			skynet.addVertex(v);
 		
-		for (Edge<IRegion> e : cardGraph.getEdgeList())
+		for (IEdge<IRegion> e : cardGraph.getEdgeList())
 			skynet.addEdge(e.getSource(), e.getTarget());
 		
 		if (left != null)

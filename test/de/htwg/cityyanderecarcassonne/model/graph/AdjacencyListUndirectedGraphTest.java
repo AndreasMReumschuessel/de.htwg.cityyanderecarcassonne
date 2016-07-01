@@ -1,6 +1,8 @@
 package de.htwg.cityyanderecarcassonne.model.graph;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,8 +12,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import de.htwg.cityyanderecarcassonne.model.*;
-import de.htwg.cityyanderecarcassonne.model.regions.*;
+import de.htwg.cityyanderecarcassonne.model.IEdge;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.model.impl.Edge;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
 public class AdjacencyListUndirectedGraphTest {
 	
@@ -129,8 +134,8 @@ public class AdjacencyListUndirectedGraphTest {
 
 	@Test
 	public void getIncidentEdgeListTest() {
-		List<Edge<IRegion>> incidentEdgeList = new LinkedList<>();
-		Edge<IRegion> edgeA = new Edge<>(a, b);
+		List<IEdge<IRegion>> incidentEdgeList = new LinkedList<>();
+		IEdge<IRegion> edgeA = new Edge<>(a, b);
 		graph.addEdge(a, b);
 		incidentEdgeList.add(edgeA);
 		//assertEquals(incidentEdgeList, graph.getIncidentEdgeList(a));
@@ -152,8 +157,8 @@ public class AdjacencyListUndirectedGraphTest {
 
 	@Test
 	public void getEdgeListTest() {
-		List<Edge<IRegion>> edgeList = new LinkedList<>();
-		Edge<IRegion> edge = new Edge<>(a, b);
+		List<IEdge<IRegion>> edgeList = new LinkedList<>();
+		IEdge<IRegion> edge = new Edge<>(a, b);
 		graph.addEdge(a, b);
 		edgeList.add(edge);
 		graph.getEdgeList();

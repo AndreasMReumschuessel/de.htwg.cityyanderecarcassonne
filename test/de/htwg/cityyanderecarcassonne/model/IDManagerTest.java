@@ -1,15 +1,15 @@
 package de.htwg.cityyanderecarcassonne.model;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class IDManagerTest {
 
@@ -82,8 +82,8 @@ public class IDManagerTest {
 	@Test
 	public void setPlayerTest() {
 		int id = IDManager.getBuildingID();
-		Player player1 = new Player("Hans");
-		Player player2 = new Player("Gundula");
+		IPlayer player1 = new Player("Hans");
+		IPlayer player2 = new Player("Gundula");
 		
 		assertTrue(IDManager.setPlayer(id, player1));
 		assertTrue(IDManager.setPlayer(id, player1));
@@ -96,8 +96,8 @@ public class IDManagerTest {
 	public void isOwnedTest() {
 		int id1 = IDManager.getBuildingID();
 		int id2 = IDManager.getBuildingID();
-		Player player1 = new Player("Yuuki Asuna");
-		Player player2 = new Player("Kirigaya Kazuto");
+		IPlayer player1 = new Player("Yuuki Asuna");
+		IPlayer player2 = new Player("Kirigaya Kazuto");
 		// Write a PM if you know these two ;D
 		
 		assertTrue(IDManager.setPlayer(id1, player1));
@@ -114,8 +114,8 @@ public class IDManagerTest {
 	public void getPlayerListTest() {
 		int id1 = IDManager.getBuildingID();
 		int id2 = IDManager.getLawnID();
-		Player player1 = new Player("Max");
-		Player player2 = new Player("Bärbel");
+		IPlayer player1 = new Player("Max");
+		IPlayer player2 = new Player("Bärbel");
 		
 		IDManager.setPlayer(id1, player1);
 		IDManager.setPlayer(id1, player2);

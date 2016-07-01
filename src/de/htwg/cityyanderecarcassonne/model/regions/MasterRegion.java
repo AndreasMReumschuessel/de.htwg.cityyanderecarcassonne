@@ -1,12 +1,12 @@
 package de.htwg.cityyanderecarcassonne.model.regions;
 
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
 
 public abstract class MasterRegion implements IRegion{
 
 	protected String typename;
-	protected Player player;
+	protected IPlayer player;
 	protected int id;
 	protected boolean openBorder;
 	
@@ -16,12 +16,12 @@ public abstract class MasterRegion implements IRegion{
 	}
 
 	@Override
-	public void setPlayer(Player player) {
+	public void setPlayer(IPlayer player) {
 		this.player = player;
 	}
 
 	@Override
-	public Player getPlayer() {
+	public IPlayer getPlayer() {
 		return player;
 	}
 

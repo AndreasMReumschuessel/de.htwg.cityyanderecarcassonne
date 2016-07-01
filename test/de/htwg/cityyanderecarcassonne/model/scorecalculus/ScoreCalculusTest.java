@@ -1,25 +1,30 @@
 package de.htwg.cityyanderecarcassonne.model.scorecalculus;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.cards.*;
-import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
+import de.htwg.cityyanderecarcassonne.model.cards.CardB;
+import de.htwg.cityyanderecarcassonne.model.cards.CardD;
+import de.htwg.cityyanderecarcassonne.model.cards.CardE;
+import de.htwg.cityyanderecarcassonne.model.cards.CardU;
+import de.htwg.cityyanderecarcassonne.model.cards.CardV;
+import de.htwg.cityyanderecarcassonne.model.cards.CardW;
+import de.htwg.cityyanderecarcassonne.model.cards.CardX;
+import de.htwg.cityyanderecarcassonne.model.cards.Stock;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class ScoreCalculusTest {
 	private ITownsquare ts;
-	private Player pa;
-	private Player pb;
-	private Player pc;
-	private Player pd;
+	private IPlayer pa;
+	private IPlayer pb;
+	private IPlayer pc;
+	private IPlayer pd;
 
 	@Before
 	public void setUp() throws Exception {

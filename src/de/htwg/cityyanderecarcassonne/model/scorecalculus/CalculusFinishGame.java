@@ -10,9 +10,9 @@ import java.util.Set;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
-import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionLawn;
 
@@ -50,8 +50,8 @@ public class CalculusFinishGame extends ScoreCalculus {
 	}
 
 	private void calculateLawnpoints(List<IRegion> rList) {
-		List<Player> settledPlayers = getSettledPlayers(rList);
-		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
+		List<IPlayer> settledPlayers = getSettledPlayers(rList);
+		List<IPlayer> relevantPlayers = getRelevantPlayers(settledPlayers);
 		
 		int points = lawnBreadthFirstSearch(rList.get(0)).size() * 3;
 		assignPoints(relevantPlayers, points);
@@ -62,7 +62,7 @@ public class CalculusFinishGame extends ScoreCalculus {
 	@Override
 	protected void assignSchoolPoints(ICard card, int points) {
 		IRegion region = card.getCenterMiddle();
-		Player player = region.getPlayer();
+		IPlayer player = region.getPlayer();
 		
 		if (player != null) {
 			int oldScore = player.getScore();

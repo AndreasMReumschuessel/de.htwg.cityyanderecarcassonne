@@ -8,13 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
 import de.htwg.cityyanderecarcassonne.model.cards.CardB;
 import de.htwg.cityyanderecarcassonne.model.cards.CardD;
 import de.htwg.cityyanderecarcassonne.model.cards.CardL;
 import de.htwg.cityyanderecarcassonne.model.cards.Stock;
-import de.htwg.cityyanderecarcassonne.view.tui.CardPrinter;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class CardPrinterGUITest {
 	
@@ -27,7 +27,7 @@ public class CardPrinterGUITest {
 	@Test
 	public final void testPrintCard() {
 		ICard card = new CardB();
-		Player player = new Player("Faxe_1L_Fass");
+		IPlayer player = new Player("Faxe_1L_Fass");
 		card.getLeftTop().setPlayer(player);
 		card.getLeftMiddle().setPlayer(player);
 		card.getLeftBelow().setPlayer(player);

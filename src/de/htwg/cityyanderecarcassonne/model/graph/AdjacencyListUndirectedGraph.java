@@ -4,13 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.htwg.cityyanderecarcassonne.model.Edge;
+import de.htwg.cityyanderecarcassonne.model.IEdge;
+import de.htwg.cityyanderecarcassonne.model.impl.Edge;
 
 public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 
 	Map<V, HashMap<V, Double>> adjacencyList;
 	List<V> vertexList;
-	List<Edge<V>> edgeList;
+	List<IEdge<V>> edgeList;
 	
 	private String vNotExist;
 	
@@ -42,7 +43,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		} else	{	
 			adjacencyList.get(v).put(w, 1.0);
 			adjacencyList.get(w).put(v, 1.0);
-			Edge<V> e = new Edge<>(v, w);
+			IEdge<V> e = new Edge<>(v, w);
 			edgeList.add(e);
 			return true;
 		}
@@ -59,7 +60,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 		} else	{
 			adjacencyList.get(v).put(w, weight);
 			adjacencyList.get(w).put(v, weight);
-			Edge<V> e = new Edge<>(v, w);
+			IEdge<V> e = new Edge<>(v, w);
 			edgeList.add(e);
 			return true;
 		}
@@ -120,14 +121,14 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	}
 
 	@Override
-	public List<Edge<V>> getIncidentEdgeList(V v) {
-		List<Edge<V>> incidentVertexList = new LinkedList<>();
+	public List<IEdge<V>> getIncidentEdgeList(V v) {
+		List<IEdge<V>> incidentVertexList = new LinkedList<>();
 		
 		if(!this.containsVertex(v))	{
 			throw new IllegalArgumentException("Knoten ist nicht vorhanden.");
 		}	
 		
-		for(Edge<V> e : edgeList)	{
+		for(IEdge<V> e : edgeList)	{
 			if(e.getSource() == v)	{
 				incidentVertexList.add(e);
 			}
@@ -144,7 +145,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V>{
 	}
 
 	@Override
-	public List<Edge<V>> getEdgeList() {
+	public List<IEdge<V>> getEdgeList() {
 		return edgeList;
 	}
 	

@@ -6,10 +6,11 @@ import java.util.List;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 
 public class Townsquare implements ITownsquare {
 	
@@ -34,7 +35,7 @@ public class Townsquare implements ITownsquare {
 	}
 	
 	@Override
-	public ICard getCard(Position p) {
+	public ICard getCard(IPosition p) {
 		return getCard(p.getX(), p.getY());
 	}
 	
@@ -47,7 +48,7 @@ public class Townsquare implements ITownsquare {
 	}
 	
 	@Override
-	public boolean setCard(ICard c, Position p) {
+	public boolean setCard(ICard c, IPosition p) {
 		return setCard(c, p.getX(), p.getY());
 	}
 	
@@ -63,8 +64,8 @@ public class Townsquare implements ITownsquare {
 	}
 	
 	@Override
-	public List<Position> getPossibilities(final ICard c) {
-		List<Position> result = new LinkedList<>();
+	public List<IPosition> getPossibilities(final ICard c) {
+		List<IPosition> result = new LinkedList<>();
 		ICard card = c;
 		
 		for (int cy = 0; cy < dimY; cy++) {
@@ -86,7 +87,7 @@ public class Townsquare implements ITownsquare {
 				
 				
 				if (hasNeigbhor && setSum) {
-					Position possibility = new Position(cx, cy);
+					IPosition possibility = new Position(cx, cy);
 						
 					result.add(possibility);
 				}
@@ -222,7 +223,7 @@ public class Townsquare implements ITownsquare {
 	}
 
 	@Override
-	public boolean placeMeepleOnRegion(Player player, IRegion region) {
+	public boolean placeMeepleOnRegion(IPlayer player, IRegion region) {
 		int rID = region.getID();
 		if (!IDManager.isOwned(rID) && player.getSumMeeples() > 0) {
 			region.setPlayer(player);

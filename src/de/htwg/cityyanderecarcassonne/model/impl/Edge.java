@@ -1,4 +1,6 @@
-package de.htwg.cityyanderecarcassonne.model;
+package de.htwg.cityyanderecarcassonne.model.impl;
+
+import de.htwg.cityyanderecarcassonne.model.IEdge;
 
 /**
  * Klasse für Kanten.
@@ -7,7 +9,7 @@ package de.htwg.cityyanderecarcassonne.model;
  * @param <V> Knotentyp.
  */
 
-public class Edge<V> {
+public class Edge<V>  implements IEdge<V> {
 
     /**
      * Startknoten.
@@ -49,6 +51,7 @@ public class Edge<V> {
      * Liefert Startknoten zurück.
      * @return Startknoten.
      */
+    @Override
     public V getSource() {
         return this.source;
     }
@@ -57,6 +60,7 @@ public class Edge<V> {
      * Liefert Zielknoten zurück.
      * @return Zielknoten.
      */
+    @Override
     public V getTarget() {
         return this.target;
     }
@@ -65,6 +69,7 @@ public class Edge<V> {
      * Liefert Gewicht der Kante zurück.
      * @return Gewicht.
      */
+    @Override
     public double getWeight() {
         return this.weight;
     }
@@ -73,7 +78,8 @@ public class Edge<V> {
      * Liefert String-Darstellung der Kante zurück.
      * @return String-Darstellung.
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
         if (Double.compare(weight, 1.0) == 0)
             return source + " -- " + target;
         else

@@ -9,8 +9,9 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class TownsquareVisual {
@@ -75,7 +76,7 @@ public class TownsquareVisual {
 		}
 	}
 	
-	public BufferedImage possTownsquareVisual(Map<Position, String> possibilities)	{
+	public BufferedImage possTownsquareVisual(Map<IPosition, String> possibilities)	{
 		backgroundImageVisual();
 	int xMin = ts.getXMin();
 	int xMax = ts.getXMax();
@@ -87,7 +88,7 @@ public class TownsquareVisual {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
 	
-					Position tmppos = new Position(x, y);
+					IPosition tmppos = new Position(x, y);
 					performPossVisual(possibilities, tmppos, cx);
 					
 				}
@@ -96,7 +97,7 @@ public class TownsquareVisual {
 		return imageTS;
 	}
 	
-	private void performPossVisual(Map<Position, String> possibilities, Position tmppos, ICard cx)	{
+	private void performPossVisual(Map<IPosition, String> possibilities, IPosition tmppos, ICard cx)	{
 		BufferedImage changed = CardPrinterGUI.pseudoCard();
 		
 		if(possibilities.containsKey(tmppos))	{
@@ -117,7 +118,7 @@ public class TownsquareVisual {
 			for (int l = 0; l < 7; l++) {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
-					Position pos = new Position(x, y);
+					IPosition pos = new Position(x, y);
 					performMeepleVisual(card, cx, pos, possList);
 				}
 			}
@@ -125,7 +126,7 @@ public class TownsquareVisual {
 		return imageTS;
 	}
 	
-	private void performMeepleVisual(ICard card, ICard cx, Position pos, Map<IRegion, String> possList)	{
+	private void performMeepleVisual(ICard card, ICard cx, IPosition pos, Map<IRegion, String> possList)	{
 		if (cx != null) {
 			BufferedImage changed = CardPrinterGUI.printCardPoss(cx, possList);
 		

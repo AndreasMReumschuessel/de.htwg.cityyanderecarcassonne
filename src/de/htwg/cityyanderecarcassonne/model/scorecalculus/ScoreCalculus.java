@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import de.htwg.cityyanderecarcassonne.model.IGraph;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
+import de.htwg.cityyanderecarcassonne.model.IGraph;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.cityyanderecarcassonne.model.regions.RegionSchool;
 import de.htwg.cityyanderecarcassonne.model.townsquare.TownsquareGraph;
 
@@ -29,8 +30,8 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 	
 	protected void calculateStreetpoints(int id, List<IRegion> rList) {
 		
-		List<Player> settledPlayers = getSettledPlayers(rList);
-		List<Player> relevantPlayers = getRelevantPlayers(settledPlayers);
+		List<IPlayer> settledPlayers = getSettledPlayers(rList);
+		List<IPlayer> relevantPlayers = getRelevantPlayers(settledPlayers);
 		
 		int points = IDManager.getSumCards(id);
 		assignPoints(relevantPlayers, points);
@@ -39,15 +40,15 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 	}
 	
 	protected void calculateSchoolpoints(ITownsquare townsquare) {
-		Map<ICard, Position> schools = getSchools(townsquare);
+		Map<ICard, IPosition> schools = getSchools(townsquare);
 		for (ICard card : schools.keySet()) {
 			int points = sumSchoolArea(townsquare, schools.get(card).getX(), schools.get(card).getY());
 			assignSchoolPoints(card, points);
 		}
 	}
 	
-	private Map<ICard, Position> getSchools(ITownsquare townsquare) {
-		Map<ICard, Position> result = new HashMap<>();
+	private Map<ICard, IPosition> getSchools(ITownsquare townsquare) {
+		Map<ICard, IPosition> result = new HashMap<>();
 		for (int y = 0; y < townsquare.getDimY(); y++) {
 			for (int x = 0; x < townsquare.getDimY(); x++) {
 				ICard card = townsquare.getCard(x, y);
@@ -73,12 +74,12 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 	
 	protected abstract void assignSchoolPoints(ICard card, int points);
 	
-	protected List<Player> getRelevantPlayers(List<Player> player) {
-		Map<Player, Integer> winnerPlayer = new HashMap<>();
-		List<Player> result = new LinkedList<>();
+	protected List<IPlayer> getRelevantPlayers(List<IPlayer> player) {
+		Map<IPlayer, Integer> winnerPlayer = new HashMap<>();
+		List<IPlayer> result = new LinkedList<>();
 		
-		Map<Player, Integer> pSum = new HashMap<>();
-		for (Player p : player)
+		Map<IPlayer, Integer> pSum = new HashMap<>();
+		for (IPlayer p : player)
 			if (pSum.get(p) != null)
 				pSum.put(p, pSum.get(p) + 1);
 			else
@@ -87,12 +88,12 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 		winnerPlayer.putAll(pSum);
 		
 		int lastSum = 0;
-		Player lastPlayer = null;
+		IPlayer lastPlayer = null;
 		
 		for (int i = 0; i < 2; i++) {
-			for (Map.Entry<Player, Integer> entry : pSum.entrySet()) {
+			for (Map.Entry<IPlayer, Integer> entry : pSum.entrySet()) {
 				int sum = entry.getValue();
-				Player currentPlayer = entry.getKey();
+				IPlayer currentPlayer = entry.getKey();
 				if (sum < lastSum)
 					winnerPlayer.remove(currentPlayer);
 				
@@ -116,10 +117,10 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 		return result;
 	}
 	
-	protected List<Player> getSettledPlayers(List<IRegion> rList) {
-		List<Player> result = new LinkedList<>();
+	protected List<IPlayer> getSettledPlayers(List<IRegion> rList) {
+		List<IPlayer> result = new LinkedList<>();
 		for (IRegion r : rList) {
-			Player player = r.getPlayer();
+			IPlayer player = r.getPlayer();
 			if (player != null) {
 				result.add(player);
 			}
@@ -129,7 +130,7 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 	
 	protected void freeMeeple(List<IRegion> area) {
 		for (IRegion r : area) {
-			Player player = r.getPlayer();
+			IPlayer player = r.getPlayer();
 			if (player != null) {
 				r.setPlayer(null);
 				player.addMeeple();
@@ -137,8 +138,8 @@ public abstract class ScoreCalculus implements IScoreCalculus {
 		}
 	}
 	
-	protected void assignPoints(List<Player> players, int points) {
-		for (Player p : players) {
+	protected void assignPoints(List<IPlayer> players, int points) {
+		for (IPlayer p : players) {
 			int oldScore = p.getScore();
 			p.setScore(oldScore + points);
 		}

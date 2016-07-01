@@ -1,6 +1,8 @@
-package de.htwg.cityyanderecarcassonne.model;
+package de.htwg.cityyanderecarcassonne.model.impl;
 
-public class Player {
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+
+public class Player implements IPlayer{
 
     private String name;
     private int sumMeeples;
@@ -13,18 +15,22 @@ public class Player {
         setScore(0);
     }
 
+    @Override
     public void setScore(int score) {
     	this.score = score;
 	}
     
+    @Override
     public int getScore() {
     	return this.score;
 	}
 
+    @Override
 	public String getName() {
         return this.name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -34,16 +40,19 @@ public class Player {
     	return getName();
     }
 
+    @Override
 	public int getSumMeeples() {
 		return sumMeeples;
 	}
 	
+    @Override
 	public void addMeeple()	{
 		if(sumMeeples < MAX_MEEPLE)	{
 			sumMeeples++;
 		}
 	}
 	
+    @Override
 	public void removeMeeple()	{
 		if(sumMeeples > 0)	{
 			sumMeeples--;

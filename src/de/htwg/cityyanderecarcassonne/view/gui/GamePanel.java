@@ -19,8 +19,9 @@ import javax.swing.event.ChangeListener;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
     int DimY = 0;
     private TownsquareVisual tv;
     
-	private Map<Position, String> cardPoss;
+	private Map<IPosition, String> cardPoss;
 	private double scaleFactor;
 	private int cardXOff, cardYOff;
 	private Map<IRegion, String> meeplePoss;
@@ -161,12 +162,12 @@ public class GamePanel extends JPanel implements ChangeListener, IObserver, Mous
 	private void placeCardOnPosition(double x, double y) {
 		double relation = 200 * scaleFactor;
 		if (cardPoss != null) {
-			for (Position p : cardPoss.keySet()) {
+			for (IPosition p : cardPoss.keySet()) {
 				if ((x >= p.getX() * relation && x <= p.getX() * relation + 200 * scaleFactor) && 
 					(y >= p.getY() * relation && y <= p.getY() * relation + 200 * scaleFactor)) {
 					cardXOff = p.getX();
 					cardYOff = p.getY();
-					Position tmppos = new Position(cardXOff, cardYOff);
+					IPosition tmppos = new Position(cardXOff, cardYOff);
 					controller.placeCard(controller.cardOnHand(), cardPoss.get(tmppos));
 				}
 					

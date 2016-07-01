@@ -1,6 +1,8 @@
-package de.htwg.cityyanderecarcassonne.model;
+package de.htwg.cityyanderecarcassonne.model.impl;
 
-public class Position {
+import de.htwg.cityyanderecarcassonne.model.IPosition;
+
+public class Position implements IPosition {
 	
 	private int x, y;
 	

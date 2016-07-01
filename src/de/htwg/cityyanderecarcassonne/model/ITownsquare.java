@@ -2,17 +2,18 @@ package de.htwg.cityyanderecarcassonne.model;
 
 import java.util.List;
 
+
 public interface ITownsquare {
 	
-	public ICard getCard(Position p);
+	public ICard getCard(IPosition p);
 	
 	public ICard getCard(int x, int y);
 	
-	public boolean setCard(ICard c, Position p);
+	public boolean setCard(ICard c, IPosition p);
 	
 	public boolean setCard(ICard c, int x, int y);
 	
-	public List<Position> getPossibilities(ICard c);
+	public List<IPosition> getPossibilities(ICard c);
 	
 	public int getDimX();
 	
@@ -26,5 +27,5 @@ public interface ITownsquare {
 
 	int getYMax();
 	
-	public boolean placeMeepleOnRegion(Player player, IRegion region);
+	public boolean placeMeepleOnRegion(IPlayer player, IRegion region);
 }

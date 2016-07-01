@@ -3,9 +3,9 @@ package de.htwg.cityyanderecarcassonne.controller;
 import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.util.observer.IObservable;
 
@@ -21,7 +21,7 @@ public interface ICarcassonneController extends IObservable {
     
     public String getStatusMessage();
     
-    public void placeMeeple(Player player,ICard card, String poss);
+    public void placeMeeple(IPlayer player,ICard card, String poss);
     
     public void rotateCardLeft();
     
@@ -37,7 +37,7 @@ public interface ICarcassonneController extends IObservable {
 
     public Townsquare getTownsquare();
 	
-    public Map<Position, String> getCardPossibilitiesMap(ICard card);
+    public Map<IPosition, String> getCardPossibilitiesMap(ICard card);
 	
 	void placeCard(ICard c, String poss);
 
@@ -45,7 +45,7 @@ public interface ICarcassonneController extends IObservable {
 
 	void nextPlayer();
 
-	Player getCurrentPlayer();
+	IPlayer getCurrentPlayer();
 
 	int getRemainingCards();
 

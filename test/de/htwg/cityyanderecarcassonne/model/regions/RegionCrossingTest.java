@@ -1,9 +1,12 @@
 package de.htwg.cityyanderecarcassonne.model.regions;
  
-import static org.junit.Assert.*;
-import de.htwg.cityyanderecarcassonne.model.Player;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class RegionCrossingTest	{
 
@@ -16,7 +19,7 @@ public class RegionCrossingTest	{
 
 	@Test
 	public void getPlayerTest() {
-		Player player = new Player("Henning");
+		IPlayer player = new Player("Henning");
 		region.setPlayer(player);
 		assertEquals(player, region.getPlayer());
 	}
@@ -29,7 +32,7 @@ public class RegionCrossingTest	{
 	
 	@Test
 	public void toStringTest() {
-		Player player = new Player("Henning");
+		IPlayer player = new Player("Henning");
 		region.setPlayer(player);
 		region.setID(200);
 		assertEquals("Type: Crossing Player: Henning ID: 200", region.toString());

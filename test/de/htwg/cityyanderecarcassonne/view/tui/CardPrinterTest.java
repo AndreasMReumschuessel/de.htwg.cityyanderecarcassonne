@@ -1,6 +1,6 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +10,9 @@ import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.cards.*;
+import de.htwg.cityyanderecarcassonne.model.cards.CardA;
+import de.htwg.cityyanderecarcassonne.model.cards.CardL;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class CardPrinterTest {
 

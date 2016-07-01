@@ -14,8 +14,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
 
 public class CardPrinterGUI {
 	private static CardPrinterGUI instance = null;
@@ -124,7 +124,7 @@ public class CardPrinterGUI {
 		}
 	}
 	
-	private static Paint calcColor(Player player) {
+	private static Paint calcColor(IPlayer player) {
 		String name = player.getName();
 		return new Color(Math.abs(name.hashCode()) % 255, Math.abs(name.hashCode() + 40) % 255, Math.abs(name.hashCode() + 80) % 255);
 	}

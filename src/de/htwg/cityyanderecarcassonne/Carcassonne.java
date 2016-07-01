@@ -14,8 +14,6 @@ public final class Carcassonne {
 	private static TextUI tui;
 	private static Scanner in;
 	
-	private static GraphicalUI gui;
-	
 	private Carcassonne() {
 		
 	}
@@ -26,7 +24,7 @@ public final class Carcassonne {
 		tui = new TextUI(controller);
 		tui.printTUI();
 		
-		gui = new GraphicalUI(controller);
+		GraphicalUI gui = new GraphicalUI(controller);
 		
 		boolean continu = true;
         in = new Scanner(System.in);

@@ -1,15 +1,17 @@
 package de.htwg.cityyanderecarcassonne.model.townsquare;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.ITownsquare;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.CardA;
 import de.htwg.cityyanderecarcassonne.model.cards.CardB;
 import de.htwg.cityyanderecarcassonne.model.cards.CardC;
@@ -21,7 +23,8 @@ import de.htwg.cityyanderecarcassonne.model.cards.CardL;
 import de.htwg.cityyanderecarcassonne.model.cards.CardMN;
 import de.htwg.cityyanderecarcassonne.model.cards.CardOP;
 import de.htwg.cityyanderecarcassonne.model.cards.CardU;
-import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 
 public class TownsquareTest {
 	
@@ -45,7 +48,7 @@ public class TownsquareTest {
 		map.setCard(card, 30, 45);
 		assertEquals(card, map.getCard(30, 45));
 		
-		Position pos = new Position(25, 60);
+		IPosition pos = new Position(25, 60);
 		map.setCard(card, pos);
 		
 		assertEquals(card, map.getCard(pos));
@@ -78,8 +81,8 @@ public class TownsquareTest {
 	public void placeMeepleTest() {
 		ICard card = new CardD();
 		IRegion region = card.getCenterMiddle();
-		Player player = new Player("Hans");
-		Player player2 = new Player("Uschi");
+		IPlayer player = new Player("Hans");
+		IPlayer player2 = new Player("Uschi");
 		
 		assertTrue(map.placeMeepleOnRegion(player, region));
 		

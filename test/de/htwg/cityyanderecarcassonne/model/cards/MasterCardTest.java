@@ -1,6 +1,6 @@
 package de.htwg.cityyanderecarcassonne.model.cards;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IDManager;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class MasterCardTest {
 

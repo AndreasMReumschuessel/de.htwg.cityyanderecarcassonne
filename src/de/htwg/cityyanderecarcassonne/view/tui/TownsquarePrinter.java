@@ -1,9 +1,11 @@
 package de.htwg.cityyanderecarcassonne.view.tui;
 
 import java.util.Map;
+
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Position;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public final class TownsquarePrinter {
@@ -41,7 +43,7 @@ public final class TownsquarePrinter {
 			sb.append("              ");
 	}
 	
-	public String printCardPossibilitiesTownsquare(Map<Position, String> possibilities) {
+	public String printCardPossibilitiesTownsquare(Map<IPosition, String> possibilities) {
 		StringBuilder sb = new StringBuilder();
 		
 		int xMin = ts.getXMin();
@@ -53,7 +55,7 @@ public final class TownsquarePrinter {
 			for (int l = 0; l < 7; l++) {
 				for (int x = xMin; x < xMax + 1; x++) {
 					ICard cx = ts.getCard(x, y);
-					Position tmppos = new Position(x, y);
+					IPosition tmppos = new Position(x, y);
 					performPossPrint(possibilities, tmppos, l, cx, sb);
 				}
 				sb.append('\n');
@@ -62,7 +64,7 @@ public final class TownsquarePrinter {
 		return sb.toString();
 	}
 	
-	private void performPossPrint(Map<Position, String> possibilities, Position tmppos, int l, ICard cx, StringBuilder sb) {
+	private void performPossPrint(Map<IPosition, String> possibilities, IPosition tmppos, int l, ICard cx, StringBuilder sb) {
 		if (possibilities.containsKey(tmppos)) {
 			String ident = possibilities.get(tmppos);
 			sb.append(mlToSl(l, pseudoCard(ident)));

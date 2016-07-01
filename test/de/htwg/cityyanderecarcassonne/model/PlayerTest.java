@@ -1,15 +1,15 @@
 package de.htwg.cityyanderecarcassonne.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 
 public class PlayerTest {
 
-	private Player player;
+	private IPlayer player;
 	
 	@Before
 	public void setUp() throws Exception {

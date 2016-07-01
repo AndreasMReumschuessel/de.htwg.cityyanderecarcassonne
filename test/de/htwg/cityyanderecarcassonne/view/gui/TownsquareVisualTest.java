@@ -1,7 +1,5 @@
 package de.htwg.cityyanderecarcassonne.view.gui;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.CardB;
 import de.htwg.cityyanderecarcassonne.model.cards.CardD;
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 
 public class TownsquareVisualTest {
@@ -41,7 +40,7 @@ public class TownsquareVisualTest {
 
 	@Test
 	public final void testPossTownsquareVisual() {
-		Map<Position, String> possibilities = new HashMap<>();
+		Map<IPosition, String> possibilities = new HashMap<>();
 		possibilities.put(new Position(4,5), "G");
 		
 		tsp.possTownsquareVisual(possibilities);

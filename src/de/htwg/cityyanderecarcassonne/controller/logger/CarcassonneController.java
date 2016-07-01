@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.util.observer.Observable;
 
@@ -66,7 +66,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public void placeMeeple(Player player, ICard card, String poss) {
+	public void placeMeeple(IPlayer player, ICard card, String poss) {
 		pre();
 		realController.placeMeeple(player, card, poss);
 		post();
@@ -118,7 +118,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public Map<Position, String> getCardPossibilitiesMap(ICard card) {
+	public Map<IPosition, String> getCardPossibilitiesMap(ICard card) {
 		return realController.getCardPossibilitiesMap(card);
 	}
 
@@ -142,7 +142,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public Player getCurrentPlayer() {
+	public IPlayer getCurrentPlayer() {
 		return realController.getCurrentPlayer();
 	}
 

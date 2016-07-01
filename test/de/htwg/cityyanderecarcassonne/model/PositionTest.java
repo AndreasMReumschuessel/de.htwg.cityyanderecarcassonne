@@ -1,13 +1,17 @@
 package de.htwg.cityyanderecarcassonne.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.cityyanderecarcassonne.model.impl.Position;
+
 public class PositionTest {
 	
-	private Position pos;
+	private IPosition pos;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -39,9 +43,9 @@ public class PositionTest {
 	
 	@Test
 	public void hashCodeTest() {
-		Position p1 = new Position(3, 6);
-		Position p2 = new Position(3, 6);
-		Position p3 = new Position(6, 3);
+		IPosition p1 = new Position(3, 6);
+		IPosition p2 = new Position(3, 6);
+		IPosition p3 = new Position(6, 3);
 		
 		assertTrue(p1.hashCode() == p2.hashCode());
 		
@@ -50,10 +54,10 @@ public class PositionTest {
 	
 	@Test
 	public void equalsTest() {
-		Position p1 = new Position(3, 6);
-		Position p2 = new Position(3, 6);
-		Position p3 = new Position(6, 3);
-		Position p4 = new Position(3, 8);
+		IPosition p1 = new Position(3, 6);
+		IPosition p2 = new Position(3, 6);
+		IPosition p3 = new Position(6, 3);
+		IPosition p4 = new Position(3, 8);
 		
 		assertTrue(p1.equals(p2));
 		assertTrue(p2.equals(p1));
@@ -68,7 +72,7 @@ public class PositionTest {
 	
 	@Test
 	public void toStringTest() {
-		Position p = new Position(42, 24);
+		IPosition p = new Position(42, 24);
 		
 		assertEquals("(42|24)", p.toString());
 	}

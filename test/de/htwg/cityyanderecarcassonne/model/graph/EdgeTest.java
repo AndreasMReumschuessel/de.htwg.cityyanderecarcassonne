@@ -1,17 +1,19 @@
 package de.htwg.cityyanderecarcassonne.model.graph;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.cityyanderecarcassonne.model.Edge;
+import de.htwg.cityyanderecarcassonne.model.IEdge;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
-import de.htwg.cityyanderecarcassonne.model.regions.*;
+import de.htwg.cityyanderecarcassonne.model.impl.Edge;
+import de.htwg.cityyanderecarcassonne.model.regions.RegionBuilding;
 
 public class EdgeTest {
 	
-	private Edge<IRegion> edgeConstructor1;
-	private Edge<IRegion> edgeConstructor2;
+	private IEdge<IRegion> edgeConstructor1;
+	private IEdge<IRegion> edgeConstructor2;
 	private IRegion a;
 	private IRegion b;
 

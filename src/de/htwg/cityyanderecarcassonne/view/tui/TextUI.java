@@ -3,7 +3,7 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
-import de.htwg.cityyanderecarcassonne.model.Player;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.view.StatusMessage;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
@@ -65,7 +65,7 @@ public class TextUI implements IObserver {
 	
 	public void printTUI() {
 		GameStatus status = controller.getStatus();
-		Player player = controller.getCurrentPlayer();
+		IPlayer player = controller.getCurrentPlayer();
 		
 		if (status != GameStatus.WELCOME && status != GameStatus.PLAYER_ADDED && status != GameStatus.FINISH) {
 			if (tsPrinter == null)

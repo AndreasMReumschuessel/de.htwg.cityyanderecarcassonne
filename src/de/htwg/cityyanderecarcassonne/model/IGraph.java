@@ -95,7 +95,7 @@ public interface IGraph<V> {
 	 * vorkommen.
   * @return Kantenliste.
   */
- List<Edge<V>> getEdgeList();
+ List<IEdge<V>> getEdgeList();
 
  /**
   * Liefert eine Liste aller adjazenter Knoten zu v.
@@ -117,7 +117,7 @@ public interface IGraph<V> {
   * nicht im Graph vorhanden ist.
   * @return Kantenliste
   */
- List<Edge<V>> getIncidentEdgeList(V v);
+ List<IEdge<V>> getIncidentEdgeList(V v);
  
  int getVertexIndex(Object v);
  

@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
+import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.IScoreCalculus;
-import de.htwg.cityyanderecarcassonne.model.Player;
-import de.htwg.cityyanderecarcassonne.model.Position;
 import de.htwg.cityyanderecarcassonne.model.cards.Stock;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
-import de.htwg.cityyanderecarcassonne.controller.GameStatus;
-import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.util.observer.Observable;
 
 public class CarcassonneController extends Observable implements ICarcassonneController  {
@@ -27,15 +28,15 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private ICard currentCard;
 	private Townsquare townsquare;
 	private int sizeX, sizeY;
-	private Player currentPlayer;
+	private IPlayer currentPlayer;
 	
-	private Map<Position, String> cPossMap;
+	private Map<IPosition, String> cPossMap;
 	private boolean cPossGen;
 	
 	private Map<IRegion, String> mPossMap;
 	private boolean mPossGen;
 	
-	private Queue<Player> playerQueue;
+	private Queue<IPlayer> playerQueue;
 	
 	private IScoreCalculus scoreCalculus;
 	
@@ -85,7 +86,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
         return status;
     }
 	
-	private void placeCard(ICard c, Position pos) {
+	private void placeCard(ICard c, IPosition pos) {
 		if (townsquare.setCard(c, pos)) {
 			this.setStatus(GameStatus.CARD_SET_SUCCESS);
 			cPossGen = false;
@@ -99,8 +100,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override 
 	public void placeCard(ICard c, String poss) {
 		if (cPossGen) {
-			Map<String, Position> map = new HashMap<>();
-			for (Position p : cPossMap.keySet())
+			Map<String, IPosition> map = new HashMap<>();
+			for (IPosition p : cPossMap.keySet())
 				map.put(cPossMap.get(p), p);
 			
 			placeCard(c, map.get(poss));
@@ -118,7 +119,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		return stock.getSizeOfStock();
 	}
 
-	private void placeMeeple(Player player, IRegion region) {
+	private void placeMeeple(IPlayer player, IRegion region) {
 		if(townsquare.placeMeepleOnRegion(player, region)){
 			setStatus(GameStatus.MEEPLE_SET_SUCCESS);
 			mPossGen = false;
@@ -130,7 +131,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 	
 	@Override
-	public void placeMeeple(Player player, ICard card, String poss) {
+	public void placeMeeple(IPlayer player, ICard card, String poss) {
 		if (mPossGen) {
 			Map<String, IRegion> map = new HashMap<>();
 			for (IRegion r : mPossMap.keySet())
@@ -228,12 +229,12 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public Map<Position, String> getCardPossibilitiesMap(ICard card) {
-		 List<Position> lpos = townsquare.getPossibilities(card);
-		 Map<Position, String>  em = new HashMap<>();
+	public Map<IPosition, String> getCardPossibilitiesMap(ICard card) {
+		 List<IPosition> lpos = townsquare.getPossibilities(card);
+		 Map<IPosition, String>  em = new HashMap<>();
 		 int ascii = 0;
 		 
-		 for (Position p : lpos) {
+		 for (IPosition p : lpos) {
 			 String input = this.generateLetter(ascii);
 			 em.put(p, input);
 			 ascii++;
@@ -258,7 +259,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	@Override
 	public void addPlayer(String name) {
-		Player player = new Player(name);
+		IPlayer player = new Player(name);
 		playerQueue.add(player);
 		setStatus(GameStatus.PLAYER_ADDED);
 		
@@ -282,7 +283,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 	
 	@Override
-	public Player getCurrentPlayer() {
+	public IPlayer getCurrentPlayer() {
 		return currentPlayer;
 	}	
 }

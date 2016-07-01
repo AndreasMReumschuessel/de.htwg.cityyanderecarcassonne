@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 public class IDManager {
 	
 	private static Set<Integer> idpool = new HashSet<>();
@@ -16,7 +17,7 @@ public class IDManager {
 	private static int schoolID = 40000;
 	private static int streetID = 50000;
 	
-	private static Map<Integer, List<Player>> idPlayer = new HashMap<>();
+	private static Map<Integer, List<IPlayer>> idPlayer = new HashMap<>();
 	private static Map<Integer, Integer> idSumCards = new HashMap<>();
 	private static Map<Integer, Boolean> idAreaClosed = new HashMap<>();
 	
@@ -89,9 +90,9 @@ public class IDManager {
 		idPlayer = new HashMap<>();
 	}
 	
-	public static boolean setPlayer(int id, Player player) {
+	public static boolean setPlayer(int id, IPlayer player) {
 		if (idpool.contains(id) && player != null) {
-			List<Player> playerList = idPlayer.get(id);
+			List<IPlayer> playerList = idPlayer.get(id);
 			playerList.add(player);
 			return true;
 		}
@@ -110,7 +111,7 @@ public class IDManager {
 		return false;
 	}
 	
-	public static List<Player> getPlayerList(int id) {
+	public static List<IPlayer> getPlayerList(int id) {
 		return idPlayer.get(id);
 	}
 	
