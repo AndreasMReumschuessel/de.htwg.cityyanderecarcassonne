@@ -9,6 +9,6 @@ This version is a bit modified and has a custom skin pack.
 
 ### Install instructions
 In future versions, it will be easier to download and install the game.
-1. Clone project
-2. Build it to a .jar file
-3. Execute
+  1. Clone project
+  2. Build it to a .jar file
+  3. Execute
