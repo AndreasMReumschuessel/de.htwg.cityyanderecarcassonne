@@ -1,6 +1,6 @@
 # City Yandere Carcassonne
 
-City Yandere Carcassone is a Computer ame based on the famous board game named Carcassonne.
+City Yandere Carcassone is a Computer game based on the famous board game named Carcassonne.
 This version is a bit modified and has a custom skin pack.
 
 ### Features
