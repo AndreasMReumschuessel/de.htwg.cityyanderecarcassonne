@@ -14,11 +14,18 @@ public class TextUI implements IObserver {
 	private StatusMessage sm;
 	private TownsquarePrinter tsPrinter;
 	private ICard card;
+
+	private boolean consolePrint, variablePrint;
+	private String tuiString;
 	
-	public TextUI (ICarcassonneController controller2) {
+	public TextUI (ICarcassonneController controller2, boolean consolePrint, boolean variablePrint) {
 		this.controller = controller2;
 		controller2.addObserver(this);
 		sm = new StatusMessage();
+
+		this.consolePrint = consolePrint;
+		this.variablePrint = variablePrint;
+		tuiString = "";
 	}
 
 	@Override
@@ -27,12 +34,11 @@ public class TextUI implements IObserver {
 	}
 	
 	public boolean processInput(String line) {
-		boolean cont = true;
+		tuiString = "";
 		
 		if ("q".equals(line)) {
-			cont = false;
 			printBye();
-			return cont;
+			return false;
 		} else if ("h".equals(line)) {
 			printCommands();
 		} else if ("c".equals(line)) {
@@ -60,7 +66,7 @@ public class TextUI implements IObserver {
 		}
 		
 		printPrompt();
-		return cont;
+		return true;
 	}
 	
 	public void printTUI() {
@@ -101,6 +107,10 @@ public class TextUI implements IObserver {
 			printPrompt();
 		}
 	}
+
+	public String getTuiString() {
+	    return tuiString;
+    }
 	
 	private void printCommands() {
 		printOutln("Commands:");
@@ -136,6 +146,10 @@ public class TextUI implements IObserver {
 	}
 	
 	private void printOut(String x) {
-		System.out.print(x);
+		if (consolePrint)
+			System.out.print(x);
+
+		if (variablePrint)
+			tuiString += x;
 	}
 }
