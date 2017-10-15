@@ -12,20 +12,19 @@ public final class Carcassonne {
 	
 	private ICarcassonneController controller;
 	private TextUI tui;
-	private GraphicalUI gui;
+	private GraphicalUI gui = null;
 
 	private static Carcassonne instance = null;
 	
 	private Carcassonne(int sizeX, int sizeY, boolean consolePrint, boolean variablePrint) {
 		controller = new CarcassonneController(sizeX, sizeY);
 		tui = new TextUI(controller, consolePrint, variablePrint);
-
-		gui = new GraphicalUI(controller);
 	}
 
 	public static Carcassonne getInstance(int sizeX, int sizeY, boolean consolePrint, boolean variablePrint) {
 		if (instance == null) {
-			return new Carcassonne(sizeX, sizeY, consolePrint, variablePrint);
+		    instance = new Carcassonne(sizeX, sizeY, consolePrint, variablePrint);
+			return instance;
 		}
 
 		return instance;
@@ -36,7 +35,12 @@ public final class Carcassonne {
 	}
 
 	public GraphicalUI getGui() {
-		return gui;
+	    if (gui == null) {
+            gui = new GraphicalUI(controller);
+            return gui;
+        }
+
+        return gui;
 	}
 
 	public ICarcassonneController getController() {
@@ -46,6 +50,7 @@ public final class Carcassonne {
 	public static void main(String[] args) throws IOException {
 		Carcassonne game = Carcassonne.getInstance(15, 15, true, false);
 		game.tui.printTUI();
+		game.getGui();
 
 		Scanner in;
 		boolean continu = true;
