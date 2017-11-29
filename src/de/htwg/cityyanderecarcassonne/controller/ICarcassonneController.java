@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import de.htwg.cityyanderecarcassonne.model.ICard;
@@ -46,6 +47,8 @@ public interface ICarcassonneController extends IObservable {
 	void nextPlayer();
 
 	IPlayer getCurrentPlayer();
+
+	public List<IPlayer> getPlayers();
 
 	int getRemainingCards();
 

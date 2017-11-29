@@ -37,6 +37,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private boolean mPossGen;
 	
 	private Queue<IPlayer> playerQueue;
+	private List<IPlayer> playerList;
 	
 	private IScoreCalculus scoreCalculus;
 	
@@ -52,6 +53,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.mPossGen = false;
 		
 		this.playerQueue = new LinkedList<>();
+		this.playerList = new LinkedList<>();
 		
 		status = GameStatus.WELCOME;
 		statusMessage = "";
@@ -261,6 +263,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	public void addPlayer(String name) {
 		IPlayer player = new Player(name);
 		playerQueue.add(player);
+		playerList.add(player);
 		setStatus(GameStatus.PLAYER_ADDED);
 		
 		if ("Yandere-chan".equals(name))
@@ -285,5 +288,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public IPlayer getCurrentPlayer() {
 		return currentPlayer;
-	}	
+	}
+
+	@Override
+	public List<IPlayer> getPlayers() {
+		return playerList;
+	}
 }
