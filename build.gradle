@@ -1,5 +1,5 @@
 plugins {
-  id "org.sonarqube" version "1.1"
+  //id "org.sonarqube" version "1.1"
 }
 
 repositories {
@@ -8,11 +8,12 @@ repositories {
 
 apply plugin: "java"
 apply plugin: "idea"
-apply plugin: "sonar-runner"
-apply plugin: "org.sonarqube"
-apply plugin: "eclipse"
+apply plugin: "application"
+//apply plugin: "sonar-runner"
+//apply plugin: "org.sonarqube"
 apply plugin: "maven"
-apply plugin: "jacoco"
+
+mainClassName = "de.htwg.cityyanderecarcassonne.Carcassonne"
 
 idea {
     project {
@@ -23,6 +24,8 @@ idea {
 }
 
 dependencies {
+    compile group: 'com.typesafe.akka', name: 'akka-http_2.12',   version: '10.1.1'
+    compile group: 'com.typesafe.akka', name: 'akka-stream_2.12', version: '2.5.11'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api',  version: '2.6'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6'
     compile group: 'com.google.inject',        name: 'guice',      version: '3.0'
@@ -39,7 +42,7 @@ jar {
     manifest.attributes "Main-Class":"de.htwg.cityyanderecarcassonne.module.Card"
 }
   
-sonarqube {
+/*sonarqube {
     properties {
     property "sonar.projectName", "SE2016SS-09-Carcassonne"
     property "sonar.projectKey", "de.htwg.cityyanderecarcassonne"
@@ -47,4 +50,4 @@ sonarqube {
     property "sonar.binaries", "build/classes"
     property "sonar.java.coveragePlugin", "jacoco"
   }
-}
+}*/
