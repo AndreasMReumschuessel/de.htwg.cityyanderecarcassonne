@@ -1,7 +1,5 @@
 package de.htwg.cityyanderecarcassonne.persistence.hibernate;
 
-import de.htwg.cityyanderecarcassonne.model.IPlayer;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

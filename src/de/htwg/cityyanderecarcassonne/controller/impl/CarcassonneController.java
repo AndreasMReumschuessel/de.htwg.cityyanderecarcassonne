@@ -310,8 +310,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
 	@Override
 	public void loadPlayerDB(int id) {
-        playerList.add(dao.loadPlayer(id));
-        statusMessage = "Loaded player: " + currentPlayer.toString();
+	    IPlayer player = dao.loadPlayer(id);
+	    playerQueue.add(player);
+        playerList.add(player);
+        statusMessage = "Added DB player: " + player.getName();
         notifyObservers();
 	}
 

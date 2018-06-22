@@ -1,5 +1,6 @@
 package de.htwg.cityyanderecarcassonne.persistence.hibernate;
 
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import org.hibernate.HibernateException;
@@ -33,7 +34,12 @@ public class HibernateDAO implements IDAO {
 
     @Override
     public IPlayer loadPlayer(int id) {
-        return null;
+        Session session = HibernateUtil.getInstance().getCurrentSession();
+        session.beginTransaction();
+
+        PersistentPlayer pplayer = session.get(PersistentPlayer.class, id);
+
+        return convertPlayer(pplayer);
     }
 
     @Override
@@ -54,5 +60,21 @@ public class HibernateDAO implements IDAO {
         pplayer.setScore(player.getScore());
 
         return pplayer;
+    }
+
+    private IPlayer convertPlayer(PersistentPlayer pplayer) {
+        IPlayer player = new Player(pplayer.getName());
+        player.setScore(pplayer.getScore());
+
+        int initMeeple = player.getSumMeeples();
+        if (initMeeple > pplayer.getSumMeeples()) {
+            for (int i = initMeeple; i > pplayer.getSumMeeples(); i--)
+                player.removeMeeple();
+        } else {
+            for (int i = initMeeple; i < pplayer.getSumMeeples(); i++)
+                player.addMeeple();
+        }
+
+        return player;
     }
 }
