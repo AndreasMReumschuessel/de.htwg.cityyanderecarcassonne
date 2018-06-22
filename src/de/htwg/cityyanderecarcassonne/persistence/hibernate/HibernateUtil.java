@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.persistence.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
@@ -8,7 +9,10 @@ public class HibernateUtil {
 
     static {
         try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            Configuration config = new Configuration().configure("/hibernate.cfg.xml");
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(config.getProperties());
+            sessionFactory = config.buildSessionFactory(builder.build());
+            //sessionFactory = new Configuration().configure("/de/htwg/cityyanderecarcassonne/persistence/hibernate/hibernate.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object: " + ex);
             throw new ExceptionInInitializerError(ex);

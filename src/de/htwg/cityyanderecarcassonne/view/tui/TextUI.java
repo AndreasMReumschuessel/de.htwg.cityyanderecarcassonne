@@ -61,7 +61,11 @@ public class TextUI implements IObserver {
 			controller.placeCard(card, line.replace("s", ""));
 		} else if (line.matches("m[A-Z]")) {
 			controller.placeMeeple(controller.getCurrentPlayer(), card, line.replace("m", ""));
-		} else {
+		} else if (line.startsWith("sg")) {
+		    controller.saveCurrentPlayerDB();
+        } else if (line.startsWith("lg")) {
+            controller.loadPlayerDB(Integer.getInteger(line.substring(2)));
+        } else {
 			printCommandUnknown();
 		}
 		

@@ -18,6 +18,8 @@ import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.cityyanderecarcassonne.persistence.IDAO;
+import de.htwg.cityyanderecarcassonne.persistence.hibernate.HibernateDAO;
 import de.htwg.util.observer.Observable;
 
 public class CarcassonneController extends Observable implements ICarcassonneController  {
@@ -40,6 +42,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private List<IPlayer> playerList;
 	
 	private IScoreCalculus scoreCalculus;
+
+	private IDAO dao;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
@@ -54,6 +58,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		
 		this.playerQueue = new LinkedList<>();
 		this.playerList = new LinkedList<>();
+
+		this.dao = new HibernateDAO();
 		
 		status = GameStatus.WELCOME;
 		statusMessage = "";
@@ -293,5 +299,29 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public List<IPlayer> getPlayers() {
 		return playerList;
+	}
+
+	@Override
+	public void saveCurrentPlayerDB() {
+        dao.savePlayer(currentPlayer);
+        statusMessage = "Saved player: " + currentPlayer.toString();
+        notifyObservers();
+	}
+
+	@Override
+	public void loadPlayerDB(int id) {
+        playerList.add(dao.loadPlayer(id));
+        statusMessage = "Loaded player: " + currentPlayer.toString();
+        notifyObservers();
+	}
+
+	@Override
+	public List<IPlayer> getPlayersDB() {
+		return null;
+	}
+
+	@Override
+	public void deletePlayerDB(IPlayer player) {
+
 	}
 }
