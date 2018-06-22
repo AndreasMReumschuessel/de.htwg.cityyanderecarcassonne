@@ -13,13 +13,13 @@ public class HibernateDAO implements IDAO {
     }
 
     @Override
-    public List<IPlayer> getPlayers() {
+    public IPlayer loadPlayer(int id) {
         return null;
     }
 
     @Override
-    public void updatePlayer(IPlayer player) {
-
+    public List<IPlayer> getPlayers() {
+        return null;
     }
 
     @Override

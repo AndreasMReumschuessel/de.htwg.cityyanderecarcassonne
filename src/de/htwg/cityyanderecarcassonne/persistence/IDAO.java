@@ -7,8 +7,8 @@ import java.util.List;
 public interface IDAO {
 
     void savePlayer(IPlayer player);
+    IPlayer loadPlayer(int id);
     List<IPlayer> getPlayers();
-    void updatePlayer(IPlayer player);
     void deletePlayer(IPlayer player);
 
     //saveSaveGame(SaveGame);
