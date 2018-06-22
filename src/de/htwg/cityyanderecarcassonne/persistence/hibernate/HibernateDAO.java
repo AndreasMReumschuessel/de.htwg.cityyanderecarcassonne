@@ -6,8 +6,9 @@ import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import java.util.List;
 
 public class HibernateDAO implements IDAO {
+
     @Override
-    public void addPlayer(IPlayer player) {
+    public void savePlayer(IPlayer player) {
 
     }
 
@@ -18,6 +19,11 @@ public class HibernateDAO implements IDAO {
 
     @Override
     public void updatePlayer(IPlayer player) {
+
+    }
+
+    @Override
+    public void deletePlayer(IPlayer player) {
 
     }
 }

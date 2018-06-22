@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface IDAO {
 
-    void addPlayer(IPlayer player);
+    void savePlayer(IPlayer player);
     List<IPlayer> getPlayers();
     void updatePlayer(IPlayer player);
-    //void deletePlayer(IPlayer player);
+    void deletePlayer(IPlayer player);
 
-
+    //saveSaveGame(SaveGame);
+    //SaveGame loadSaveGame(int id);
+    //List<SaveGame(Meta)> showSaveGames();
 }
