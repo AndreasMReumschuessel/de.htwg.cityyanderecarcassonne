@@ -1,11 +1,11 @@
-package de.htwg.cityyanderecarcassonne.model.dao;
+package de.htwg.cityyanderecarcassonne.persistence.hibernate;
 
-import de.htwg.cityyanderecarcassonne.model.IDao;
+import de.htwg.cityyanderecarcassonne.persistence.IDAO;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
 
 import java.util.List;
 
-public class DaoHibernate implements IDao {
+public class HibernateDAO implements IDAO {
     @Override
     public void addPlayer(IPlayer player) {
 
