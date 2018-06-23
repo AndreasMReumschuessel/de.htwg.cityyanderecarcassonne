@@ -19,7 +19,9 @@ import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
+import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.cityyanderecarcassonne.persistence.hibernate.HibernateDAO;
+import de.htwg.cityyanderecarcassonne.persistence.savegame.SaveGame;
 import de.htwg.util.observer.Observable;
 
 public class CarcassonneController extends Observable implements ICarcassonneController  {
@@ -43,6 +45,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	
 	private IScoreCalculus scoreCalculus;
 
+	private ISaveGame saveGame;
 	private IDAO dao;
 	
 	public CarcassonneController(int sizeX, int sizeY) {
@@ -302,28 +305,36 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public void saveCurrentPlayerDB() {
-        dao.savePlayer(currentPlayer);
-        statusMessage = "Saved player: " + currentPlayer.toString();
+	public void saveSaveGameDB() {
+	    if (saveGame == null) {
+            saveGame = new SaveGame();
+        }
+
+	    saveGame.setPlayerList(playerList);
+	    dao.saveGame(saveGame);
+
+        statusMessage = "Saved Game.";
         notifyObservers();
 	}
 
 	@Override
-	public void loadPlayerDB(int id) {
-	    IPlayer player = dao.loadPlayer(id);
-	    playerQueue.add(player);
-        playerList.add(player);
-        statusMessage = "Added DB player: " + player.getName();
+	public void loadSaveGameDB(int id) {
+		saveGame = dao.loadSaveGame(id);
+		playerList = saveGame.getPlayerList();
+		playerQueue = new LinkedList<>();
+		playerQueue.addAll(playerList);
+
+        statusMessage = "Loaded Game";
         notifyObservers();
 	}
 
 	@Override
-	public List<IPlayer> getPlayersDB() {
+	public List<ISaveGame> getSaveGameListDB() {
 		return null;
 	}
 
 	@Override
-	public void deletePlayerDB(IPlayer player) {
+	public void deleteSaveGameDB(ISaveGame saveGame) {
 
 	}
 }

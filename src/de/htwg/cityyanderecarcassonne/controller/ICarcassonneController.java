@@ -8,6 +8,7 @@ import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.util.observer.IObservable;
 
 public interface ICarcassonneController extends IObservable {
@@ -54,12 +55,12 @@ public interface ICarcassonneController extends IObservable {
 
 	void finish();
 
-	void saveCurrentPlayerDB();
+	void saveSaveGameDB();
 
-	void loadPlayerDB(int id);
+	void loadSaveGameDB(int id);
 
-    List<IPlayer> getPlayersDB();
+    List<ISaveGame> getSaveGameListDB();
 
-    void deletePlayerDB(IPlayer player);
+    void deleteSaveGameDB(ISaveGame saveGame);
 
 }

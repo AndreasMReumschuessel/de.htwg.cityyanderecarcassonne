@@ -8,18 +8,21 @@ import java.io.Serializable;
 public class PersistentPlayer implements Serializable {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "sumMeeples")
+    @Column(name = "sum_meeples")
     private int sumMeeples;
 
     @Column(name = "score")
     private int score;
+
+    @ManyToOne
+    @JoinColumn(name = "save_game_id", nullable = false)
+    private PersistentSaveGame savegame;
 
     public PersistentPlayer() {}
     public PersistentPlayer(String name, int sumMeeples, int score) {
@@ -58,5 +61,13 @@ public class PersistentPlayer implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public PersistentSaveGame getSavegame() {
+        return savegame;
+    }
+
+    public void setSavegame(PersistentSaveGame savegame) {
+        this.savegame = savegame;
     }
 }

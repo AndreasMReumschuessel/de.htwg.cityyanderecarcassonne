@@ -6,7 +6,7 @@
     <session-factory>
         <!-- Database Type -->
         <property name="dialect">org.hibernate.dialect.MySQL55Dialect</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 
         <!-- Connection details -->
         <property name="hibernate.connection.url">jdbc:mysql://mi9.moe:32306/cityyc_db</property>
@@ -20,5 +20,6 @@
 
         <!-- Mapping files -->
         <mapping class="de.htwg.cityyanderecarcassonne.persistence.hibernate.PersistentPlayer" />
+        <mapping class="de.htwg.cityyanderecarcassonne.persistence.hibernate.PersistentSaveGame" />
     </session-factory>
 </hibernate-configuration>
