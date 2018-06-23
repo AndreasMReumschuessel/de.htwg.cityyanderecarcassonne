@@ -21,6 +21,7 @@ import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
 import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.cityyanderecarcassonne.persistence.hibernate.HibernateDAO;
+import de.htwg.cityyanderecarcassonne.persistence.mongodb.MongoDBDAO;
 import de.htwg.cityyanderecarcassonne.persistence.savegame.SaveGame;
 import de.htwg.util.observer.Observable;
 
@@ -62,7 +63,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.playerQueue = new LinkedList<>();
 		this.playerList = new LinkedList<>();
 
-		this.dao = new HibernateDAO();
+		//this.dao = new HibernateDAO();
+		this.dao = new MongoDBDAO();
 		
 		status = GameStatus.WELCOME;
 		statusMessage = "";

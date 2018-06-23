@@ -32,6 +32,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
     compile files('lib/mysql-connector-java-8.0.11.jar')
     compile 'org.hibernate:hibernate-core:5.3.1.Final'
+    compile 'org.mongodb:mongodb-driver:3.6.4'
     testCompile "junit:junit:4.11"
 }
 
