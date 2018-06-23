@@ -24,11 +24,11 @@ idea {
 }
 
 dependencies {
-    compile group: 'com.typesafe.akka', name: 'akka-http_2.12',   version: '10.1.1'
+    compile group: 'com.typesafe.akka', name: 'akka-http_2.12', version: '10.1.1'
     compile group: 'com.typesafe.akka', name: 'akka-stream_2.12', version: '2.5.11'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api',  version: '2.6'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.6'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6'
-    compile group: 'com.google.inject',        name: 'guice',      version: '3.0'
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
     compile files('lib/mysql-connector-java-8.0.11.jar')
     compile 'org.hibernate:hibernate-core:5.3.1.Final'
