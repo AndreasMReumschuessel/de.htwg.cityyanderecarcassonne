@@ -64,7 +64,7 @@ public class TextUI implements IObserver {
 		} else if (line.startsWith("sg")) {
 		    controller.saveSaveGameDB();
         } else if (line.startsWith("lg")) {
-            controller.loadSaveGameDB(Integer.valueOf(line.substring(2)));
+            controller.loadSaveGameDB(line.substring(2));
         } else {
 			printCommandUnknown();
 		}

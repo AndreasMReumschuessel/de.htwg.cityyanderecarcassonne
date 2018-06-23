@@ -1,6 +1,7 @@
 package de.htwg.cityyanderecarcassonne.persistence.hibernate;
 
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,8 +13,9 @@ public class PersistentSaveGame implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int saveGameId;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    public String saveGameId;
 
     @OneToMany(mappedBy = "savegame")
     @Column(name = "player")

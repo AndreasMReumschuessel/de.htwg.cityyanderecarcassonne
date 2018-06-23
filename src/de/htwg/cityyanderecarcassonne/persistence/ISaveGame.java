@@ -5,8 +5,8 @@ import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import java.util.List;
 
 public interface ISaveGame {
-    int getSaveGameId();
-    void setSaveGameId(int saveGameId);
+    String getSaveGameId();
+    void setSaveGameId(String saveGameId);
 
     List<IPlayer> getPlayerList();
     void setPlayerList(List<IPlayer> playerList);

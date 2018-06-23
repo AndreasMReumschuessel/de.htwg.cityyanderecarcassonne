@@ -6,16 +6,16 @@ import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import java.util.List;
 
 public class SaveGame implements ISaveGame{
-    private int saveGameId = -1;
+    private String saveGameId;
     private List<IPlayer> playerList;
 
     @Override
-    public int getSaveGameId() {
+    public String getSaveGameId() {
         return saveGameId;
     }
 
     @Override
-    public void setSaveGameId(int saveGameId) {
+    public void setSaveGameId(String saveGameId) {
         this.saveGameId = saveGameId;
     }
 

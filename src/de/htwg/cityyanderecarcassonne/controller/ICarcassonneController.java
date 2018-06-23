@@ -57,7 +57,7 @@ public interface ICarcassonneController extends IObservable {
 
 	void saveSaveGameDB();
 
-	void loadSaveGameDB(int id);
+	void loadSaveGameDB(String id);
 
     List<ISaveGame> getSaveGameListDB();
 

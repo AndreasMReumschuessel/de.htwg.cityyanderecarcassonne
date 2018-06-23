@@ -41,7 +41,7 @@ public class MongoDBDAO implements IDAO {
     }
 
     @Override
-    public ISaveGame loadSaveGame(int id) {
+    public ISaveGame loadSaveGame(String id) {
         return null;
     }
 

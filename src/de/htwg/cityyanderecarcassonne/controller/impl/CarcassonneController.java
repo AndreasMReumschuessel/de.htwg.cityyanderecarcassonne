@@ -320,7 +320,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public void loadSaveGameDB(int id) {
+	public void loadSaveGameDB(String id) {
 		saveGame = dao.loadSaveGame(id);
 		playerList = saveGame.getPlayerList();
 		playerQueue = new LinkedList<>();

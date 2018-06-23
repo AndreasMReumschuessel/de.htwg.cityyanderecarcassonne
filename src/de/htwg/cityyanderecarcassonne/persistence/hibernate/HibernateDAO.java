@@ -41,7 +41,7 @@ public class HibernateDAO implements IDAO {
     }
 
     @Override
-    public ISaveGame loadSaveGame(int id) {
+    public ISaveGame loadSaveGame(String id) {
         Transaction tx = null;
         Session session;
         ISaveGame saveGame;
@@ -87,11 +87,11 @@ public class HibernateDAO implements IDAO {
 
     private PersistentSaveGame convertSaveGame(ISaveGame saveGame) {
         PersistentSaveGame pSaveGame;
-        int saveGameId = saveGame.getSaveGameId();
+        String saveGameId = saveGame.getSaveGameId();
 
         Session session = HibernateUtil.getInstance().getCurrentSession();
 
-        if (saveGameId > 0 && existsSaveGameById(session, saveGameId)) {
+        if (saveGameId != null && existsSaveGameById(session, saveGameId)) {
             // SaveGame was saved at least once
 
             pSaveGame = session.get(PersistentSaveGame.class, saveGameId);
@@ -134,7 +134,7 @@ public class HibernateDAO implements IDAO {
         return saveGame;
     }
 
-    private boolean existsSaveGameById(Session session, int saveGameId) {
+    private boolean existsSaveGameById(Session session, String saveGameId) {
         return (convertSaveGame(session.get(PersistentSaveGame.class, saveGameId)) != null);
     }
 }
