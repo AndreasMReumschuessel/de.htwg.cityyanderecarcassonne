@@ -315,7 +315,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	    saveGame.setPlayerList(playerList);
 	    dao.saveGame(saveGame);
 
-        statusMessage = "Saved Game.";
+        statusMessage = "Saved Game under id: " + saveGame.getSaveGameId();
         notifyObservers();
 	}
 
