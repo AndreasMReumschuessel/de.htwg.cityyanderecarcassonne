@@ -4,14 +4,18 @@ import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
 import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.cityyanderecarcassonne.persistence.mongodb.pojos.PersistentPlayer;
 import de.htwg.cityyanderecarcassonne.persistence.mongodb.pojos.PersistentSaveGame;
+import de.htwg.cityyanderecarcassonne.persistence.savegame.SaveGame;
+import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.types.ObjectId;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,43 +40,87 @@ public class MongoDBDAO implements IDAO {
 
     @Override
     public void saveGame(ISaveGame saveGame) {
-        PersistentSaveGame pSaveGame = new PersistentSaveGame();//convertSaveGame(saveGame)
-        collection.insertOne(pSaveGame);
+        PersistentSaveGame pSaveGame = convertSaveGame(saveGame);
+
+        String saveGameId = saveGame.getSaveGameId();
+        if (saveGameId != null && existsSaveGameById(saveGameId)) {
+            // SaveGame was saved at least once
+
+            BasicDBObject query = new BasicDBObject("_id", new ObjectId(saveGameId));
+            collection.updateOne(query, new Document("$set", pSaveGame));
+        } else {
+            // SaveGame is a new Entry to the Database
+
+            ObjectId oId = ObjectId.get();
+            pSaveGame.setSaveGameId(oId);
+
+            collection.insertOne(pSaveGame);
+
+            saveGame.setSaveGameId(oId.toString());
+        }
     }
 
     @Override
     public ISaveGame loadSaveGame(String id) {
-        return null;
+        BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+        PersistentSaveGame pSaveGame = collection.find(query).first();
+
+        return convertSaveGame(pSaveGame);
     }
 
-    /*private PersistentSaveGame convertSaveGame(ISaveGame saveGame) {
-        PersistentSaveGame pSaveGame;
-        int saveGameId = saveGame.getSaveGameId();
+    private PersistentPlayer convertPlayer(IPlayer player) {
+        PersistentPlayer pplayer = new PersistentPlayer();
 
-        if (saveGameId > 0 && existsSaveGameById(saveGameId)) {
-            // SaveGame was saved at least once
+        pplayer.setName(player.getName());
+        pplayer.setSumMeeples(player.getSumMeeples());
+        pplayer.setScore(player.getScore());
 
-            pSaveGame = session.get(PersistentSaveGame.class, saveGameId); // get savegame
+        return pplayer;
+    }
 
-            List<PersistentPlayer> pPlayerList = pSaveGame.getPlayerList();
-            for (PersistentPlayer pp : pPlayerList) {
-                for (IPlayer p : saveGame.getPlayerList()) {
-                    if (p.getName().equals(pp.getName())) {
-                        pp.setScore(p.getScore());
-                        pp.setSumMeeples(p.getSumMeeples());
-                    }
-                }
-            }
+    private IPlayer convertPlayer(PersistentPlayer pplayer) {
+        IPlayer player = new Player(pplayer.getName());
+        player.setScore(pplayer.getScore());
 
+        int initMeeple = player.getSumMeeples();
+        if (initMeeple > pplayer.getSumMeeples()) {
+            for (int i = initMeeple; i > pplayer.getSumMeeples(); i--)
+                player.removeMeeple();
         } else {
-            // SaveGame is a new Entry to the Database
+            for (int i = initMeeple; i < pplayer.getSumMeeples(); i++)
+                player.addMeeple();
+        }
 
-            pSaveGame = new PersistentSaveGame();
+        return player;
+    }
 
-            List<PersistentPlayer> pPlayerList = new LinkedList<>();
-            for (IPlayer p : saveGame.getPlayerList()) {
-                pPlayerList.add(convertPlayer(pSaveGame, p));
-            }
-            pSaveGame.setPlayerList(pPlayerList);
-        }*/
+    private PersistentSaveGame convertSaveGame(ISaveGame saveGame) {
+        PersistentSaveGame pSaveGame = new PersistentSaveGame();
+
+        List<PersistentPlayer> pPlayerList = new LinkedList<>();
+        for (IPlayer p : saveGame.getPlayerList()) {
+            pPlayerList.add(convertPlayer(p));
+        }
+        pSaveGame.setPlayerList(pPlayerList);
+
+        return pSaveGame;
+    }
+
+    private ISaveGame convertSaveGame(PersistentSaveGame pSaveGame) {
+        ISaveGame saveGame = new SaveGame();
+        saveGame.setSaveGameId(pSaveGame.getSaveGameId().toString());
+
+        List<IPlayer> playerList = new LinkedList<>();
+        for (PersistentPlayer pp : pSaveGame.getPlayerList()) {
+            playerList.add(convertPlayer(pp));
+        }
+        saveGame.setPlayerList(playerList);
+
+        return saveGame;
+    }
+
+     private boolean existsSaveGameById(String saveGameId) {
+         BasicDBObject query = new BasicDBObject("_id", new ObjectId(saveGameId));
+         return collection.count(query) > 0;
+     }
 }
