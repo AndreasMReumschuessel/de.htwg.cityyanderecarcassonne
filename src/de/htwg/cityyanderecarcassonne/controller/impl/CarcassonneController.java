@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
@@ -19,6 +22,7 @@ import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
+import de.htwg.cityyanderecarcassonne.persistence.IDAOModuleWithMongoDB;
 import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.cityyanderecarcassonne.persistence.hibernate.HibernateDAO;
 import de.htwg.cityyanderecarcassonne.persistence.mongodb.MongoDBDAO;
@@ -47,8 +51,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private IScoreCalculus scoreCalculus;
 
 	private ISaveGame saveGame;
+
+	@Inject
 	private IDAO dao;
-	
+
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
 		this.sizeX = sizeX;
@@ -63,8 +69,9 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		this.playerQueue = new LinkedList<>();
 		this.playerList = new LinkedList<>();
 
-		//this.dao = new HibernateDAO();
-		this.dao = new MongoDBDAO();
+		Injector injector = Guice.createInjector(new IDAOModuleWithMongoDB());
+
+		this.dao = injector.getInstance(IDAO.class);
 		
 		status = GameStatus.WELCOME;
 		statusMessage = "";
