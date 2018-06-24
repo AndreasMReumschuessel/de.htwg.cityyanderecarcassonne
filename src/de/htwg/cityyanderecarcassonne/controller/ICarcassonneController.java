@@ -8,37 +8,38 @@ import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
 import de.htwg.util.observer.IObservable;
 
 public interface ICarcassonneController extends IObservable {
 	
-	public int getDimensionX();
+	int getDimensionX();
 	
-	public int getDimensionY();
+	int getDimensionY();
 	
-	public ICard cardOnHand();
+	ICard cardOnHand();
 	
-    public GameStatus getStatus();
+    GameStatus getStatus();
     
-    public String getStatusMessage();
+    String getStatusMessage();
     
-    public void placeMeeple(IPlayer player,ICard card, String poss);
+    void placeMeeple(IPlayer player,ICard card, String poss);
     
-    public void rotateCardLeft();
+    void rotateCardLeft();
     
-    public void rotateCardRight();
+    void rotateCardRight();
     
-    public Map<IRegion, String>	getRegionPossibilitiesMap(ICard card);
+    Map<IRegion, String>	getRegionPossibilitiesMap(ICard card);
 
-    public void create();
+    void create();
 
-    public void startRound();
+    void startRound();
 
-    public void finishRound();
+    void finishRound();
 
-    public Townsquare getTownsquare();
+    Townsquare getTownsquare();
 	
-    public Map<IPosition, String> getCardPossibilitiesMap(ICard card);
+    Map<IPosition, String> getCardPossibilitiesMap(ICard card);
 	
 	void placeCard(ICard c, String poss);
 
@@ -48,9 +49,18 @@ public interface ICarcassonneController extends IObservable {
 
 	IPlayer getCurrentPlayer();
 
-	public List<IPlayer> getPlayers();
+	List<IPlayer> getPlayers();
 
 	int getRemainingCards();
 
 	void finish();
+
+	void saveSaveGameDB();
+
+	void loadSaveGameDB(String id);
+
+    List<ISaveGame> getSaveGameListDB();
+
+    void deleteSaveGameDB(ISaveGame saveGame);
+
 }

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.model.ICard;
@@ -18,6 +21,12 @@ import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusFinishGame;
 import de.htwg.cityyanderecarcassonne.model.scorecalculus.CalculusRunningGame;
 import de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare;
+import de.htwg.cityyanderecarcassonne.persistence.IDAO;
+import de.htwg.cityyanderecarcassonne.persistence.IDAOModuleWithMongoDB;
+import de.htwg.cityyanderecarcassonne.persistence.ISaveGame;
+import de.htwg.cityyanderecarcassonne.persistence.hibernate.HibernateDAO;
+import de.htwg.cityyanderecarcassonne.persistence.mongodb.MongoDBDAO;
+import de.htwg.cityyanderecarcassonne.persistence.savegame.SaveGame;
 import de.htwg.util.observer.Observable;
 
 public class CarcassonneController extends Observable implements ICarcassonneController  {
@@ -40,7 +49,12 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	private List<IPlayer> playerList;
 	
 	private IScoreCalculus scoreCalculus;
-	
+
+	private ISaveGame saveGame;
+
+	@Inject
+	private IDAO dao;
+
 	public CarcassonneController(int sizeX, int sizeY) {
 		this.stock = Stock.getInstance();
 		this.sizeX = sizeX;
@@ -54,6 +68,10 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 		
 		this.playerQueue = new LinkedList<>();
 		this.playerList = new LinkedList<>();
+
+		Injector injector = Guice.createInjector(new IDAOModuleWithMongoDB());
+
+		this.dao = injector.getInstance(IDAO.class);
 		
 		status = GameStatus.WELCOME;
 		statusMessage = "";
@@ -293,5 +311,39 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public List<IPlayer> getPlayers() {
 		return playerList;
+	}
+
+	@Override
+	public void saveSaveGameDB() {
+	    if (saveGame == null) {
+            saveGame = new SaveGame();
+        }
+
+	    saveGame.setPlayerList(playerList);
+	    dao.saveGame(saveGame);
+
+        statusMessage = "Saved Game under id: " + saveGame.getSaveGameId();
+        notifyObservers();
+	}
+
+	@Override
+	public void loadSaveGameDB(String id) {
+		saveGame = dao.loadSaveGame(id);
+		playerList = saveGame.getPlayerList();
+		playerQueue = new LinkedList<>();
+		playerQueue.addAll(playerList);
+
+        statusMessage = "Loaded Game";
+        notifyObservers();
+	}
+
+	@Override
+	public List<ISaveGame> getSaveGameListDB() {
+		return null;
+	}
+
+	@Override
+	public void deleteSaveGameDB(ISaveGame saveGame) {
+
 	}
 }

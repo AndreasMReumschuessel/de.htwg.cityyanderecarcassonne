@@ -2,6 +2,7 @@ package de.htwg.cityyanderecarcassonne.view.tui;
 
 import static org.junit.Assert.*;
 
+import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,13 +11,13 @@ import de.htwg.cityyanderecarcassonne.model.cards.Stock;
 
 public class TextUITest {
 	
-	private static CarcassonneController controller;
+	private static ICarcassonneController controller;
 	private static TextUI tui;
 
 	@Before
 	public void setUp() throws Exception {
 		controller = new CarcassonneController(10, 10);
-		tui = new TextUI(controller);
+		tui = new TextUI(controller, true, false);
 		Stock.getInstance().resetStock();
 	}
 
