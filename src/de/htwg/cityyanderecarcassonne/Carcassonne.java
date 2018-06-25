@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
 import de.htwg.cityyanderecarcassonne.controller.impl.CarcassonneController;
+import de.htwg.cityyanderecarcassonne.controller.microservice.CarcassonneMicroserviceController;
 import de.htwg.cityyanderecarcassonne.view.gui.GraphicalUI;
 import de.htwg.cityyanderecarcassonne.view.tui.TextUI;
 
@@ -48,19 +49,23 @@ public final class Carcassonne {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Carcassonne game = Carcassonne.getInstance(15, 15, true, false);
-		game.tui.printTUI();
-		game.getGui();
+		if (args.length > 0 && "--microservice".equals(args[0])) {
+			Carcassonne game = Carcassonne.getInstance(15, 15, false,false);
+			CarcassonneMicroserviceController microservice = new CarcassonneMicroserviceController(game.getController());
+			microservice.runMicroservice();
+		} else {
+			Carcassonne game = Carcassonne.getInstance(15, 15, true, false);
+			game.tui.printTUI();
+			game.getGui();
 
-		Scanner in;
-		boolean continu = true;
-        in = new Scanner(System.in);
-        while (continu) {
-            continu = game.tui.processInput(in.next());
-        }
-        in.close();
-        
-        
+			Scanner in;
+			boolean continu = true;
+			in = new Scanner(System.in);
+			while (continu) {
+				continu = game.tui.processInput(in.next());
+			}
+			in.close();
+		}
 	}
 
 }
