@@ -82,7 +82,7 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                         path("cardcount", this::getRemainingCards),
                         path("cardposslist", this::getCardPossibilities),
                         pathPrefix("placecard", () ->
-                                        pathPrefix(PathMatchers.remaining(), selector ->
+                                        pathPrefix(PathMatchers.segment(), selector ->
                                                 path(PathMatchers.remaining(), position ->
                                                         placeCard(selector, position)
                                                 )
