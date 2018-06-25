@@ -13,11 +13,19 @@ import akka.http.javadsl.server.PathMatchers;
 import akka.http.javadsl.server.Route;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htwg.cityyanderecarcassonne.controller.ICarcassonneController;
+import de.htwg.cityyanderecarcassonne.controller.microservice.pojos.*;
+import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
+import de.htwg.cityyanderecarcassonne.model.IPosition;
+import de.htwg.cityyanderecarcassonne.model.IRegion;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionStage;
 
@@ -58,65 +66,40 @@ public class CarcassonneMicroserviceController extends AllDirectives {
 
     private Route createRoute() {
         return pathPrefix("cyc", () ->
-                        route(
-                                path("gamestatus", () ->
-                                        complete(controller.getStatus().toString())
-                                ),
-                                pathPrefix("addplayer", () ->
-                                        path(PathMatchers.remaining(), name ->
-                                                addPlayer(name)
-                                        )
-                                ),
-                                path("creategame", () -> {
-                                    controller.create();
-                                    controller.startRound();
-                                    return complete(StatusCodes.OK);
-                                }),
-                                path("currentplayer", () ->
-                                        complete("currentplayer")
-                                ),
-                                path("allplayers", () ->
-                                        complete("allplayers")
-                                ),
-                                path("currentcard", () ->
-                                        complete("currentcard")
-                                ),
+                route(
+                        pathPrefix("gamestatus", () ->
+                                pathSingleSlash(this::getGameStatus)),
+                        pathPrefix("addplayer", () ->
+                                        path(PathMatchers.remaining(), this::addPlayer)
+                        ),
+                        path("creategame", this::createGame),
+                        path("currentplayer", this::getCurrentPlayerId),
+                        path("allplayers", this::getAllPlayers),
+                        path("currentcard", this::getCurrentCard),
                                 pathPrefix("rotatecard", () ->
-                                        path(PathMatchers.remaining(), direction ->
-                                                rotateCard(direction)
-                                        )
+                                        path(PathMatchers.remaining(), this::rotateCard)
                                 ),
-                                path("cardcount", () ->
-                                        complete("cardcount")
-                                ),
-                                path("cardposslist", () ->
-                                        complete("cardposslist")
-                                ),
-                                pathPrefix("placecard", () ->
+                        path("cardcount", this::getRemainingCards),
+                        path("cardposslist", this::getCardPossibilities),
+                        pathPrefix("placecard", () ->
                                         pathPrefix(PathMatchers.remaining(), selector ->
                                                 path(PathMatchers.remaining(), position ->
-                                                        complete(selector + ":" + position)
+                                                        placeCard(selector, position)
                                                 )
                                         )
                                 ),
-                                path("meepleposslist", () ->
-                                        complete("meepleposslist")
-                                ),
-                                pathPrefix("placemeeple", () ->
-                                        pathPrefix(PathMatchers.segment(), selector ->
-                                                path(PathMatchers.remaining(), position ->
-                                                        complete(selector + ":" + position)
-                                                )
-                                        )
-                                ),
-                                path("gettownsquare", () ->
-                                        complete("gettownsquare")
-                                ),
-                                path("finnishround", () ->
-                                        complete("finnishround")
-                                )
-                            )
+                        path("meepleposslist", this::getMeeplePossibilities),
+                        pathPrefix("placemeeple", () ->
+                                        pathPrefix(PathMatchers.remaining(), this::placeMeeple)
+                        ),
+                        path("gettownsquare", this::getTownsquare),
+                        path("finishround", this::finishRound)
+                )
         );
+    }
+
+    private Route getGameStatus() {
+        return complete(controller.getStatus().toString());
     }
 
     private Route addPlayer(String name) {
@@ -127,7 +110,42 @@ public class CarcassonneMicroserviceController extends AllDirectives {
         String pid = "pid_" + playerIdMap.size();
         playerIdMap.put(controllerPlayer, pid);
 
-        return complete("kay lah");
+        return complete(jsonConverter(convertPlayer(controllerPlayer)));
+    }
+
+    private Route getAllPlayers() {
+        List<IPlayer> players = controller.getPlayers();
+        List<Player> jsonPlayers = new ArrayList<>();
+        for (IPlayer player : players) {
+            jsonPlayers.add(convertPlayer(player));
+        }
+
+        return complete(jsonConverter(jsonPlayers));
+    }
+
+    private Player convertPlayer(IPlayer player) {
+        Player jsonPlayer = new Player();
+
+        jsonPlayer.pid = playerIdMap.get(player);
+        jsonPlayer.name = player.getName();
+        jsonPlayer.meeple = player.getSumMeeples();
+        jsonPlayer.score = player.getScore();
+
+        return jsonPlayer;
+    }
+
+    private Route createGame() {
+        controller.create();
+        controller.startRound();
+        return complete(StatusCodes.OK);
+    }
+
+    private Route getCurrentPlayerId() {
+        return complete(playerIdMap.get(controller.getCurrentPlayer()));
+    }
+
+    private Route getCurrentCard() {
+        return complete(jsonConverter(cardConvert(controller.cardOnHand())));
     }
 
     private Route rotateCard(String direction) {
@@ -138,6 +156,173 @@ public class CarcassonneMicroserviceController extends AllDirectives {
         } else {
             return complete(StatusCodes.BAD_REQUEST, "Unknown direction. Only \"left\" and \"right\" possible.");
         }
-        return complete("getCurrentCard()"); //TODO
+        return getCurrentCard();
+    }
+
+    private CurrentCard cardConvert(ICard icard) {
+        CurrentCard currCard = new CurrentCard();
+        currCard.cardname = cardConvertName(icard);
+        currCard.orientation = icard.getOrientation();
+
+        return currCard;
+    }
+
+    private String cardConvertName(ICard icard) {
+        return icard.toString().substring(icard.toString().lastIndexOf(" ") + 1);
+    }
+
+    private Route getRemainingCards() {
+        return complete(String.valueOf(controller.getRemainingCards()));
+    }
+
+    private Route getCardPossibilities() {
+        Map<IPosition, String> possMap = controller.getCardPossibilitiesMap(controller.cardOnHand());
+        List<PossCardPos> possList = new ArrayList<>();
+        for (Map.Entry<IPosition, String> entry : possMap.entrySet()){
+            PossCardPos cardPos = new PossCardPos();
+            cardPos.selector = entry.getValue();
+            cardPos.position = entry.getKey().getY() + "_" + entry.getKey().getX();
+            possList.add(cardPos);
+        }
+
+        return complete(jsonConverter(possList));
+    }
+
+    private Route placeCard(String selection, String position) {
+        lastCardPosition = position;
+        controller.placeCard(controller.cardOnHand(), selection);
+        return getGameStatus();
+    }
+
+    private Route getMeeplePossibilities() {
+        ICard card = controller.cardOnHand();
+
+        Map<IRegion, String> possMap = controller.getRegionPossibilitiesMap(card);
+
+        TSCard tscard = new TSCard();
+        tscard.position = lastCardPosition;
+        tscard.name = cardConvertName(card);
+        tscard.orientation = card.getOrientation();
+        tscard.regions = new HashMap<>();
+        for (Map.Entry<IRegion, String> entry : possMap.entrySet()) {
+            if (entry.getKey().equals(card.getLeftTop()))
+                tscard.regions.put("LT", entry.getValue());
+            if (entry.getKey().equals(card.getLeftMiddle()))
+                tscard.regions.put("LM", entry.getValue());
+            if (entry.getKey().equals(card.getLeftBelow()))
+                tscard.regions.put("LB", entry.getValue());
+
+            if (entry.getKey().equals(card.getBelowLeft()))
+                tscard.regions.put("BL", entry.getValue());
+            if (entry.getKey().equals(card.getBelowMiddle()))
+                tscard.regions.put("BM", entry.getValue());
+            if (entry.getKey().equals(card.getBelowRight()))
+                tscard.regions.put("BR", entry.getValue());
+
+            if (entry.getKey().equals(card.getCenterMiddle()))
+                tscard.regions.put("C", entry.getValue());
+
+            if (entry.getKey().equals(card.getTopLeft()))
+                tscard.regions.put("TL", entry.getValue());
+            if (entry.getKey().equals(card.getTopMiddle()))
+                tscard.regions.put("TM", entry.getValue());
+            if (entry.getKey().equals(card.getTopRight()))
+                tscard.regions.put("TR", entry.getValue());
+
+            if (entry.getKey().equals(card.getRightTop()))
+                tscard.regions.put("RT", entry.getValue());
+            if (entry.getKey().equals(card.getRightMiddle()))
+                tscard.regions.put("RM", entry.getValue());
+            if (entry.getKey().equals(card.getRightBelow()))
+                tscard.regions.put("RB", entry.getValue());
+        }
+
+        return complete(jsonConverter(tscard));
+    }
+
+    private Route placeMeeple(String selection) {
+        controller.placeMeeple(controller.getCurrentPlayer(), controller.cardOnHand(), selection);
+        return getGameStatus();
+    }
+
+    private Route getTownsquare() {
+        de.htwg.cityyanderecarcassonne.model.townsquare.Townsquare cts = controller.getTownsquare();
+
+        Townsquare ts = new Townsquare();
+        ts.cards = new ArrayList<>();
+        for (int x = 0; x < cts.getDimX(); x++) {
+            for (int y = 0; y < cts.getDimY(); y++) {
+                ICard ctsCard = cts.getCard(x, y);
+                if (ctsCard != null) {
+                    TSCard card = new TSCard();
+                    card.position = y + "_" + x;
+                    card.name = cardConvertName(ctsCard);
+                    card.orientation = ctsCard.getOrientation();
+                    card.regions = new HashMap<>();
+
+                    if (ctsCard.getLeftTop().getPlayer() != null)
+                        card.regions.put("LT", playerIdMap.get(ctsCard.getLeftTop().getPlayer()));
+                    if (ctsCard.getLeftMiddle().getPlayer() != null)
+                        card.regions.put("LM", playerIdMap.get(ctsCard.getLeftMiddle().getPlayer()));
+                    if (ctsCard.getLeftBelow().getPlayer() != null)
+                        card.regions.put("LB", playerIdMap.get(ctsCard.getLeftBelow().getPlayer()));
+
+                    if (ctsCard.getTopLeft().getPlayer() != null)
+                        card.regions.put("TL", playerIdMap.get(ctsCard.getTopLeft().getPlayer()));
+                    if (ctsCard.getTopMiddle().getPlayer() != null)
+                        card.regions.put("TM", playerIdMap.get(ctsCard.getTopMiddle().getPlayer()));
+                    if (ctsCard.getTopRight().getPlayer() != null)
+                        card.regions.put("TR", playerIdMap.get(ctsCard.getTopRight().getPlayer()));
+
+                    if (ctsCard.getCenterMiddle().getPlayer() != null)
+                        card.regions.put("C", playerIdMap.get(ctsCard.getCenterMiddle().getPlayer()));
+
+                    if (ctsCard.getBelowLeft().getPlayer() != null)
+                        card.regions.put("BL", playerIdMap.get(ctsCard.getBelowLeft().getPlayer()));
+                    if (ctsCard.getBelowMiddle().getPlayer() != null)
+                        card.regions.put("BM", playerIdMap.get(ctsCard.getBelowMiddle().getPlayer()));
+                    if (ctsCard.getBelowRight().getPlayer() != null)
+                        card.regions.put("BR", playerIdMap.get(ctsCard.getBelowRight().getPlayer()));
+
+                    if (ctsCard.getRightTop().getPlayer() != null)
+                        card.regions.put("RT", playerIdMap.get(ctsCard.getRightTop().getPlayer()));
+                    if (ctsCard.getRightMiddle().getPlayer() != null)
+                        card.regions.put("RM", playerIdMap.get(ctsCard.getRightMiddle().getPlayer()));
+                    if (ctsCard.getRightBelow().getPlayer() != null)
+                        card.regions.put("RB", playerIdMap.get(ctsCard.getRightBelow().getPlayer()));
+
+                    ts.cards.add(card);
+                }
+            }
+        }
+
+        return complete(jsonConverter(ts));
+    }
+
+    private Route finishRound() {
+        controller.finishRound();
+        return complete(StatusCodes.OK);
+    }
+
+    private String jsonConverter(Object obj) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private Object jsonConverter(String json, Class className) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue(json, className);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
