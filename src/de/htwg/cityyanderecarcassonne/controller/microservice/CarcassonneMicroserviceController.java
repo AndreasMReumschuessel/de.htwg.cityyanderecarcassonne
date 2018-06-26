@@ -31,7 +31,7 @@ import java.util.concurrent.CompletionStage;
 
 public class CarcassonneMicroserviceController extends AllDirectives {
 
-    private final static String HOST_IP   = "localhost";
+    private final static String HOST_IP   = "0.0.0.0";
     private final static int    HOST_PORT = 8080;
 
     private ICarcassonneController controller;
@@ -72,15 +72,15 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                         pathPrefix("addplayer", () ->
                                         path(PathMatchers.remaining(), this::addPlayer)
                         ),
-                        path("creategame", this::createGame),
-                        path("currentplayer", this::getCurrentPlayerId),
-                        path("allplayers", this::getAllPlayers),
+                        pathPrefix("creategame", () -> pathSingleSlash(this::createGame)),
+                        pathPrefix("currentplayer", () -> pathSingleSlash(this::getCurrentPlayerId)),
+                        pathPrefix("allplayers", () -> pathSingleSlash(this::getAllPlayers)),
                         path("currentcard", this::getCurrentCard),
                                 pathPrefix("rotatecard", () ->
                                         path(PathMatchers.remaining(), this::rotateCard)
                                 ),
-                        path("cardcount", this::getRemainingCards),
-                        path("cardposslist", this::getCardPossibilities),
+                        pathPrefix("cardcount", () -> pathSingleSlash(this::getRemainingCards)),
+                        pathPrefix("cardposslist", () -> pathSingleSlash(this::getCardPossibilities)),
                         pathPrefix("placecard", () ->
                                         pathPrefix(PathMatchers.segment(), selector ->
                                                 path(PathMatchers.remaining(), position ->
@@ -88,12 +88,12 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                                                 )
                                         )
                                 ),
-                        path("meepleposslist", this::getMeeplePossibilities),
+                        pathPrefix("meepleposslist", () -> pathSingleSlash(this::getMeeplePossibilities)),
                         pathPrefix("placemeeple", () ->
                                         pathPrefix(PathMatchers.remaining(), this::placeMeeple)
                         ),
-                        path("gettownsquare", this::getTownsquare),
-                        path("finishround", this::finishRound)
+                        pathPrefix("gettownsquare", () -> pathSingleSlash(this::getTownsquare)),
+                        pathPrefix("finishround", () -> pathSingleSlash(this::finishRound))
                 )
         );
     }
