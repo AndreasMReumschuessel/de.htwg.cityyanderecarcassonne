@@ -314,7 +314,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	}
 
 	@Override
-	public void saveSaveGameDB() {
+	public String saveSaveGameDB() {
 	    if (saveGame == null) {
             saveGame = new SaveGame();
         }
@@ -324,6 +324,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 
         statusMessage = "Saved Game under id: " + saveGame.getSaveGameId();
         notifyObservers();
+        return saveGame.getSaveGameId();
 	}
 
 	@Override

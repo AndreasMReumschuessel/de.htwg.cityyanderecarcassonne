@@ -75,10 +75,10 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                         pathPrefix("creategame", () -> pathSingleSlash(this::createGame)),
                         pathPrefix("currentplayer", () -> pathSingleSlash(this::getCurrentPlayerId)),
                         pathPrefix("allplayers", () -> pathSingleSlash(this::getAllPlayers)),
-                        path("currentcard", this::getCurrentCard),
-                                pathPrefix("rotatecard", () ->
+                        path("currentcard", () -> pathSingleSlash(this::getCurrentCard)),
+                        pathPrefix("rotatecard", () ->
                                         path(PathMatchers.remaining(), this::rotateCard)
-                                ),
+                        ),
                         pathPrefix("cardcount", () -> pathSingleSlash(this::getRemainingCards)),
                         pathPrefix("cardposslist", () -> pathSingleSlash(this::getCardPossibilities)),
                         pathPrefix("placecard", () ->
@@ -93,7 +93,11 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                                         pathPrefix(PathMatchers.remaining(), this::placeMeeple)
                         ),
                         pathPrefix("gettownsquare", () -> pathSingleSlash(this::getTownsquare)),
-                        pathPrefix("finishround", () -> pathSingleSlash(this::finishRound))
+                        pathPrefix("finishround", () -> pathSingleSlash(this::finishRound)),
+                        pathPrefix("savegame", () -> pathSingleSlash(this::saveGame)),
+                        pathPrefix("loadgame", () ->
+                                path(PathMatchers.remaining(), this::loadGame)
+                        )
                 )
         );
     }
@@ -301,6 +305,15 @@ public class CarcassonneMicroserviceController extends AllDirectives {
 
     private Route finishRound() {
         controller.finishRound();
+        return complete(StatusCodes.OK);
+    }
+
+    private Route saveGame() {
+        return complete(controller.saveSaveGameDB());
+    }
+
+    private Route loadGame(String id) {
+        controller.loadSaveGameDB(id);
         return complete(StatusCodes.OK);
     }
 
