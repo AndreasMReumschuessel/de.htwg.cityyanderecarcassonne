@@ -50,8 +50,8 @@ public final class Carcassonne {
 
 	public static void main(String[] args) throws IOException {
 		if (args.length > 0 && "--microservice".equals(args[0])) {
-			Carcassonne game = Carcassonne.getInstance(15, 15, false,false);
-			CarcassonneMicroserviceController microservice = new CarcassonneMicroserviceController(game.getController());
+			Carcassonne game = Carcassonne.getInstance(15, 15, false,true);
+			CarcassonneMicroserviceController microservice = new CarcassonneMicroserviceController(game.getController(), game.tui);
 			microservice.runMicroservice();
 		} else {
 			Carcassonne game = Carcassonne.getInstance(15, 15, true, false);

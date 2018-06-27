@@ -21,6 +21,7 @@ import de.htwg.cityyanderecarcassonne.model.ICard;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.IPosition;
 import de.htwg.cityyanderecarcassonne.model.IRegion;
+import de.htwg.cityyanderecarcassonne.view.tui.TextUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,12 +36,14 @@ public class CarcassonneMicroserviceController extends AllDirectives {
     private final static int    HOST_PORT = 8080;
 
     private ICarcassonneController controller;
+    private TextUI tui;
 
     private Map<IPlayer, String> playerIdMap = new HashMap<>();
     private String lastCardPosition;
 
-    public CarcassonneMicroserviceController(ICarcassonneController controller) {
+    public CarcassonneMicroserviceController(ICarcassonneController controller, TextUI tui) {
         this.controller = controller;
+        this.tui = tui;
     }
 
     public void runMicroservice() throws IOException {
@@ -49,7 +52,7 @@ public class CarcassonneMicroserviceController extends AllDirectives {
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
-        CarcassonneMicroserviceController cmsc = new CarcassonneMicroserviceController(controller);
+        CarcassonneMicroserviceController cmsc = new CarcassonneMicroserviceController(controller, tui);
 
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = cmsc.createRoute().flow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow,
@@ -82,10 +85,8 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                         pathPrefix("cardcount", () -> pathSingleSlash(this::getRemainingCards)),
                         pathPrefix("cardposslist", () -> pathSingleSlash(this::getCardPossibilities)),
                         pathPrefix("placecard", () ->
-                                        pathPrefix(PathMatchers.segment(), selector ->
-                                                path(PathMatchers.remaining(), position ->
-                                                        placeCard(selector, position)
-                                                )
+                                        path(PathMatchers.remaining(), position ->
+                                                        placeCard(position)
                                         )
                                 ),
                         pathPrefix("meepleposslist", () -> pathSingleSlash(this::getMeeplePossibilities)),
@@ -97,7 +98,8 @@ public class CarcassonneMicroserviceController extends AllDirectives {
                         pathPrefix("savegame", () -> pathSingleSlash(this::saveGame)),
                         pathPrefix("loadgame", () ->
                                 path(PathMatchers.remaining(), this::loadGame)
-                        )
+                        ),
+                        path("tui", () -> complete(tui.getTuiString()))
                 )
         );
     }
@@ -192,9 +194,9 @@ public class CarcassonneMicroserviceController extends AllDirectives {
         return complete(jsonConverter(possList));
     }
 
-    private Route placeCard(String selection, String position) {
+    private Route placeCard(String position) {
         lastCardPosition = position;
-        controller.placeCard(controller.cardOnHand(), selection);
+        controller.placeCard(controller.cardOnHand(), position);
         return getGameStatus();
     }
 
