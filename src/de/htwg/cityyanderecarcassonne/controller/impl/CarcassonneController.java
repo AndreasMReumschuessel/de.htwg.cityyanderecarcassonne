@@ -319,6 +319,8 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
             saveGame = new SaveGame();
         }
 
+        saveGame.setGameStatus(status);
+
 	    saveGame.setPlayerList(playerList);
 	    dao.saveGame(saveGame);
 
@@ -330,6 +332,7 @@ public class CarcassonneController extends Observable implements ICarcassonneCon
 	@Override
 	public void loadSaveGameDB(String id) {
 		saveGame = dao.loadSaveGame(id);
+		status = saveGame.getGameStatus();
 		playerList = saveGame.getPlayerList();
 		playerQueue = new LinkedList<>();
 		playerQueue.addAll(playerList);

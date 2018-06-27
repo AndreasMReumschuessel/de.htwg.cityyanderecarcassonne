@@ -3,6 +3,7 @@ package de.htwg.cityyanderecarcassonne.persistence.mongodb;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import de.htwg.cityyanderecarcassonne.controller.GameStatus;
 import de.htwg.cityyanderecarcassonne.model.IPlayer;
 import de.htwg.cityyanderecarcassonne.model.impl.Player;
 import de.htwg.cityyanderecarcassonne.persistence.IDAO;
@@ -97,6 +98,8 @@ public class MongoDBDAO implements IDAO {
     private PersistentSaveGame convertSaveGame(ISaveGame saveGame) {
         PersistentSaveGame pSaveGame = new PersistentSaveGame();
 
+        pSaveGame.setGameStatus(saveGame.getGameStatus().getValue());
+
         List<PersistentPlayer> pPlayerList = new LinkedList<>();
         for (IPlayer p : saveGame.getPlayerList()) {
             pPlayerList.add(convertPlayer(p));
@@ -109,6 +112,8 @@ public class MongoDBDAO implements IDAO {
     private ISaveGame convertSaveGame(PersistentSaveGame pSaveGame) {
         ISaveGame saveGame = new SaveGame();
         saveGame.setSaveGameId(pSaveGame.getSaveGameId().toString());
+
+        saveGame.setGameStatus(GameStatus.valueOf(pSaveGame.getGameStatus()));
 
         List<IPlayer> playerList = new LinkedList<>();
         for (PersistentPlayer pp : pSaveGame.getPlayerList()) {
